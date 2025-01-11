@@ -16,7 +16,7 @@ jobs:
     name: Code Linting
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Checkwhite
         run: util/checkwhite -n
         working-directory: crawl-ref/source
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-22.04
     if: github.event.release.tag_name != null
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # all history
           fetch-tags: true
@@ -112,7 +112,7 @@ jobs:
             tag_upgrade: false
             build_all: BUILD_ALL=1
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # all history
           fetch-tags: true
@@ -184,7 +184,7 @@ jobs:
           - build_type: tiles
             build_opts: LINUXDEPLOY=/tmp/linuxdeploy-x86_64.AppImage
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # all history
           fetch-tags: true
@@ -221,7 +221,7 @@ jobs:
     runs-on: ubuntu-22.04
     if: github.event.release.tag_name != null
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # all history
           fetch-tags: true
@@ -293,7 +293,7 @@ jobs:
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # all history
           fetch-tags: true
@@ -379,7 +379,7 @@ jobs:
           - console
           - installer
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # all history
           fetch-tags: true
@@ -445,7 +445,7 @@ jobs:
     name: Catch2 (GCC/Linux) + Codecov
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # all
       - name: Set up Python 3.8
@@ -501,7 +501,7 @@ jobs:
         # TODO: 3.12 is currently broken because of requirements.txt brittleness
         python-version: [3.8, 3.11]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
@@ -540,7 +540,7 @@ jobs:
           - ""
           - FULLDEBUG=1
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # all history
       - name: Set up Python 3.8
@@ -581,7 +581,7 @@ jobs:
     env:
       NDK_CCACHE: ccache
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # all history
           fetch-tags: true
@@ -629,7 +629,7 @@ jobs:
           - gcc
           - clang
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # all history
       - name: Set up Python 3.8
