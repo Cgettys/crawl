@@ -138,10 +138,6 @@ jobs:
           key: linux-${{ matrix.compiler }}-${{ matrix.tag_upgrade }}-${{ matrix.build_opts }}-${{ matrix.debug }}-${{ matrix.build_all }}
           restore-keys: |
             linux-${{ matrix.compiler }}-${{ matrix.tag_upgrade }}-${{ matrix.build_opts }}-${{ matrix.debug }}-${{ matrix.build_all }}
-            linux-${{ matrix.compiler }}-${{ matrix.tag_upgrade }}-${{ matrix.build_opts }}-${{ matrix.debug }}
-            linux-${{ matrix.compiler }}-${{ matrix.tag_upgrade }}-${{ matrix.build_opts }}
-            linux-${{ matrix.compiler }}-${{ matrix.tag_upgrade }}
-            linux-${{ matrix.compiler }}
       - name: "Setup ccache: prepend path"
         run: "echo /usr/lib/ccache >> $GITHUB_PATH"
       - name: "Setup ccache: update symlinks"
@@ -202,7 +198,6 @@ jobs:
           key: appimage-${{ matrix.build_type }}
           restore-keys: |
             appimage-${{ matrix.build_type }}
-            appimage
       - name: "Setup ccache: prepend path"
         run: "echo /usr/lib/ccache >> $GITHUB_PATH"
       - name: "Setup ccache: update symlinks"
@@ -359,7 +354,6 @@ jobs:
           key: macos-clang-${{ matrix.build_type }}
           restore-keys: |
             macos-clang-${{ matrix.build_type }}
-            macos-clang
       - name: "Setup ccache: prepend path"
         run: "echo $(brew --prefix)/opt/ccache/libexec >> $GITHUB_PATH"
       - run: make -j$(sysctl -n hw.ncpu) mac-app-${{ matrix.build_type }} ${{matrix.build_opts }}
@@ -416,7 +410,6 @@ jobs:
           key: key2-mingw64-${{ matrix.build_type }}
           restore-keys: |
             key2-mingw64-${{ matrix.build_type }}
-            key2-mingw64
       - name: "Setup ccache: prepend path"
         run: "echo /usr/lib/ccache >> $GITHUB_PATH"
       - name: "Setup ccache: update symlinks"
@@ -570,9 +563,6 @@ jobs:
           key: build-headers-${{ matrix.compiler }}-${{ matrix.build_opts }}-${{ matrix.debug }}
           restore-keys: |
             build-headers-${{ matrix.compiler }}-${{ matrix.build_opts }}-${{ matrix.debug }}
-            build-headers-${{ matrix.compiler }}-${{ matrix.build_opts }}
-            build-headers-${{ matrix.compiler }}
-            build-headers
       - name: "Setup ccache: prepend path"
         run: "echo /usr/lib/ccache >> $GITHUB_PATH"
       - name: "Setup ccache: update symlinks"
@@ -661,7 +651,6 @@ jobs:
           key: build-monster-${{ matrix.compiler }}
           restore-keys: |
             build-monster-${{ matrix.compiler }}
-            build-monster
       - name: "Setup ccache: prepend path"
         run: "echo /usr/lib/ccache >> $GITHUB_PATH"
       - name: "Setup ccache: update symlinks"
