@@ -356,13 +356,14 @@ jobs:
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
+          verbose: 2
           key: macos-clang-${{ matrix.build_type }}
           restore-keys: |
             macos-clang-${{ matrix.build_type }}
             macos-clang
       - name: "Setup ccache: prepend path"
         run: "echo $(brew --prefix)/opt/ccache/libexec >> $GITHUB_PATH"
-      - run: make -j$(sysctl -n hw.ncpu) mac-app-${{ matrix.build_type }} ${{matrix.build_opts }}
+      - run: make -d -j$(sysctl -n hw.ncpu) mac-app-${{ matrix.build_type }} ${{matrix.build_opts }}
         working-directory: crawl-ref/source
       - name: Add build to release
         if: github.event.release.tag_name != null
