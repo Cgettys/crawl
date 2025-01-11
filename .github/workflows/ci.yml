@@ -35,9 +35,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # all history
+          fetch-tags: true
           submodules: true
-      - name: Fix tags for release # work around https://github.com/actions/checkout/issues/882
-        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* # will break on a lightweight tag
       - name: Build source packages
         run: make -j$(nproc) package-source
         working-directory: crawl-ref/source
@@ -116,10 +115,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # all history
+          fetch-tags: true
           submodules: true
-      - name: Fix tags for release # work around https://github.com/actions/checkout/issues/882
-        if: github.event.release.tag_name != null
-        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* # will break on a lightweight tag
       - name: Set up Python 3.8
         uses: actions/setup-python@v4
         with:
@@ -190,9 +187,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # all history
+          fetch-tags: true
           submodules: false
-      - name: Fix tags for release # work around https://github.com/actions/checkout/issues/882
-        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* # will break on a lightweight tag
       - name: Install dependencies
         run: ./deps.py --build-opts "${{ matrix.build_opts }}" --appimage
         working-directory: .github/workflows
@@ -228,9 +224,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # all history
+          fetch-tags: true
           submodules: false
-      - name: Fix tags for release # work around https://github.com/actions/checkout/issues/882
-        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* # will break on a lightweight tag
       - name: Install dependencies
         run: ./deps.py --build-opts TILES=1 --debian-packages
         working-directory: .github/workflows
@@ -301,9 +296,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # all history
-      - name: Fix tags for release # work around https://github.com/actions/checkout/issues/882
-        if: github.event.release.tag_name != null
-        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* # will break on a lightweight tag
+          fetch-tags: true
       - name: Checkout submodules
         shell: bash
         run: |
@@ -389,9 +382,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # all history
-      - name: Fix tags for release # work around https://github.com/actions/checkout/issues/882
-        if: github.event.release.tag_name != null
-        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* # will break on a lightweight tag
+          fetch-tags: true
       - name: Checkout submodules (for crosscompile)
         shell: bash
         run: |
@@ -456,7 +447,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0 # all history
+          fetch-depth: 0 # all
       - name: Set up Python 3.8
         uses: actions/setup-python@v4
         with:
@@ -593,10 +584,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # all history
+          fetch-tags: true
           submodules: true
-      - name: Fix tags for release # work around https://github.com/actions/checkout/issues/882
-        if: github.event.release.tag_name != null
-        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* # will break on a lightweight tag
       - name: Install dependencies
         run: ./deps.py --build-opts "${{ matrix.build_opts }}"
         working-directory: .github/workflows
