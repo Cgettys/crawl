@@ -351,6 +351,7 @@ jobs:
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
+          verbose: 2
           key: macos-clang-${{ matrix.build_type }}
           restore-keys: |
             macos-clang-${{ matrix.build_type }}
