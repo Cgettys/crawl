@@ -356,8 +356,8 @@ jobs:
           restore-keys: |
             macos-clang-${{ matrix.build_type }}
       - name: "Setup ccache: prepend path"
-        run: "echo $(brew --prefix)/opt/ccache/libexec >> $GITHUB_PATH; export CCACHE_DEBUG=1"
-      - run: make -j$(sysctl -n hw.ncpu) mac-app-${{ matrix.build_type }} ${{matrix.build_opts }}
+        run: "echo $(brew --prefix)/opt/ccache/libexec >> $GITHUB_PATH"
+      - run:  export CCACHE_DEBUG=1; make -j$(sysctl -n hw.ncpu) mac-app-${{ matrix.build_type }} ${{matrix.build_opts }}
         working-directory: crawl-ref/source
       - name: Add build to release
         if: github.event.release.tag_name != null
