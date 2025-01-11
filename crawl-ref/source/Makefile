@@ -900,8 +900,6 @@ ifdef PCH
 	endif
 endif
 
-export CCACHE_DEBUG = "true"
-
 ifndef NOASSERTS
 DEFINES += -DASSERTS
 endif
@@ -2065,6 +2063,10 @@ package-windows-zips: package-windows-tiles package-windows-console
 
 # XX parameterise these in some less dumb way
 # these two targets rely heavily on passing flags to submakes
+ifdef CCACHE_DEBUG
+	export CCACHE_DEBUG = "true"
+endif
+
 crawl-x86_64-apple-macos10.7:
 ifeq ($(MAC_TARGET),)
 	+$(MAKE) MAC_TARGET=x86_64-apple-macos10.7
@@ -2086,10 +2088,10 @@ clean-mac:
 
 # XX is there a way to make these just respect TILES=y and have only 2 targets?
 mac-app-tiles-universal: crawl-universal
-	+$(MAKE) -j1 -C mac -f Makefile.app-bundle tiles BUILD_UNIVERSAL=y
+	+$(MAKE) -d -j1 -C mac -f Makefile.app-bundle tiles BUILD_UNIVERSAL=y
 
 mac-app-console-universal: crawl-universal
-	+$(MAKE) -j1 -C mac -f Makefile.app-bundle BUILD_UNIVERSAL=y
+	+$(MAKE) -d -j1 -C mac -f Makefile.app-bundle BUILD_UNIVERSAL=y
 
 mac-app-tiles: all
 	+$(MAKE) -j1 -C mac -f Makefile.app-bundle tiles
