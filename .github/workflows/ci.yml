@@ -560,6 +560,7 @@ jobs:
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
+          verbose: 2
           key: build-headers-${{ matrix.compiler }}-${{ matrix.build_opts }}-${{ matrix.debug }}
           restore-keys: |
             build-headers-${{ matrix.compiler }}-${{ matrix.build_opts }}-${{ matrix.debug }}
