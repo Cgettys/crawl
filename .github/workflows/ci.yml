@@ -352,10 +352,9 @@ jobs:
         uses: hendrikmuhs/ccache-action@v1.2
         with:
           verbose: 2
-          key: macos-clang-${{ matrix.build_type }}
+          key: macos-clang-console-universal-2025-01-11T05:58:19.010Z
           restore-keys: |
-            macos-clang-${{ matrix.build_type }}
-            macos-clang
+            macos-clang-console-universal-2025-01-11T05:58:19.010Z
       - name: "Setup ccache: prepend path"
         run: "echo $(brew --prefix)/opt/ccache/libexec >> $GITHUB_PATH"
       - run:  export CCACHE_DEBUG=1; make -j$(sysctl -n hw.ncpu) mac-app-${{ matrix.build_type }} ${{matrix.build_opts }}
