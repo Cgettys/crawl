@@ -899,6 +899,7 @@ else
 export CCACHE_CPP2 = yes
 endif
 endif
+export CCACHE_DEBUG = 1
 
 ifndef NOASSERTS
 DEFINES += -DASSERTS
