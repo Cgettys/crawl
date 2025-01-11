@@ -429,6 +429,8 @@ string Note::describe(bool when, bool where, bool what) const
     return result.str();
 }
 
+
+
 bool Note::hidden() const
 {
     // Hide skill gains that are not enabled by options.
