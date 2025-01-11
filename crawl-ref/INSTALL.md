@@ -597,6 +597,10 @@ To solve this, run:
     git remote add upstream https://github.com/crawl/crawl/
     git fetch --tags upstream
 
+Note: if running into this on CI in a fork, you need to run this locally:
+   
+    git push origin --tags
+
 If this doesn't resolve the problem, you can try creating `util/release_ver`
 manually, with contents along the lines of `0.31-a0`.
 
