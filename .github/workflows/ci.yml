@@ -354,7 +354,7 @@ jobs:
           verbose: 2
           key: macos-clang-${{ matrix.build_type }}
           restore-keys: |
-            macos-clang-${{ matrix.build_type }}
+            macos-clang-tiles-universal
       - name: "Setup ccache: prepend path"
         run: "echo $(brew --prefix)/opt/ccache/libexec >> $GITHUB_PATH"
       - run:  export CCACHE_DEBUG=1; make -j$(sysctl -n hw.ncpu) mac-app-${{ matrix.build_type }} ${{matrix.build_opts }}
