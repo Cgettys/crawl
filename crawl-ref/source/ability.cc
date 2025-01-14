@@ -7,11 +7,6 @@
 
 #include "ability.h"
 
-#include <cctype>
-#include <cmath>
-#include <cstdio>
-#include <cstring>
-#include <iomanip>
 #include <sstream>
 
 #include "abyss.h"
@@ -23,7 +18,6 @@
 #include "branch.h"
 #include "chardump.h"
 #include "cleansing-flame-source-type.h"
-#include "cloud.h"
 #include "coordit.h"
 #include "database.h"
 #include "decks.h"
@@ -42,7 +36,6 @@
 #include "hints.h"
 #include "invent.h"
 #include "item-prop.h"
-#include "items.h"
 #include "item-use.h"
 #include "level-state-type.h"
 #include "libutil.h"
@@ -71,7 +64,6 @@
 #include "species.h"
 #include "spl-book.h"
 #include "spl-cast.h"
-#include "spl-clouds.h"
 #include "spl-damage.h"
 #include "spl-goditem.h"
 #include "spl-monench.h"
@@ -83,7 +75,6 @@
 #include "spl-zap.h"
 #include "stairs.h"
 #include "state.h"
-#include "stepdown.h"
 #include "stringutil.h"
 #include "tag-version.h"
 #include "target.h"
@@ -94,7 +85,6 @@
 #include "traps.h"
 #include "uncancel.h"
 #include "unicode.h"
-#include "view.h"
 #include "wiz-dgn.h"
 
 struct generic_cost

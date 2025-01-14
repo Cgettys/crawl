@@ -7,9 +7,7 @@
 
 #include "abyss.h"
 
-#include <algorithm>
 #include <cmath>
-#include <cstdlib>
 #include <queue>
 
 #include "act-iter.h"

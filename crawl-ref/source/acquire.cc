@@ -7,11 +7,7 @@
 
 #include "acquire.h"
 
-#include <algorithm>
-#include <cmath>
-#include <cstdio>
 #include <cstdlib>
-#include <cstring>
 #include <queue>
 #include <set>
 
@@ -25,26 +21,21 @@
 #include "english.h"
 #include "god-abil.h"
 #include "god-item.h"
-#include "god-passive.h"
 #include "item-name.h"
 #include "item-prop.h"
 #include "item-status-flag-type.h"
 #include "items.h"
-#include "item-use.h"
 #include "invent.h"
-#include "known-items.h"
 #include "libutil.h"
 #include "macro.h"
 #include "message.h"
 #include "notes.h"
-#include "output.h"
 #include "options.h"
 #include "player-equip.h"
 #include "prompt.h"
 #include "randbook.h"
 #include "random.h"
 #include "religion.h"
-#include "shopping.h"
 #include "skills.h"
 #include "spl-book.h"
 #include "spl-util.h"
@@ -53,7 +44,6 @@
 #include "tag-version.h"
 #include "terrain.h"
 #include "unwind.h"
-#include "ui.h"
 
 static equipment_slot _acquirement_armour_slot(int);
 static armour_type _acquirement_armour_for_slot(equipment_slot);
