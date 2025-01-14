@@ -9,11 +9,7 @@
 
 #include "attack.h"
 
-#include <algorithm>
 #include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
 #include <functional>
 
 #include "art-enum.h"
@@ -26,7 +22,6 @@
 #include "fineff.h"
 #include "god-abil.h"
 #include "god-conduct.h"
-#include "god-passive.h" // passive_t::no_haste
 #include "item-name.h"
 #include "item-prop.h"
 #include "message.h"
@@ -41,7 +36,6 @@
 #include "spl-damage.h"
 #include "spl-selfench.h"
 #include "spl-summoning.h"
-#include "spl-util.h"
 #include "state.h"
 #include "stepdown.h"
 #include "stringutil.h"

@@ -9,10 +9,6 @@
 #include "art-enum.h"
 
 #include <algorithm>
-#include <climits>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
 #include <functional>
 
 #include "branch.h"
@@ -33,7 +29,6 @@
 #include "state.h"
 #include "stringutil.h"
 #include "tag-version.h"
-#include "transform.h" // form_for_talisman
 #include "unicode.h"
 
 // Putting this here since art-enum.h is generated.
