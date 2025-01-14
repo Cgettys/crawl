@@ -7,11 +7,6 @@
 
 #include "beam.h"
 
-#include <algorithm>
-#include <cmath>
-#include <cstdarg>
-#include <cstdio>
-#include <cstdlib>
 #include <cstring>
 #include <iostream>
 #include <set>
@@ -47,7 +42,6 @@
 #include "mon-behv.h"
 #include "mon-clone.h"
 #include "mon-death.h"
-#include "mon-explode.h"
 #include "mon-place.h"
 #include "mon-poly.h"
 #include "mon-util.h"
@@ -75,7 +69,6 @@
 #include "target.h"
 #include "teleport.h"
 #include "terrain.h"
-#include "throw.h"
 #ifdef USE_TILE
  #include "tilepick.h"
 #endif

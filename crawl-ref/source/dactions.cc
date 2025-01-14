@@ -16,7 +16,6 @@
 #include "god-passive.h"
 #include "god-wrath.h"
 #include "libutil.h"
-#include "mapmark.h"
 #include "map-knowledge.h"
 #include "message.h"
 #include "mon-behv.h"
@@ -25,7 +24,6 @@
 #include "religion.h"
 #include "state.h"
 #include "tag-version.h"
-#include "view.h"
 
 static void _daction_hog_to_human(monster *mon, bool in_transit);
 

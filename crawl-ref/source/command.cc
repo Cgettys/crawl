@@ -23,7 +23,6 @@
 #include "initfile.h"
 #include "invent.h"
 #include "item-prop.h"
-#include "items.h"
 #include "libutil.h"
 #include "lookup-help.h"
 #include "macro.h"

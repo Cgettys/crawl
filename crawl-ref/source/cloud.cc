@@ -36,8 +36,6 @@
 #include "shout.h"
 #include "spl-clouds.h" // explode_blastmotes_at
 #include "spl-damage.h" // dazzle_target
-#include "spl-util.h"
-#include "state.h"
 #include "stringutil.h"
 #include "tag-version.h"
 #include "terrain.h"

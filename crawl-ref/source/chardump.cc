@@ -8,12 +8,8 @@
 #include "chardump.h"
 
 #include <string>
-#include <cctype>
 #include <cinttypes>
 #include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <fcntl.h>
 #if defined(UNIX) || defined(TARGET_COMPILER_MINGW)
 #include <unistd.h>
 #endif
@@ -34,7 +30,6 @@
 #include "invent.h"
 #include "item-prop.h"
 #include "items.h"
-#include "kills.h"
 #include "libutil.h"
 #include "melee-attack.h"
 #include "message.h"

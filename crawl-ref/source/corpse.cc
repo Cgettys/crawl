@@ -7,12 +7,9 @@
 
 #include "corpse.h"
 
-#include "bloodspatter.h"
 #include "defines.h"
 #include "env.h"
 #include "item-name.h"
-#include "item-prop.h"
-#include "item-status-flag-type.h"
 #include "items.h"
 #include "makeitem.h"
 #include "mon-util.h"

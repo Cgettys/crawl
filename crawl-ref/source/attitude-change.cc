@@ -7,13 +7,10 @@
 
 #include "attitude-change.h"
 
-#include <sstream>
-
 #include "act-iter.h"
 #include "branch.h"
 #include "coordit.h"
 #include "database.h"
-#include "env.h"
 #include "fineff.h"
 #include "god-abil.h"
 #include "god-companions.h"
