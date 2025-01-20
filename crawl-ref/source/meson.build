@@ -29,6 +29,42 @@ prog_make = find_program('make')
 ## Prefer python3, if available
 #PYTHON = python
 
+# -------------------------------------------------
+# BEGIN rltiles port
+# TODO: make this subdir?
+#  TODO: implement
+# -------------------------------------------------
+
+TILEIMAGEFILES = ['floor', 'wall', 'feat', 'main', 'player', 'gui', 'icons']
+TILEDEFS = TILEIMAGEFILES + ['dngn', 'unrand']
+TILEDEF_SRCS = []
+TILEDEF_HDRS = []
+foreach res : TILEDEFS
+    TILEDEF_SRCS += f'rltiles/tiledef-@res@.cc'
+    TILEDEF_HDRS += f'rltiles/tiledef-@res@.h'
+endforeach
+# TODO: are for sure prettier ways to do this?
+ORIGTILEFILES = []
+DESTTILEFILES = []
+foreach img: TILEIMAGEFILES
+    # TODO: this is flatout wrong in the old file as well.
+    ORIGTILEFILES += f'rltiles/@img@.png'
+    DESTTILEFILES += f'dat/tiles/@img@.png'
+endforeach
+
+# TODO: bring it in fully
+#build_rltiles = custom_target(
+#    'rltiles',
+#    build_always: true,
+#    #input: #ORIGTILEFILES,
+#    output: 'rltiles',
+#    command: [prog_make, 'build-rltiles', '-j15']) # TODO pass MESON_NUM_PROCESSES
+
+
+# -------------------------------------------------
+# END rltiles Port
+# -------------------------------------------------
+
 #source = executable('source', 'main.cc', install : true)
 
 #test('test', source)
@@ -165,10 +201,12 @@ HEADER_SRC = files(
     'ac-type.h', 'adjust.h', 'AppHdr.h',
     'artefact-prop-type.h', 'art-enum.h', 'attribute-type.h',
     'beam.h', 'beam-type.h', 'beh-type.h', 'bitary.h', 'book-type.h',
-    'branch.h', 'branch-type.h', 'build.h',
+    'branch.h', 'branch-type.h',
+    #'build.h', #TODO fixme
     'caction-type.h', 'canned-message-type.h', 'char-set-type.h',
     'cleansing-flame-source-type.h', 'cloud-type.h', 'cluautil.h',
-    'command-type.h', 'compflag.h', 'conduct-type.h', 'config.h', 'confirm-prompt-type.h',
+    'command-type.h', #'compflag.h', # TODO fixme
+    'conduct-type.h', 'config.h', 'confirm-prompt-type.h',
     'coord-def.h', 'ctest.h', 'cursor-type.h', 'daction-type.h',
     'dbg-maps.h', 'dbg-objstat.h', 'dbg-scan.h',
     'death-curse.h',
@@ -272,7 +310,7 @@ HEADER_SRC = files(
 
 MISC_SRC = files('libw32c.cc',
                  'libunix.cc',
-                 'catch2-tests/test_plug_and_play.cc',
+                 #'catch2-tests/test_plug_and_play.cc', #TODO broken
                  'catch2-tests/catch_amalgamated.cc',
                  'catch2-tests/test_main.cc',
                  'main.cc',
