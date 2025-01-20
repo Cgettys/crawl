@@ -2,6 +2,33 @@ project('source', 'cpp',
         version : '1.0.0',
         default_options : ['warning_level=3', 'cpp_std=c++11'])
 
+prog_python = find_program('python3')
+# TODO: Eventually, no make will be left
+prog_make = find_program('make')
+# TODO: which of these can be optional?
+#AR = ar
+#RANLIB = ranlib
+#CC = $(GCC)
+#CXX = $(GXX)
+#RM = rm -f
+#COPY = cp
+#COPY_R = cp -r
+#STRIP = strip -s
+#SED = sed
+#WINDRES = windres
+#CHMOD = chmod 2>/dev/null
+#CHOWN = chown 2>/dev/null
+#PNGCRUSH = $(COPY)
+#PNGCRUSH_LABEL = COPY
+#ADVPNG = advpng -z -2
+#PKGCONFIG = pkg-config
+#DOXYGEN = doxygen
+#DOXYGEN_SIMPLE_CONF = crawl_simple.doxy
+#DOXYGEN_ALL_CONF = crawl_all.doxy
+#DOXYGEN_HTML_GEN = html/
+## Prefer python3, if available
+#PYTHON = python
+
 #source = executable('source', 'main.cc', install : true)
 
 #test('test', source)
@@ -128,7 +155,9 @@ TEST_SRC = files(
 WEBTILES_SRC = files('tileweb.cc', 'tileweb-text.cc')
 
 # TODO subdir
-YACC_SRC = files('util/levcomp.tab.cc', 'util/levcomp.lex.cc')
+YACC_SRC = files()
+# TODO: yacc generation task
+#files('util/levcomp.tab.cc', 'util/levcomp.lex.cc')
 
 HEADER_SRC = files(
     'ability.h', 'ability-type.h',
@@ -255,10 +284,8 @@ ALL_SRC = MAIN_SRC + TEST_SRC + TILES_SRC + GLTILES_SRC + \
 # END Makefile.obj Port
 # -------------------------------------------------
 
-# Eventually, no make will be left
-make = find_program('make')
 
 
 build_unmigrated = custom_target('unmigrated',
                                 output: 'crawl',
-                                command: [make, 'debug-lite', '-j15']) # TODO pass MESON_NUM_PROCESSES
+                                command: [prog_make, 'debug-lite', '-j15']) # TODO pass MESON_NUM_PROCESSES
