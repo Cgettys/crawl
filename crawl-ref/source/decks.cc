@@ -1401,13 +1401,13 @@ static void _cloud_card(int power)
     switch (power_level)
     {
     case 0:
-        cloudy = CLOUD_MEPHITIC;
+        cloudy = cloud_type::MEPHITIC;
         break;
     case 1:
-        cloudy = CLOUD_MIASMA;
+        cloudy = cloud_type::MIASMA;
         break;
     default:
-        cloudy = CLOUD_PETRIFY;
+        cloudy = cloud_type::PETRIFY;
     }
 
     vector<coord_def> cloud_pos;

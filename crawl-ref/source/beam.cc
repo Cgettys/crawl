@@ -2628,7 +2628,7 @@ void bolt::affect_endpoint()
 
     if (is_tracer)
     {
-        if (cloud == CLOUD_NONE)
+        if (cloud == cloud_type::NONE)
             return;
 
         targeter_cloud tgt(agent(), cloud, range, get_cloud_size(true),
@@ -2661,7 +2661,7 @@ void bolt::affect_endpoint()
         noise_generated = true;
     }
 
-    if (cloud != CLOUD_NONE)
+    if (cloud != cloud_type::NONE)
         big_cloud(cloud, agent(), pos(), get_cloud_pow(), get_cloud_size());
 
     if (use_bullseye)
@@ -2746,7 +2746,7 @@ void bolt::affect_endpoint()
 
     case SPELL_SEARING_BREATH:
         if (!path_taken.empty())
-            place_cloud(CLOUD_FIRE, pos(), 5 + random2(5), agent());
+            place_cloud(cloud_type::FIRE, pos(), 5 + random2(5), agent());
         break;
 
     case SPELL_MUD_BREATH:
@@ -2986,8 +2986,8 @@ void bolt::affect_place_clouds()
     if (cloud_struct* cloud = cloud_at(p))
     {
         // fire cancelling cold & vice versa
-        if ((cloud->type == CLOUD_COLD && is_fiery())
-            || (cloud->type == CLOUD_FIRE && flavour == BEAM_COLD))
+        if ((cloud->type == cloud_type::COLD && is_fiery())
+            || (cloud->type == cloud_type::FIRE && flavour == BEAM_COLD))
         {
             if (player_can_hear(p))
                 mprf(MSGCH_SOUND, "You hear a sizzling sound!");
@@ -2997,64 +2997,64 @@ void bolt::affect_place_clouds()
             return;
         }
         // blastmote explosions
-        if (cloud->type == CLOUD_BLASTMOTES && is_fiery())
+        if (cloud->type == cloud_type::BLASTMOTES && is_fiery())
             explode_blastmotes_at(p);
     }
 
     const dungeon_feature_type feat = env.grid(p);
 
     if (origin_spell == SPELL_POISONOUS_CLOUD)
-        place_cloud(CLOUD_POISON, p, random2(5) + 3, agent());
+        place_cloud(cloud_type::POISON, p, random2(5) + 3, agent());
 
     if (origin_spell == SPELL_HOLY_BREATH)
-        place_cloud(CLOUD_HOLY, p, random2(4) + 2, agent());
+        place_cloud(cloud_type::HOLY, p, random2(4) + 2, agent());
 
     if (origin_spell == SPELL_FLAMING_CLOUD)
-        place_cloud(CLOUD_FIRE, p, random2(4) + 2, agent());
+        place_cloud(cloud_type::FIRE, p, random2(4) + 2, agent());
 
     // Fire/cold over water/lava
     if (feat == DNGN_LAVA && flavour == BEAM_COLD
         || feat_is_water(feat) && is_fiery())
     {
-        place_cloud(CLOUD_STEAM, p, 2 + random2(5), agent(), 11);
+        place_cloud(cloud_type::STEAM, p, 2 + random2(5), agent(), 11);
     }
 
     if (feat_is_water(feat) && flavour == BEAM_COLD
         && damage.num * damage.size > 35)
     {
-        place_cloud(CLOUD_COLD, p, damage.num * damage.size / 30 + 1, agent());
+        place_cloud(cloud_type::COLD, p, damage.num * damage.size / 30 + 1, agent());
     }
 
     if (flavour == BEAM_MIASMA)
-        place_cloud(CLOUD_MIASMA, p, random2(5) + 2, agent());
+        place_cloud(cloud_type::MIASMA, p, random2(5) + 2, agent());
 
 
     if (flavour == BEAM_STEAM)
     {
         if (origin_spell == SPELL_STEAM_BREATH)
-            place_cloud(CLOUD_STEAM, p, div_rand_round(ench_power, 3) + 3, agent());
+            place_cloud(cloud_type::STEAM, p, div_rand_round(ench_power, 3) + 3, agent());
         else
-            place_cloud(CLOUD_STEAM, p, random2(5) + 2, agent());
+            place_cloud(cloud_type::STEAM, p, random2(5) + 2, agent());
     }
 
     //XXX: these use the name for a gameplay effect.
     if (name == "poison gas")
-        place_cloud(CLOUD_POISON, p, random2(4) + 3, agent());
+        place_cloud(cloud_type::POISON, p, random2(4) + 3, agent());
 
     if (origin_spell == SPELL_PETRIFYING_CLOUD)
-        place_cloud(CLOUD_PETRIFY, p, random2(4) + 4, agent());
+        place_cloud(cloud_type::PETRIFY, p, random2(4) + 4, agent());
 
     if (origin_spell == SPELL_SPECTRAL_CLOUD)
-        place_cloud(CLOUD_SPECTRAL, p, random2(6) + 5, agent());
+        place_cloud(cloud_type::SPECTRAL, p, random2(6) + 5, agent());
 
     if (origin_spell == SPELL_DEATH_RATTLE)
-        place_cloud(CLOUD_MIASMA, p, random2(4) + 4, agent());
+        place_cloud(cloud_type::MIASMA, p, random2(4) + 4, agent());
 
     if (origin_spell == SPELL_CAUSTIC_BREATH)
     {
         if (!actor_at(p))
         {
-            place_cloud(CLOUD_ACID, p, 3 + random_range(ench_power / 2,
+            place_cloud(cloud_type::ACID, p, 3 + random_range(ench_power / 2,
                                                         ench_power * 4 / 5),
                         agent());
         }
@@ -3062,7 +3062,7 @@ void bolt::affect_place_clouds()
 
     if (origin_spell == SPELL_NOXIOUS_BREATH)
     {
-        place_cloud(CLOUD_MEPHITIC, p,
+        place_cloud(cloud_type::MEPHITIC, p,
                     2 + random_range(ench_power / 2, ench_power * 4 / 5), agent());
 
         for (adjacent_iterator ai(pos()); ai; ++ai)
@@ -3072,7 +3072,7 @@ void bolt::affect_place_clouds()
 
             if (x_chance_in_y(max(0, ench_power - 10), ench_power - 5))
             {
-                place_cloud(CLOUD_MEPHITIC, *ai,
+                place_cloud(cloud_type::MEPHITIC, *ai,
                         2 + random_range(ench_power / 3, ench_power / 2), agent());
             }
         }
@@ -3082,12 +3082,12 @@ void bolt::affect_place_clouds()
     if (origin_spell == SPELL_MOURNING_WAIL)
     {
         if (!actor_at(p) || actor_at(p)->res_negative_energy() == 3)
-            place_cloud(CLOUD_MISERY, p, random2(4) + 2, agent());
+            place_cloud(cloud_type::MISERY, p, random2(4) + 2, agent());
     }
 
     if (origin_spell == SPELL_MARCH_OF_SORROWS)
     {
-        place_cloud(CLOUD_MISERY, p, random2(5) + 8, agent());
+        place_cloud(cloud_type::MISERY, p, random2(5) + 8, agent());
 
         if (actor_at(p) && !mons_aligned(actor_at(p), agent()))
         {
@@ -3096,7 +3096,7 @@ void bolt::affect_place_clouds()
                 if (feat_is_solid(env.grid(*ai)))
                     continue;
 
-                place_cloud(CLOUD_MISERY, *ai, random2(4) + 2, agent());
+                place_cloud(cloud_type::MISERY, *ai, random2(4) + 2, agent());
             }
         }
     }
@@ -3111,7 +3111,7 @@ void bolt::affect_place_explosion_clouds()
     if (env.grid(p) == DNGN_LAVA && flavour == BEAM_COLD
         || feat_is_water(env.grid(p)) && is_fiery())
     {
-        place_cloud(CLOUD_STEAM, p, 2 + random2(5), agent());
+        place_cloud(cloud_type::STEAM, p, 2 + random2(5), agent());
         return;
     }
 
@@ -3120,18 +3120,18 @@ void bolt::affect_place_explosion_clouds()
         const coord_def center = (aimed_at_feet ? source : ray.pos());
         if (p == center || x_chance_in_y(125 + ench_power, 225))
         {
-            place_cloud(CLOUD_MEPHITIC, p, roll_dice(2,
+            place_cloud(cloud_type::MEPHITIC, p, roll_dice(2,
                         8 + div_rand_round(ench_power, 20)), agent());
         }
     }
 
     // Blazeheart core detonation
     if (origin_spell == SPELL_FORGE_BLAZEHEART_GOLEM)
-        place_cloud(CLOUD_FIRE, p, 2 + random2avg(5,2), agent());
+        place_cloud(cloud_type::FIRE, p, 2 + random2avg(5,2), agent());
 
     if (origin_spell == SPELL_FIRE_STORM)
     {
-        place_cloud(CLOUD_FIRE, p, 2 + random2avg(5,2), agent());
+        place_cloud(cloud_type::FIRE, p, 2 + random2avg(5,2), agent());
 
         // XXX: affect other open spaces?
         if (env.grid(p) == DNGN_FLOOR && !monster_at(p) && one_chance_in(4))

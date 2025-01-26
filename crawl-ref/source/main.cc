@@ -1611,7 +1611,7 @@ static void _take_transporter()
 
     if (you.turn_is_over)
     {
-        place_cloud(CLOUD_TLOC_ENERGY, old_pos, 1 + random2(3), &you);
+        place_cloud(cloud_type::TLOC_ENERGY, old_pos, 1 + random2(3), &you);
         transport_followers_from(old_pos);
         if (is_unknown_transporter(old_pos))
         {

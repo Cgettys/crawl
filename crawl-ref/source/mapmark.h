@@ -241,7 +241,7 @@ class map_cloud_spreader_marker : public map_marker
 {
 public:
     map_cloud_spreader_marker(const coord_def &pos = coord_def(0, 0),
-                              cloud_type type = CLOUD_NONE,
+                              cloud_type type = cloud_type::NONE,
                               int speed = 10, int amount = 35,
                               int max_radius = LOS_DEFAULT_RANGE,
                               int dur = 10, actor* agent = nullptr);

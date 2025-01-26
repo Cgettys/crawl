@@ -1340,7 +1340,7 @@ static void _FROSTBITE_melee_effects(item_def* /*weapon*/, actor* attacker,
         && !cloud_at(spot)
         && one_chance_in(5))
     {
-         place_cloud(CLOUD_COLD, spot, random_range(4, 8), attacker, 0);
+         place_cloud(cloud_type::COLD, spot, random_range(4, 8), attacker, 0);
     }
 }
 
@@ -1572,7 +1572,7 @@ static void _manage_fire_shield()
     // Melt ice armour entirely.
     maybe_melt_player_enchantments(BEAM_FIRE, 100);
 
-    surround_actor_with_cloud(&you, CLOUD_FIRE);
+    surround_actor_with_cloud(&you, cloud_type::FIRE);
 }
 
 static void _SALAMANDER_equip(item_def * /* item */, bool * show_msgs,
@@ -1642,7 +1642,7 @@ static void _RCLOUDS_world_reacts(item_def */*item*/)
             && x_chance_in_y(you.time_taken, 7 * BASELINE_DELAY))
         {
             mprf("Storm clouds gather above %s.", m->name(DESC_THE).c_str());
-            place_cloud(CLOUD_STORM, *ri, random_range(4, 8), &you);
+            place_cloud(cloud_type::STORM, *ri, random_range(4, 8), &you);
         }
     }
 }
