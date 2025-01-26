@@ -66,8 +66,8 @@ struct cloud_info
  */
 struct map_cell
 {
-    map_cell() : flags(0), _feat(DNGN_UNSEEN), _feat_colour(0),
-                 _trap(TRAP_UNASSIGNED), _item(0), _mons(0)
+    map_cell() : flags(0), _feat_colour(0), _feat(DNGN_UNSEEN),
+                _trap(TRAP_UNASSIGNED), _item(0), _mons(0)
     {
     }
 
