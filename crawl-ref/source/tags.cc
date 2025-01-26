@@ -117,7 +117,7 @@ extern set<pair<string, level_id> > auto_unique_annotations;
 extern abyss_state abyssal_state;
 
 reader::reader(const string &_read_filename, int minorVersion)
-    : _filename(_read_filename), _chunk(0), _pbuf(nullptr), _read_offset(0),
+    : _filename(_read_filename), _chunk(nullptr), _pbuf(nullptr), _read_offset(0),
       _minorVersion(minorVersion), _safe_read(false)
 {
     _file       = fopen_u(_filename.c_str(), "rb");
@@ -125,7 +125,7 @@ reader::reader(const string &_read_filename, int minorVersion)
 }
 
 reader::reader(package *save, const string &chunkname, int minorVersion)
-    : _file(0), _chunk(0), opened_file(false), _pbuf(0), _read_offset(0),
+    : _file(nullptr), _chunk(nullptr), opened_file(false), _pbuf(nullptr), _read_offset(0),
      _minorVersion(minorVersion), _safe_read(false)
 {
     ASSERT(save);
@@ -760,7 +760,7 @@ static void _unmarshall_constriction(reader &th, actor *who)
         unmarshallMap(th, cmap, unmarshall_int_as<mid_t>, unmarshallInt);
 
         if (cmap.size() == 0)
-            who->constricting = 0;
+            who->constricting = nullptr;
         else
         {
             vector<mid_t> cvec;
@@ -1873,7 +1873,7 @@ static void _tag_construct_you_items(writer &th)
     you.equipment.update();
 }
 
-static void marshallPlaceInfo(writer &th, PlaceInfo place_info)
+static void marshallPlaceInfo(writer &th, const PlaceInfo& place_info)
 {
     marshallInt(th, place_info.branch);
 
@@ -1900,7 +1900,7 @@ static void marshallPlaceInfo(writer &th, PlaceInfo place_info)
     marshallInt(th, place_info.elapsed_other);
 }
 
-static void marshallLevelXPInfo(writer &th, LevelXPInfo xp_info)
+static void marshallLevelXPInfo(writer &th, const LevelXPInfo& xp_info)
 {
     marshall_level_id(th, xp_info.level);
 
@@ -3752,7 +3752,7 @@ static void _tag_read_you(reader &th)
 #if TAG_MAJOR_VERSION == 34
     if (th.getMinorVersion() < TAG_MINOR_SAC_PIETY_LEN)
     {
-        const int OLD_NUM_ABILITIES = 1503;
+        constexpr int OLD_NUM_ABILITIES = 1503;
 
         // set up sacrifice piety by abilities
         for (int j = 0; j < NUM_ABILITIES; ++j)
@@ -4194,7 +4194,7 @@ static void _tag_read_you(reader &th)
     if (th.getMinorVersion() < TAG_MINOR_REMOVE_DECKS)
     {
         erase_if(you.uncancel,
-                 [](const pair<uncancellable_type, int> uc) {
+                 [](const pair<uncancellable_type, int> &uc) {
                     return uc.first == UNC_DRAW_THREE
                            || uc.first == UNC_STACK_FIVE;
                 });
@@ -4779,7 +4779,7 @@ static void _tag_read_you_items(reader &th)
                               & 0xff;
             const int seed2 = you.item_description[IDESC_SCROLLS_II][subtype]
                               & 0xff;
-            const int seed3 = OBJ_SCROLLS & 0xff;
+            constexpr int seed3 = OBJ_SCROLLS & 0xff;
             you.item_description[IDESC_SCROLLS][subtype] =    seed1
                                                            | (seed2 << 8)
                                                            | (seed3 << 16);
@@ -5320,7 +5320,7 @@ static void _trim_god_gift_inscrip(item_def& item)
 }
 
 /// Replace "dragon armour" with "dragon scales" in an artefact's name.
-static void _fixup_dragon_artefact_name(item_def &item, string name_key)
+static void _fixup_dragon_artefact_name(item_def &item, const string& name_key)
 {
     if (!item.props.exists(name_key))
         return;
@@ -5700,13 +5700,11 @@ void unmarshallItem(reader &th, item_def &item)
 
     if (th.getMinorVersion() < TAG_MINOR_WEAPON_PLUSES)
     {
-        int acc, dam, slay = 0;
-
         if (item.base_type == OBJ_WEAPONS)
         {
-            acc = item.plus;
-            dam = item.plus2;
-            slay = dam < 0 ? dam : max(acc,dam);
+            int acc = item.plus;
+            int dam = item.plus2;
+            int slay = dam < 0 ? dam : max(acc,dam);
 
             item.plus = slay;
             item.plus2 = 0; // probably harmless but might as well
@@ -7608,12 +7606,11 @@ void unmarshallMonster(reader &th, monster& m)
 static void _tag_read_level_monsters(reader &th)
 {
     unwind_bool dont_scan(crawl_state.crash_debug_scans_safe, false);
-    int count;
 
     reset_all_monsters();
 
     // how many mons_alloc?
-    count = unmarshallByte(th);
+    int count = unmarshallByte(th);
     ASSERT(count >= 0);
     for (int i = 0; i < count && i < MAX_MONS_ALLOC; ++i)
         env.mons_alloc[i] = unmarshallMonType(th);
@@ -7932,7 +7929,7 @@ static void _marshallSpells(writer &th, const monster_spells &spells)
 }
 
 #if TAG_MAJOR_VERSION == 34
-static const uint8_t NUM_MONSTER_SPELL_SLOTS = 6;
+static constexpr uint8_t NUM_MONSTER_SPELL_SLOTS = 6;
 
 static void _fixup_spells(monster_spells &spells, int hd)
 {
