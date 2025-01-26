@@ -1,5 +1,7 @@
 #pragma once
 
+#include <libutil.h>
+
 #include "enum.h"
 #include "mon-info.h"
 #include "tag-version.h"
@@ -67,52 +69,48 @@ struct cloud_info
 struct map_cell
 {
     map_cell() : flags(0), _feat_colour(0), _feat(DNGN_UNSEEN),
-                _trap(TRAP_UNASSIGNED), _item(0), _mons(0)
+                _trap(TRAP_UNASSIGNED), _item(nullptr), _mons(nullptr)
     {
     }
 
-    map_cell(const map_cell& c)
+    ~map_cell() = default;
+    // TODO: the other two
+
+    map_cell(const map_cell& c) = delete:
+    flags(c.flags), _feat_colour(c.feat_colour()), _feat(c._feat),
+    _trap(c._trap)
     {
-        memcpy(this, &c, sizeof(map_cell));
-        if (_mons)
-            _mons = new monster_info(*_mons);
-        if (_item)
-            _item = new item_def(*_item);
+        if (c._mons)
+            _mons = make_unique<monster_info>(c._mons);
+        if (c._item)
+            _item = make_unique<item_def>(c._item);
     }
 
-    ~map_cell()
-    {
-        if (!(flags & MAP_DETECTED_MONSTER) && _mons)
-            delete _mons;
-        if (_item)
-            delete _item;
-    }
-
-    map_cell& operator=(const map_cell& c)
+    map_cell& operator=(const map_cell& c) = delete;
     {
         if (&c == this)
             return *this;
-        if (_mons)
-            delete _mons;
-        if (_item)
-            delete _item;
-        // TODO: UB
-        memcpy(this, &c, sizeof(map_cell));
-        if (_mons)
-            _mons = new monster_info(*_mons);
-        if (_item)
-            _item = new item_def(*_item);
+
+        flags = c.flags;
+        _feat_colour = c.feat_colour();
+        _feat= c._feat;
+        _trap = c._trap;
+        if (c._mons)
+            _mons = make_unique<monster_info>(c._mons);
+        if (c._item)
+            _item = make_unique<item_def>(c._item);
         return *this;
     }
 
     bool operator ==(const map_cell &other) const
     {
+        // TODO: these are not very correct.
         return memcmp(this, &other, sizeof(map_cell)) == 0;
     }
 
     bool operator !=(const map_cell &other) const
     {
-        return memcmp(this, &other, sizeof(map_cell)) != 0;
+        return !operator==(other);
     }
 
     void clear()
@@ -137,7 +135,7 @@ struct map_cell
         return static_cast<dungeon_feature_type>(uint8_t(_feat));
     }
 
-    unsigned feat_colour() const
+    colour_t feat_colour() const
     {
         return _feat_colour;
     }
@@ -150,9 +148,9 @@ struct map_cell
         _trap = tr;
     }
 
-    item_def* item() const
+    const item_def* item() const
     {
-        return _item;
+        return _item.get();
     }
 
     bool detected_item() const
@@ -170,7 +168,7 @@ struct map_cell
     void set_item(const item_def& ii, bool more_items)
     {
         clear_item();
-        _item = new item_def(ii);
+        _item = make_unique<item_def>(ii);
         if (more_items)
             flags |= MAP_MORE_ITEMS;
     }
@@ -179,31 +177,24 @@ struct map_cell
 
     void clear_item()
     {
-        if (_item)
-        {
-            delete _item;
-            _item = 0;
-        }
+        _item.reset();
         flags &= ~(MAP_DETECTED_ITEM | MAP_MORE_ITEMS);
     }
 
     monster_type monster() const
     {
-        if (_mons)
-            return _mons->type;
-        else
-            return MONS_NO_MONSTER;
+        return _mons ? _mons->type : MONS_NO_MONSTER;
     }
 
-    monster_info* monsterinfo() const
+    const monster_info* monsterinfo() const
     {
-        return _mons;
+        return _mons.get();
     }
 
     void set_monster(const monster_info& mi)
     {
         clear_monster();
-        _mons = new monster_info(mi);
+        _mons = make_unique<monster_info>(mi);
     }
 
     bool detected_monster() const
@@ -219,7 +210,7 @@ struct map_cell
     void set_detected_monster(monster_type mons)
     {
         clear_monster();
-        _mons = new monster_info(MONS_SENSED);
+        _mons = make_unique<monster_info>(MONS_SENSED);
         _mons->base_type = mons;
         flags |= MAP_DETECTED_MONSTER;
     }
@@ -232,10 +223,8 @@ struct map_cell
 
     void clear_monster()
     {
-        if (_mons)
-            delete _mons;
+        _mons.reset();
         flags &= ~(MAP_DETECTED_MONSTER | MAP_INVISIBLE_MONSTER);
-        _mons = 0;
     }
 
     cloud_info& cloudinfo()
@@ -297,6 +286,6 @@ private:
     dungeon_feature_type _feat;
     trap_type _trap;
     cloud_info _cloud;
-    item_def* _item;
-    monster_info* _mons;
+    unique_ptr<item_def> _item;
+    unique_ptr<monster_info> _mons;
 };
