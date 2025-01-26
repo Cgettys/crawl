@@ -2529,7 +2529,7 @@ aff_type targeter_poison_scroll::is_affected(coord_def loc)
     const aff_type base_aff = targeter_radius::is_affected(loc);
     if (base_aff == AFF_NO)
         return AFF_NO;
-    if (cell_is_solid(loc) || cloud_type_at(loc) != CLOUD_NONE)
+    if (cell_is_solid(loc) || cloud_type_at(loc) != cloud_type::NONE)
         return AFF_NO;
     const actor* act = actor_at(loc);
     if (act != nullptr && you.can_see(*act))

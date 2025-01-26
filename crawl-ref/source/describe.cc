@@ -3275,7 +3275,7 @@ string get_item_description(const item_def &item,
 
 string get_cloud_desc(cloud_type cloud, bool include_title)
 {
-    if (cloud == CLOUD_NONE)
+    if (cloud == cloud_type::NONE)
         return "";
     const string cl_name = cloud_type_name(cloud);
     const string cl_desc = getLongDescription(cl_name + " cloud");

@@ -1110,7 +1110,7 @@ void tile_draw_map_cell(const coord_def& gc, bool foreground_only)
         tile_env.bk_fg(gc) = 0;
 
     // Always place clouds now they have their own layer
-    if (cell.cloud() != CLOUD_NONE)
+    if (cell.cloud() != cloud_type::NONE)
         _tile_place_cloud(gc, *cell.cloudinfo());
     else
         tile_env.bk_cloud(gc) = 0;

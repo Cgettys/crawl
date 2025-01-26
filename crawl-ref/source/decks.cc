@@ -1396,7 +1396,7 @@ static void _cloud_card(int power)
 {
     const int power_level = _get_power_level(power);
     bool something_happened = false;
-    cloud_type cloudy = CLOUD_DEBUGGING;
+    cloud_type cloudy = cloud_type::DEBUGGING;
 
     switch (power_level)
     {

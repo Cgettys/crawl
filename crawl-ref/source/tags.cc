@@ -5221,7 +5221,7 @@ static void _tag_construct_level(writer &th)
     {
         const cloud_struct& cloud = entry.second;
         marshallByte(th, cloud.type);
-        ASSERT(cloud.type != CLOUD_NONE);
+        ASSERT(cloud.type != cloud_type::NONE);
         ASSERT_IN_BOUNDS(cloud.pos);
         marshallByte(th, cloud.pos.x);
         marshallByte(th, cloud.pos.y);

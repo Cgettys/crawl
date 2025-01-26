@@ -72,7 +72,7 @@
 static void _place_tloc_cloud(const coord_def &origin)
 {
     if (!cell_is_solid(origin))
-        place_cloud(CLOUD_TLOC_ENERGY, origin, 1 + random2(3), &you);
+        place_cloud(cloud_type::TLOC_ENERGY, origin, 1 + random2(3), &you);
 }
 
 spret cast_disjunction(int pow, bool fail)
@@ -429,7 +429,7 @@ spret frog_hop(bool fail, dist *target)
     }
 
     if (!cell_is_solid(you.pos())) // should be safe.....
-        place_cloud(CLOUD_DUST, you.pos(), 2 + random2(3), &you);
+        place_cloud(cloud_type::DUST, you.pos(), 2 + random2(3), &you);
     move_player_to_grid(target->target, false);
     crawl_state.cancel_cmd_again();
     crawl_state.cancel_cmd_repeat();
@@ -765,7 +765,7 @@ spret electric_charge(actor& agent, int powc, bool fail, const coord_def &target
             if (!cell_is_solid(ray.pos()) &&
                 (!agent.is_player() || !apply_cloud_trail(ray.pos())))
             {
-                place_cloud(CLOUD_ELECTRICITY, ray.pos(), 2 + random2(3), &agent);
+                place_cloud(cloud_type::ELECTRICITY, ray.pos(), 2 + random2(3), &agent);
             }
         }
     }

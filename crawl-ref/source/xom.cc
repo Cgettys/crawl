@@ -3096,7 +3096,7 @@ static void _xom_time_control(int sever)
 /// Toss some fog around the player. Helping...?
 static void _xom_fog(int /*sever*/)
 {
-    big_cloud(CLOUD_RANDOM_SMOKE, &you, you.pos(), 50, 8 + random2(8));
+    big_cloud(cloud_type::RANDOM_SMOKE, &you, you.pos(), 50, 8 + random2(8));
     take_note(Note(NOTE_XOM_EFFECT, you.piety, -1, "fog"), true);
     god_speaks(GOD_XOM, _get_xom_speech("cloud").c_str());
 }

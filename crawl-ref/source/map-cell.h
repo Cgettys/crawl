@@ -38,7 +38,7 @@
 
 struct cloud_info
 {
-    cloud_info() : type(CLOUD_NONE), colour(0), duration(3), tile(0),
+    cloud_info() : type(cloud_type::NONE), colour(0), duration(3), tile(0),
                    killer(KILL_NONE)
     { }
 
@@ -49,7 +49,7 @@ struct cloud_info
     { }
 
     bool defined() const {
-        return type != CLOUD_NONE;
+        return type != cloud_type::NONE;
     }
 
     cloud_type type;
@@ -245,7 +245,7 @@ struct map_cell
 
     cloud_info* cloudinfo()
     {
-        if (_cloud.type != CLOUD_NONE) {
+        if (_cloud.type != cloud_type::NONE) {
             return &_cloud;
         }
         return nullptr;
@@ -253,7 +253,7 @@ struct map_cell
 
     const cloud_info* cloudinfo() const
     {
-        if (_cloud.type != CLOUD_NONE) {
+        if (_cloud.type != cloud_type::NONE) {
             return &_cloud;
         }
         return nullptr;

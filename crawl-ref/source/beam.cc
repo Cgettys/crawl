@@ -1045,13 +1045,13 @@ void bolt::burn_wall_effect()
     if (!cell_is_solid(pos()))
     {
         if (feat == DNGN_TREE)
-            place_cloud(CLOUD_FOREST_FIRE, pos(), random2(30)+25, agent());
+            place_cloud(cloud_type::FOREST_FIRE, pos(), random2(30)+25, agent());
         // Mangroves do not burn so readily.
         else if (feat == DNGN_MANGROVE)
-            place_cloud(CLOUD_FIRE, pos(), random2(12)+5, agent());
+            place_cloud(cloud_type::FIRE, pos(), random2(12)+5, agent());
         // Demonic trees produce a chaos cloud instead of fire.
         else if (feat == DNGN_DEMONIC_TREE)
-            place_cloud(CLOUD_CHAOS, pos(), random2(30)+25, agent());
+            place_cloud(cloud_type::CHAOS, pos(), random2(30)+25, agent());
     }
     // If a tree turned back into a wall, place some fire around it to simulate
     // the normal burning effect without removing the wall.
@@ -1066,7 +1066,7 @@ void bolt::burn_wall_effect()
             }
 
             if (one_chance_in(3))
-                place_cloud(CLOUD_FIRE, *ai, random_range(11, 25), agent());
+                place_cloud(cloud_type::FIRE, *ai, random_range(11, 25), agent());
         }
     }
 
@@ -2504,30 +2504,30 @@ bool bolt::is_bouncy(dungeon_feature_type feat) const
 cloud_type bolt::get_cloud_type() const
 {
     if (origin_spell == SPELL_NOXIOUS_CLOUD)
-        return CLOUD_MEPHITIC;
+        return cloud_type::MEPHITIC;
 
     if (origin_spell == SPELL_POISONOUS_CLOUD)
-        return CLOUD_POISON;
+        return cloud_type::POISON;
 
     if (origin_spell == SPELL_HOLY_BREATH)
-        return CLOUD_HOLY;
+        return cloud_type::HOLY;
 
     if (origin_spell == SPELL_FLAMING_CLOUD)
-        return CLOUD_FIRE;
+        return cloud_type::FIRE;
 
     if (origin_spell == SPELL_CHAOS_BREATH)
-        return CLOUD_CHAOS;
+        return cloud_type::CHAOS;
 
     if (origin_spell == SPELL_MIASMA_BREATH)
-        return CLOUD_MIASMA;
+        return cloud_type::MIASMA;
 
     if (origin_spell == SPELL_FREEZING_CLOUD)
-        return CLOUD_COLD;
+        return cloud_type::COLD;
 
     if (origin_spell == SPELL_SPECTRAL_CLOUD)
-        return CLOUD_SPECTRAL;
+        return cloud_type::SPECTRAL;
 
-    return CLOUD_NONE;
+    return cloud_type::NONE;
 }
 
 int bolt::get_cloud_pow() const

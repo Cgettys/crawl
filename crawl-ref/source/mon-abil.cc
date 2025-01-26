@@ -896,7 +896,7 @@ static void _weeping_skull_cloud_aura(monster* mons)
 
     int num_clouds = min((int)pos.size(), random_range(1, 3));
     for (int i = 0; i < num_clouds; ++i)
-        place_cloud(CLOUD_MISERY, pos[i], random2(3) + 2, mons);
+        place_cloud(cloud_type::MISERY, pos[i], random2(3) + 2, mons);
 }
 
 static void _seismosaurus_egg_hatch(monster* mons)
@@ -1017,7 +1017,7 @@ bool mon_special_ability(monster* mons)
             && grid_distance(you.pos(), mons->pos()) == 1)
         {
             foxfire_attack(mons, &you);
-            check_place_cloud(CLOUD_FLAME, mons->pos(), 2, mons);
+            check_place_cloud(cloud_type::FLAME, mons->pos(), 2, mons);
             if (mons->alive())
                 monster_die(*mons, KILL_RESET, NON_MONSTER, true);
             used = true;

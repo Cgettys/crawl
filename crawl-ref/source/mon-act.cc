@@ -963,7 +963,7 @@ static void _handle_boulder_movement(monster& boulder)
         return;
     }
 
-    place_cloud(CLOUD_DUST, boulder.pos(), 2 + random2(3), &boulder);
+    place_cloud(cloud_type::DUST, boulder.pos(), 2 + random2(3), &boulder);
 
     // First, find out where we intend to move next
     coord_def dir = boulder.props[BOULDER_DIRECTION_KEY].get_coord();
@@ -1702,7 +1702,7 @@ static void _pre_monster_move(monster& mons)
         && !cell_see_cell(you.pos(), mons.pos(), LOS_NO_TRANS))
     {
         if (mons.type == MONS_FOXFIRE)
-            check_place_cloud(CLOUD_FLAME, mons.pos(), 2, &mons);
+            check_place_cloud(cloud_type::FLAME, mons.pos(), 2, &mons);
         monster_die(mons, KILL_RESET, NON_MONSTER);
         return;
     }
@@ -1980,7 +1980,7 @@ void handle_monster_move(monster* mons)
     {
         if (mons->steps_remaining == 0)
         {
-            check_place_cloud(CLOUD_FLAME, mons->pos(), 2, mons);
+            check_place_cloud(cloud_type::FLAME, mons->pos(), 2, mons);
             monster_die(*mons, KILL_TIMEOUT, NON_MONSTER);
             return;
         }
@@ -3984,7 +3984,7 @@ static bool _monster_move(monster* mons, coord_def& delta)
         if (mons_genus(mons->type) == MONS_EFREET
             || mons->type == MONS_FIRE_ELEMENTAL)
         {
-            place_cloud(CLOUD_FIRE, mons->pos(), 2 + random2(4), mons);
+            place_cloud(cloud_type::FIRE, mons->pos(), 2 + random2(4), mons);
         }
 
         if (mons->has_ench(ENCH_ROLLING))
