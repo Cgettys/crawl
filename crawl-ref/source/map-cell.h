@@ -60,6 +60,18 @@ struct cloud_info
     killer_type killer;
     // TODO: should this be tileidx_t?
     unsigned short tile;
+
+    friend bool operator==(const cloud_info &lhs, const cloud_info &rhs) {
+        return lhs.type == rhs.type
+               && lhs.colour == rhs.colour
+               && lhs.duration == rhs.duration
+               && lhs.killer == rhs.killer
+               && lhs.tile == rhs.tile;
+    }
+
+    friend bool operator!=(const cloud_info &lhs, const cloud_info &rhs) {
+        return !(lhs == rhs);
+    }
 };
 
 /*
@@ -68,8 +80,9 @@ struct cloud_info
  */
 struct map_cell
 {
+
     map_cell() : flags(0), _feat_colour(0), _feat(DNGN_UNSEEN),
-                _trap(TRAP_UNASSIGNED), _item(nullptr), _mons(nullptr)
+                 _trap(TRAP_UNASSIGNED), _item(nullptr), _mons(nullptr)
     {
     }
 
@@ -108,17 +121,19 @@ struct map_cell
     // move assignment
     map_cell& operator=(map_cell&& other) noexcept = default;
 
-    bool operator ==(const map_cell &other) const
-    {
-        // TODO: these are not very correct.
-        return memcmp(this, &other, sizeof(map_cell)) == 0;
+    friend bool operator==(const map_cell &lhs, const map_cell &rhs) {
+        return lhs.flags == rhs.flags
+               && lhs._feat_colour == rhs._feat_colour
+               && lhs._feat == rhs._feat
+               && lhs._trap == rhs._trap
+               && lhs._cloud == rhs._cloud
+               && lhs._item == rhs._item
+               && lhs._mons == rhs._mons;
     }
 
-    bool operator !=(const map_cell &other) const
-    {
-        return !operator==(other);
+    friend bool operator!=(const map_cell &lhs, const map_cell &rhs) {
+        return !(lhs == rhs);
     }
-
     void clear()
     {
         *this = map_cell();
@@ -138,7 +153,7 @@ struct map_cell
         // Ugh; MSVC makes the bit field signed even though that means it can't
         // actually hold all the enum values. That seems to be in contradiction
         // of the standard (§9.6 [class.bit] paragraph 4) but what can you do?
-        return static_cast<dungeon_feature_type>(uint8_t(_feat));
+        return static_cast<dungeon_feature_type>(static_cast<uint8_t>(_feat));
     }
 
     colour_t feat_colour() const
@@ -231,11 +246,6 @@ struct map_cell
     {
         _mons.reset();
         flags &= ~(MAP_DETECTED_MONSTER | MAP_INVISIBLE_MONSTER);
-    }
-
-    cloud_info& cloudinfo()
-    {
-            return _cloud;
     }
 
     const cloud_info cloudinfo() const
