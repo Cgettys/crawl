@@ -76,9 +76,8 @@ struct map_cell
     ~map_cell() = default;
 
     // copy constructor
-    map_cell(const map_cell& c):
-    flags(c.flags), _feat_colour(c.feat_colour()), _feat(c._feat),
-    _trap(c._trap)
+    map_cell(const map_cell& c): flags(c.flags), _feat_colour(c._feat_colour),
+                                 _feat(c._feat), _trap(c._trap)
     {
         if (c._mons)
             _mons = make_unique<monster_info>(*c._mons);
@@ -93,7 +92,7 @@ struct map_cell
             return *this;
 
         flags = c.flags;
-        _feat_colour = c.feat_colour();
+        _feat_colour = c._feat_colour;
         _feat= c._feat;
         _trap = c._trap;
         if (c._mons)

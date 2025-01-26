@@ -924,7 +924,7 @@ map_marker *map_cloud_spreader_marker::clone() const
 
 string map_cloud_spreader_marker::debug_describe() const
 {
-    return make_stringf("Cloud spreader marker (%d)", ctype);
+    return make_stringf("Cloud spreader marker (%d)", static_cast<int>(ctype));
 }
 
 ////////////////////////////////////////////////////////////////////////////
