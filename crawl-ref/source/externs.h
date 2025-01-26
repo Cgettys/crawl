@@ -274,9 +274,9 @@ struct mon_spell_slot
         : mon_spell_slot(spell_, freq_, MON_SPELL_NO_FLAGS)
     { }
 
+    mon_spell_slot_flags flags;
     spell_type spell;
     uint8_t freq;
-    mon_spell_slot_flags flags;
 };
 
 typedef vector<mon_spell_slot> monster_spells;

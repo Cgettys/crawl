@@ -1,8 +1,8 @@
 #pragma once
 
 #include "tag-version.h"
-// TODO: why does tags.cc think spell_type's size is short rather than int?
-enum spell_type : int
+// TODO: would uint16_t make more sense?
+enum spell_type : int16_t
 {
     SPELL_NO_SPELL,
 #if TAG_MAJOR_VERSION == 34
