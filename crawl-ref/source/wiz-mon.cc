@@ -337,7 +337,7 @@ void debug_stethoscope(int mon)
         if (cloud_struct* cloud = cloud_at(stethpos))
         {
             mprf(MSGCH_DIAGNOSTICS, "cloud type: %d delay: %d",
-                 cloud->type, cloud->decay);
+                 static_cast<int>(cloud->type), cloud->decay);
         }
 
         if (!monster_at(stethpos))

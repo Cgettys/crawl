@@ -2494,7 +2494,8 @@ static bool _gavotte_will_wall_slam(const monster* mon, coord_def dir)
         }
         else
         {
-            monster_info* mon_at_pos = env.map_knowledge(pos).monsterinfo();
+            const monster_info *mon_at_pos = env.map_knowledge(pos).
+                    monsterinfo();
             if (mon_at_pos)
             {
                 mons_in_way = true;

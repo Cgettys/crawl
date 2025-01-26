@@ -31,7 +31,7 @@
 
 #define MONINF_METATABLE "monster.info"
 
-void lua_push_moninf(lua_State *ls, monster_info *mi)
+void lua_push_moninf(lua_State *ls, const monster_info *mi)
 {
     monster_info **miref =
         clua_new_userdata<monster_info *>(ls, MONINF_METATABLE);

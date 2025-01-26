@@ -334,7 +334,7 @@ static const cloud_data clouds[] = {
     },
 };
 COMPILE_CHECK(ARRAYSZ(clouds) == static_cast<size_t>(cloud_type::NUM_CLOUD_TYPES));
-
+const cloud_data& get_cloud_data(cloud_type type);
 const cloud_data& get_cloud_data(cloud_type type) {
     return clouds[static_cast<size_t>(type)];
 }
@@ -414,7 +414,7 @@ static void _los_cloud_changed(const coord_def& p, const cloud_type t, const clo
 cloud_struct::cloud_struct(coord_def p, cloud_type c, int d, int spread,
                            kill_category kc, killer_type kt, mid_t src,
                            int excl)
-    : pos(p), type(c), decay(d), spread_rate(spread), whose(kc), killer(kt),
+    : pos(p), decay(d), type(c), spread_rate(spread), whose(kc), killer(kt),
       source(src), excl_rad(excl)
 {
     ASSERT(_killer_whose_match(whose, killer));

@@ -477,7 +477,7 @@ static cglyph_t _get_cell_glyph_with_class(const map_cell& cell,
     case SH_CLOUD:
         ASSERT(cell_cloud.defined());
         show.cls = SH_CLOUD;
-        g.col = coloured ? cell_cloud.colour : DARKGRAY;
+        g.col = coloured ? cell_cloud.colour : static_cast<colour_t>(DARKGRAY);
 
         if (cloud_type_tile_info(cell_cloud.type).variation
             == CTVARY_DUR)

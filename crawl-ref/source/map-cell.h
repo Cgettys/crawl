@@ -40,14 +40,14 @@
 
 struct cloud_info
 {
-    cloud_info() : type(cloud_type::NONE), colour(0), duration(3), tile(0),
-                   killer(KILL_NONE)
+    cloud_info() : type(cloud_type::NONE), colour(0), duration(3),
+                   killer(KILL_NONE), tile(0)
     { }
 
-    cloud_info(cloud_type t, colour_t c,
-               uint8_t dur, unsigned short til,
-               killer_type kill)
-        : type(t), colour(c), duration(dur), tile(til), killer(kill)
+    cloud_info(const cloud_type t, const colour_t c,
+               const uint8_t dur, const unsigned short til,
+               const killer_type kill)
+        : type(t), colour(c), duration(dur), killer(kill), tile(til)
     { }
 
     bool defined() const {
@@ -74,19 +74,20 @@ struct map_cell
     }
 
     ~map_cell() = default;
-    // TODO: the other two
 
-    map_cell(const map_cell& c) = delete:
+    // copy constructor
+    map_cell(const map_cell& c):
     flags(c.flags), _feat_colour(c.feat_colour()), _feat(c._feat),
     _trap(c._trap)
     {
         if (c._mons)
-            _mons = make_unique<monster_info>(c._mons);
+            _mons = make_unique<monster_info>(*c._mons);
         if (c._item)
-            _item = make_unique<item_def>(c._item);
+            _item = make_unique<item_def>(*c._item);
     }
 
-    map_cell& operator=(const map_cell& c) = delete;
+    // copy assignment
+    map_cell& operator=(const map_cell& c)
     {
         if (&c == this)
             return *this;
@@ -96,11 +97,17 @@ struct map_cell
         _feat= c._feat;
         _trap = c._trap;
         if (c._mons)
-            _mons = make_unique<monster_info>(c._mons);
+            _mons = make_unique<monster_info>(*c._mons);
         if (c._item)
-            _item = make_unique<item_def>(c._item);
+            _item = make_unique<item_def>(*c._item);
         return *this;
     }
+
+    // move constructor
+    map_cell(map_cell&& other) noexcept = default;
+
+    // move assignment
+    map_cell& operator=(map_cell&& other) noexcept = default;
 
     bool operator ==(const map_cell &other) const
     {
@@ -148,7 +155,7 @@ struct map_cell
         _trap = tr;
     }
 
-    const item_def* item() const
+    item_def* item() const
     {
         return _item.get();
     }
@@ -186,7 +193,7 @@ struct map_cell
         return _mons ? _mons->type : MONS_NO_MONSTER;
     }
 
-    const monster_info* monsterinfo() const
+    monster_info* monsterinfo() const
     {
         return _mons.get();
     }
