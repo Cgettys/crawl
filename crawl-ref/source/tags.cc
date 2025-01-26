@@ -6605,6 +6605,7 @@ void _unmarshallMonsterInfo(reader &th, monster_info& mi)
 
     if (mons_is_pghost(mi.type))
     {
+        // TODO: harden these
         unmarshallUnsigned(th, mi.i_ghost.species);
         unmarshallUnsigned(th, mi.i_ghost.job);
         unmarshallUnsigned(th, mi.i_ghost.religion);

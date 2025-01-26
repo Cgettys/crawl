@@ -270,6 +270,7 @@ struct monster_info_base
         int is_active;   ///< Whether this ballisto is active or not
     };
     int _colour;
+    // TODO: do we really need a separate field for ghost_colour?
     int ghost_colour;
     mon_energy_usage menergy;
     mon_attitude_type attitude;
@@ -297,6 +298,7 @@ struct monster_info_base
     int mbase_speed;
     resists_t mresists;
     CrawlHashTable props;
+    // TODO: constriction is 56 bytes + backing vector. use a unique_ptr to a separate struct instead?
     string constrictor_name;
     vector<string> constricting_name;
     monster_spells spells;
@@ -305,6 +307,7 @@ struct monster_info_base
     mid_t client_id;
     mid_t summoner_id;
 };
+
 
 // Monster info used by the pane; precomputes some data
 // to help with sorting and rendering.
@@ -358,6 +361,7 @@ struct monster_info : public monster_info_base
         job_type job;
         god_type religion;
         skill_type best_skill;
+        // TODO: this can be uint8_t, right?
         short best_skill_rank;
         short xl_rank;
         short damage;
