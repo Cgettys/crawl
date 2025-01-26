@@ -6027,7 +6027,7 @@ void marshallMapCell(writer &th, const map_cell &cell)
 
     if (flags & MAP_SERIALIZE_CLOUD)
     {
-        cloud_info* ci = cell.cloudinfo();
+        const cloud_info* ci = cell.cloudinfo();
         marshallUnsigned(th, ci->type);
         marshallUnsigned(th, ci->colour);
         marshallUnsigned(th, ci->duration);
@@ -6809,6 +6809,7 @@ static void _tag_read_level(reader &th)
     cloud_struct cloud;
     for (int i = 0; i < num_clouds; i++)
     {
+        // TODO: should this be UByte?
         cloud.type  = static_cast<cloud_type>(unmarshallByte(th));
 #if TAG_MAJOR_VERSION == 34
         // old system marshalled empty clouds this way

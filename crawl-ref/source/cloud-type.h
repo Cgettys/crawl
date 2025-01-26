@@ -2,7 +2,7 @@
 
 #include "tag-version.h"
 
-enum cloud_type
+enum cloud_type: uint8_t
 {
     CLOUD_NONE,
     CLOUD_FIRE,

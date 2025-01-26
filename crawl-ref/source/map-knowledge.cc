@@ -304,15 +304,15 @@ bool map_cell::update_cloud_state()
         return false; // we're already up-to-date
 
     // player non-opaque clouds vanish instantly out of los
-    if (_cloud && _cloud->killer == KILL_YOU_MISSILE
-        && !is_opaque_cloud(_cloud->type))
+    if (_cloud.defined() && _cloud.killer == KILL_YOU_MISSILE
+        && !is_opaque_cloud(_cloud.type))
     {
         clear_cloud();
         return true;
     }
 
     // still winds KOs all clouds, even those out of LOS
-    if (_cloud && env.level_state & LSTATE_STILL_WINDS)
+    if (_cloud.defined() && env.level_state & LSTATE_STILL_WINDS)
     {
         clear_cloud();
         return true;

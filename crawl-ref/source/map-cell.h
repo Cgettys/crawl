@@ -38,22 +38,26 @@
 
 struct cloud_info
 {
-    cloud_info() : type(CLOUD_NONE), colour(0), duration(3), tile(0), pos(0, 0),
+    cloud_info() : type(CLOUD_NONE), colour(0), duration(3), tile(0),
                    killer(KILL_NONE)
     { }
 
     cloud_info(cloud_type t, colour_t c,
-               uint8_t dur, unsigned short til, coord_def gc,
+               uint8_t dur, unsigned short til,
                killer_type kill)
-        : type(t), colour(c), duration(dur), tile(til), pos(gc), killer(kill)
+        : type(t), colour(c), duration(dur), tile(til), killer(kill)
     { }
 
-    cloud_type type:8;
+    bool defined() const {
+        return type != CLOUD_NONE;
+    }
+
+    cloud_type type;
     colour_t colour;
     uint8_t duration; // decay/20, clamped to 0-3
-    unsigned short tile;
-    coord_def pos;
     killer_type killer;
+    // TODO: should this be tileidx_t?
+    unsigned short tile;
 };
 
 /*
@@ -63,15 +67,13 @@ struct cloud_info
 struct map_cell
 {
     map_cell() : flags(0), _feat(DNGN_UNSEEN), _feat_colour(0),
-                 _trap(TRAP_UNASSIGNED), _cloud(0), _item(0), _mons(0)
+                 _trap(TRAP_UNASSIGNED), _item(0), _mons(0)
     {
     }
 
     map_cell(const map_cell& c)
     {
         memcpy(this, &c, sizeof(map_cell));
-        if (_cloud)
-            _cloud = new cloud_info(*_cloud);
         if (_mons)
             _mons = new monster_info(*_mons);
         if (_item)
@@ -80,8 +82,6 @@ struct map_cell
 
     ~map_cell()
     {
-        if (_cloud)
-            delete _cloud;
         if (!(flags & MAP_DETECTED_MONSTER) && _mons)
             delete _mons;
         if (_item)
@@ -92,15 +92,12 @@ struct map_cell
     {
         if (&c == this)
             return *this;
-        if (_cloud)
-            delete _cloud;
         if (_mons)
             delete _mons;
         if (_item)
             delete _item;
+        // TODO: UB
         memcpy(this, &c, sizeof(map_cell));
-        if (_cloud)
-            _cloud = new cloud_info(*_cloud);
         if (_mons)
             _mons = new monster_info(*_mons);
         if (_item)
@@ -243,39 +240,38 @@ struct map_cell
 
     cloud_type cloud() const
     {
-        if (_cloud)
-            return _cloud->type;
-        else
-            return CLOUD_NONE;
+        return _cloud.type;
     }
 
-    unsigned cloud_colour() const
+    colour_t cloud_colour() const
     {
-        if (_cloud)
-            return _cloud->colour;
-        else
-            return 0;
+            return _cloud.colour;
     }
 
-    cloud_info* cloudinfo() const
+    cloud_info* cloudinfo()
     {
-        return _cloud;
+        if (_cloud.type != CLOUD_NONE) {
+            return &_cloud;
+        }
+        return nullptr;
+    }
+
+    const cloud_info* cloudinfo() const
+    {
+        if (_cloud.type != CLOUD_NONE) {
+            return &_cloud;
+        }
+        return nullptr;
     }
 
     void set_cloud(const cloud_info& ci)
     {
-        if (_cloud)
-            delete _cloud;
-        _cloud = new cloud_info(ci);
+        _cloud = ci;
     }
 
     void clear_cloud()
     {
-        if (_cloud)
-        {
-            delete _cloud;
-            _cloud = 0;
-        }
+        _cloud = {};
     }
 
     bool update_cloud_state();
@@ -313,10 +309,10 @@ struct map_cell
 public:
     uint32_t flags;   // Flags describing the mappedness of this square.
 private:
-    dungeon_feature_type _feat:8;
     colour_t _feat_colour;
-    trap_type _trap:8;
-    cloud_info* _cloud;
+    dungeon_feature_type _feat;
+    trap_type _trap;
+    cloud_info _cloud;
     item_def* _item;
     monster_info* _mons;
 };

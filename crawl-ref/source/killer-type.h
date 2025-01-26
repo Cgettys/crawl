@@ -2,7 +2,7 @@
 
 #include "tag-version.h"
 
-enum killer_type                       // monster_die(), thing_thrown
+enum killer_type: uint8_t              // monster_die(), thing_thrown
 {
     KILL_NONE,                         // no killer
     KILL_YOU,                          // you are the killer
