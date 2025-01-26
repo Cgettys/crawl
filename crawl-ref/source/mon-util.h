@@ -23,9 +23,10 @@ struct mgen_data;
 
 struct mon_attack_def
 {
+    // TODO: isn't short enough for this?
+    int             damage;
     attack_type     type;
     attack_flavour  flavour;
-    int             damage;
 };
 
 // Amount of mons->speed_increment used by different actions; defaults
