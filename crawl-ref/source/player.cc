@@ -147,14 +147,15 @@ bool check_moveto_cloud(const coord_def& p, const string &move_verb,
     if (you.confused())
         return true;
 
-    const cloud_type ctype = env.map_knowledge(p).cloud();
+    const cloud_info& ci = env.map_knowledge(p).cloudinfo();
+    const cloud_type ctype = ci.type;
     // Don't prompt if already in a cloud of the same type.
     if (is_damaging_cloud(ctype, true, cloud_is_yours_at(p))
         && ctype != cloud_type_at(you.pos())
         && !crawl_state.disables[DIS_CONFIRMATIONS])
     {
         // Don't prompt for steam unless we're at uncomfortably low hp.
-        if (ctype == CLOUD_STEAM)
+        if (ctype == cloud_type::STEAM)
         {
             int threshold = 20;
             if (player_res_steam(false) < 0)
@@ -165,7 +166,7 @@ bool check_moveto_cloud(const coord_def& p, const string &move_verb,
                 return true;
         }
         // Don't prompt for meph if we have clarity
-        if (ctype == CLOUD_MEPHITIC && you.clarity(false))
+        if (ctype == cloud_type::MEPHITIC && you.clarity(false))
             return true;
 
         if (prompted)

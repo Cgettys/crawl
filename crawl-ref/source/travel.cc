@@ -209,7 +209,7 @@ static inline bool is_trap(const coord_def& c)
 
 static inline bool _is_safe_cloud(const coord_def& c)
 {
-    const cloud_info& cloud = env.map_knowledge(c).cloudinfo();
+    const cloud_info cloud = env.map_knowledge(c).cloudinfo();
     if (cloud.defined())
         return true;
 

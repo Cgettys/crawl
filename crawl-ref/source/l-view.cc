@@ -60,13 +60,13 @@ LUAFN(view_cloud_at)
         lua_pushnil(ls);
         return 1;
     }
-    cloud_type c = env.map_knowledge(p).cloud();
-    if (c == CLOUD_NONE)
+    const cloud_info c = env.map_knowledge(p).cloudinfo();
+    if (!c.defined())
     {
         lua_pushnil(ls);
         return 1;
     }
-    lua_pushstring(ls, cloud_type_name(c).c_str());
+    lua_pushstring(ls, cloud_type_name(c.type).c_str());
     return 1;
 }
 
@@ -116,10 +116,10 @@ LUAFN(view_is_safe_square)
         PLUARET(boolean, false);
         return 1;
     }
-    cloud_type c = env.map_knowledge(p).cloud();
-    if (c != CLOUD_NONE
-        && is_damaging_cloud(c, true,
-            YOU_KILL(env.map_knowledge(p).cloudinfo()->killer)))
+    const cloud_info ci = env.map_knowledge(p).cloudinfo();
+    if (ci.defined()
+        && is_damaging_cloud(ci.type, true,
+            YOU_KILL(ci.killer)))
     {
         PLUARET(boolean, false);
         return 1;
@@ -311,12 +311,12 @@ LUAFN(view_get_map)
         else if (cell.invisible_monster())
             LUA_PUSHBOOL("invisible_monster", true);
         bool unsafe = false;
-        const cloud_info& cloud = cell.cloudinfo();
-        if (cloud.defined())
+        const cloud_info ci = cell.cloudinfo();
+        if (ci.defined())
         {
-            LUA_PUSHSTRING("cloud", cloud_type_name(cloud.type).c_str());
-            auto killer = cell.cloudinfo()->killer;
-            if (is_damaging_cloud(cloud.type, true, YOU_KILL(killer)))
+            LUA_PUSHSTRING("cloud", cloud_type_name(ci.type).c_str());
+            auto killer = cellkiller;
+            if (is_damaging_cloud(ci.type, true, YOU_KILL(killer)))
                 unsafe = true;
         }
         if (!unsafe && cell.trap() != TRAP_UNASSIGNED)

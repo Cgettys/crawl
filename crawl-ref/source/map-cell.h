@@ -238,28 +238,17 @@ struct map_cell
         _mons = 0;
     }
 
-    cloud_type cloud() const
+    cloud_info& cloudinfo()
     {
-        return _cloud.type;
+            return _cloud;
     }
 
-    cloud_info* cloudinfo()
+    const cloud_info cloudinfo() const
     {
-        if (_cloud.type != cloud_type::NONE) {
-            return &_cloud;
-        }
-        return nullptr;
+        return _cloud;
     }
 
-    const cloud_info* cloudinfo() const
-    {
-        if (_cloud.type != cloud_type::NONE) {
-            return &_cloud;
-        }
-        return nullptr;
-    }
-
-    void set_cloud(const cloud_info& ci)
+    void set_cloud(const cloud_info ci)
     {
         _cloud = ci;
     }

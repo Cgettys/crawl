@@ -314,7 +314,7 @@ show_class get_cell_show_class(const map_cell& cell,
         return SH_MONSTER;
     }
 
-    if (cell.cloud() != CLOUD_NONE)
+    if (cell.cloudinfo().defined())
         return SH_CLOUD;
 
     const dungeon_feature_type feat = cell.feat();

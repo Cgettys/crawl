@@ -246,7 +246,7 @@ map_feature get_cell_map_feature(const map_cell& cell)
     // first clouds...
     // XXX: should items have higher priority? (pro: easier to spot un-grabbed
     // items, con: harder to spot what's blocking auto-travel)
-    if (cell.cloud())
+    if (cell.cloudinfo().defined())
     {
         show_type show;
         show.cls = SH_CLOUD;

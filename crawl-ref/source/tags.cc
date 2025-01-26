@@ -5988,7 +5988,7 @@ void marshallMapCell(writer &th, const map_cell &cell)
     if (cell.feat_colour())
         flags |= MAP_SERIALIZE_FEATURE_COLOUR;
 
-    if (cell.cloud() != CLOUD_NONE)
+    if (cell.cloudinfo().defined())
         flags |= MAP_SERIALIZE_CLOUD;
 
     if (cell.item())
