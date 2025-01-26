@@ -182,14 +182,14 @@ enum mon_summon_type
 
 #include "mon-flags.h"
 
-enum mon_intel_type             // Must be in increasing intelligence order
+enum mon_intel_type: uint8_t             // Must be in increasing intelligence order
 {
     I_BRAINLESS = 0,
     I_ANIMAL,
     I_HUMAN,
 };
 
-enum habitat_type
+enum habitat_type: uint8_t
 {
     // Flying monsters will appear in all categories except rock walls
     HT_LAND = 0,         // Land critters
@@ -202,7 +202,7 @@ enum habitat_type
 };
 
 // order of these is important:
-enum mon_itemuse_type
+enum mon_itemuse_type: uint8_t
 {
     MONUSE_NOTHING,
     MONUSE_OPEN_DOORS,

@@ -287,7 +287,12 @@ struct monster_info_base
     int sh;
     int mr;
     resists_t mresists;
-    bool can_see_invis;
+    bool can_see_invis: 1;
+    bool can_go_frenzy: 1;
+    bool can_feel_fear: 1;
+    bool sleepwalking: 1;
+    bool backlit: 1;
+    bool umbraed: 1;
     mon_itemuse_type mitemuse;
     int mbase_speed;
     mon_energy_usage menergy;
@@ -296,11 +301,6 @@ struct monster_info_base
     vector<string> constricting_name;
     monster_spells spells;
     mon_attack_def attack[MAX_NUM_ATTACKS];
-    bool can_go_frenzy;
-    bool can_feel_fear;
-    bool sleepwalking;
-    bool backlit;
-    bool umbraed;
 
     mid_t client_id;
     mid_t summoner_id;

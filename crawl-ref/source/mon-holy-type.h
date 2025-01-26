@@ -2,7 +2,7 @@
 
 #include "enum.h"
 
-enum mon_holy_type_flags
+enum mon_holy_type_flags: uint8_t
 {
     MH_NONE              = 0,
     MH_HOLY              = 1<<0,

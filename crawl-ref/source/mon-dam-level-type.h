@@ -2,7 +2,7 @@
 
 // this enum needs to align with the option values for enemy_hp_colour, see
 // game_options::update_enemy_hp_colour
-enum mon_dam_level_type
+enum mon_dam_level_type: uint8_t
 {
     MDAM_OKAY,
     MDAM_LIGHTLY_DAMAGED,
