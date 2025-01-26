@@ -14,7 +14,7 @@
 
 class mon_enchant;
 
-enum ench_aura_type
+enum ench_aura_type: int8_t
 {
     AURA_NO,            // Not from an aura effect
     AURA_FRIENDLY,      // From a friendly aura effect

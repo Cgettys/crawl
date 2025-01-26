@@ -7,7 +7,7 @@
 // end of the list or in the unused skill numbers. NEVER rearrange this enum or
 // move existing skills to new numbers; save file compatibility depends on this
 // order.
-enum skill_type
+enum skill_type: uint8_t
 {
     SK_FIGHTING,
     SK_FIRST_SKILL = SK_FIGHTING,

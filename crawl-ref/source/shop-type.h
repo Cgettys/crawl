@@ -2,7 +2,7 @@
 
 #include "tag-version.h"
 
-enum shop_type
+enum shop_type: uint8_t
 {
     SHOP_WEAPON,
     SHOP_ARMOUR,

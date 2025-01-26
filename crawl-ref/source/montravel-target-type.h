@@ -1,6 +1,6 @@
 #pragma once
 
-enum montravel_target_type
+enum montravel_target_type: uint8_t
 {
     MTRAV_NONE = 0,
     MTRAV_FOE,         // Travelling to reach its foe.

@@ -6,7 +6,7 @@
 // Enchantments that imply other enchantments should come first
 // to avoid timeout message confusion. Currently:
 //     berserk -> haste, might; fatigue -> slow
-enum enchant_type
+enum enchant_type: int16_t
 {
     ENCH_NONE = 0,
     ENCH_BERSERK,

@@ -1,6 +1,6 @@
 #pragma once
 
-enum unique_item_status_type
+enum unique_item_status_type: int8_t
 {
     UNIQ_NOT_EXISTS = 0,
     UNIQ_EXISTS = 1,

@@ -2,7 +2,7 @@
 
 #include "tag-version.h"
 
-enum mutation_type
+enum mutation_type: int16_t
 {
     // body slot facets
     MUT_ANTENNAE,       // head

@@ -1100,6 +1100,7 @@ dungeon_feature_type unmarshallFeatureType(reader &th)
 // yay marshalling inconsistencies
 static dungeon_feature_type unmarshallFeatureType_Info(reader &th)
 {
+    // TODO: compile assert implies this should be unmarshallUByte
     dungeon_feature_type x = static_cast<dungeon_feature_type>(unmarshallUnsigned(th));
     x = rewrite_feature(x, th.getMinorVersion());
 
@@ -1657,10 +1658,10 @@ static void _tag_construct_you(writer &th)
     }
 
     marshallByte(th, you.demonic_traits.size());
-    for (int j = 0; j < static_cast<int>(you.demonic_traits.size()); ++j)
+    for (const player::demon_trait& demonic_trait : you.demonic_traits)
     {
-        marshallByte(th, you.demonic_traits[j].level_gained);
-        marshallShort(th, you.demonic_traits[j].mutation);
+        marshallByte(th, demonic_trait.level_gained);
+        marshallShort(th, demonic_trait.mutation);
     }
 
     // set up sacrifice piety by ability
@@ -3117,11 +3118,21 @@ static void _tag_read_you(reader &th)
 
     count = unmarshallByte(th);
     for (int i = 0; i < count; i++)
-        you.exercises.push_back(static_cast<skill_type>(unmarshallInt(th)));
+    {
+        const int skill_type_raw = unmarshallInt(th);
+        ASSERT(0 <= skill_type_raw && skill_type_raw < NUM_SKILLS);
+        you.exercises.push_back(static_cast<skill_type>(skill_type_raw));
+
+    }
+
 
     count = unmarshallByte(th);
     for (int i = 0; i < count; i++)
-        you.exercises_all.push_back(static_cast<skill_type>(unmarshallInt(th)));
+    {
+        const int skill_type_raw = unmarshallInt(th);
+        ASSERT(0 <= skill_type_raw && skill_type_raw < NUM_SKILLS);
+        you.exercises_all.push_back(static_cast<skill_type>(skill_type_raw));
+    }
 
     you.skill_menu_do = static_cast<skill_menu_state>(unmarshallByte(th));
     you.skill_menu_view = static_cast<skill_menu_state>(unmarshallByte(th));
@@ -6071,6 +6082,7 @@ void unmarshallMapCell(reader &th, map_cell& cell)
 
     if (feat_is_trap(feature))
     {
+        // TODO: this is inconsistent, shouldn't it be UByte like the other call site?
         trap = static_cast<trap_type>(unmarshallByte(th));
 #if TAG_MAJOR_VERSION == 34
         if (th.getMinorVersion() == TAG_MINOR_0_11 && trap >= TRAP_TELEPORT)
@@ -6089,7 +6101,9 @@ void unmarshallMapCell(reader &th, map_cell& cell)
     if (flags & MAP_SERIALIZE_CLOUD)
     {
         cloud_info ci;
-        ci.type = static_cast<cloud_type>(unmarshallUnsigned(th));
+        unsigned int ct_raw = unmarshallUnsigned(th);
+        ASSERT(ct_raw < 256);
+        ci.type = static_cast<cloud_type>(ct_raw);
         unmarshallUnsigned(th, ci.colour);
         unmarshallUnsigned(th, ci.duration);
         ci.tile = unmarshallShort(th);
@@ -6153,7 +6167,9 @@ static mon_enchant unmarshall_mon_enchant(reader &th)
     mon_enchant me;
     me.ench        = static_cast<enchant_type>(unmarshallShort(th));
     me.degree      = unmarshallShort(th);
-    me.who         = static_cast<kill_category>(unmarshallShort(th));
+    short kc_raw = unmarshallShort(th);
+    ASSERT(0 <= kc_raw && kc_raw < NUM_KILL_CATEGORIES);
+    me.who         = static_cast<kill_category>(kc_raw);
     me.source      = unmarshallInt(th);
     me.duration    = unmarshallShort(th);
     me.maxduration = unmarshallShort(th);
@@ -6271,8 +6287,12 @@ static void _marshall_mi_attack(writer &th, const mon_attack_def &attk)
 static mon_attack_def _unmarshall_mi_attack(reader &th)
 {
     mon_attack_def attk;
-    attk.type = static_cast<attack_type>(unmarshallInt(th));
-    attk.flavour = static_cast<attack_flavour>(unmarshallInt(th));
+    const int attack_type_raw = unmarshallInt(th);
+    ASSERT(0 <= attack_type_raw && attack_type_raw < NUM_ATTACK_TYPES);
+    attk.type = static_cast<attack_type>(attack_type_raw);
+    const int attack_flavour_raw = unmarshallInt(th);
+    ASSERT(0 <= attack_flavour_raw && attack_flavour_raw < NUM_ATTACK_FLAVOURS);
+    attk.flavour = static_cast<attack_flavour>(attack_flavour_raw);
     attk.damage = unmarshallInt(th);
 
     return attk;
@@ -6802,7 +6822,12 @@ static void _tag_read_level(reader &th)
     cloud_struct cloud;
     for (int i = 0; i < num_clouds; i++)
     {
-        cloud.type  = static_cast<cloud_type>(unmarshallByte(th));
+        // TODO: should we change this to UByte before we get to 128?
+        const int8_t cloud_type_raw = unmarshallByte(th);
+        // TODO: we shouldn't see any of the debug or random cloud types serialized. But we could relax the upper
+        // bound if we hit this assert
+        ASSERT(0 <= cloud_type_raw && cloud_type_raw < NUM_CLOUD_TYPES);
+        cloud.type  = static_cast<cloud_type>(cloud_type_raw);
 #if TAG_MAJOR_VERSION == 34
         // old system marshalled empty clouds this way
         if (cloud.type == CLOUD_NONE)
@@ -7165,7 +7190,7 @@ void unmarshallMonster(reader &th, monster& m)
     m.firing_pos      = unmarshallCoord(th);
     m.patrol_point    = unmarshallCoord(th);
 
-    int help = unmarshallByte(th);
+    uint8_t help = unmarshallByte(th);
     m.travel_target = static_cast<montravel_target_type>(help);
 
     const int len = unmarshallShort(th);
@@ -8060,7 +8085,9 @@ static ghost_demon _unmarshallGhost(reader &th)
     ghost.species          = static_cast<species_type>(unmarshallShort(th));
     ghost.job              = static_cast<job_type>(unmarshallShort(th));
     ghost.religion         = static_cast<god_type>(unmarshallByte(th));
-    ghost.best_skill       = static_cast<skill_type>(unmarshallShort(th));
+    const short best_skill_raw = unmarshallShort(th);
+    ASSERT(0 <= best_skill_raw && best_skill_raw < NUM_SKILLS);
+    ghost.best_skill       = static_cast<skill_type>(best_skill_raw);
     ghost.best_skill_level = unmarshallShort(th);
     ghost.xl               = unmarshallShort(th);
     ghost.max_hp           = unmarshallShort(th);
@@ -8081,9 +8108,19 @@ static ghost_demon _unmarshallGhost(reader &th)
         ghost.move_energy = 10;
     }
     ghost.see_invis        = unmarshallByte(th);
-    ghost.brand            = static_cast<brand_type>(unmarshallShort(th));
+
+    short brand_type_raw = unmarshallShort(th);
+    ASSERT(0 <= brand_type_raw && brand_type_raw < NUM_SPECIAL_WEAPONS);
+    ghost.brand            = static_cast<brand_type>(brand_type_raw);
+
+    short attack_type_raw = unmarshallShort(th);
+    ASSERT(0 <= attack_type_raw && attack_type_raw < NUM_ATTACK_TYPES);
     ghost.att_type = static_cast<attack_type>(unmarshallShort(th));
+
+    short attack_flavour_raw = unmarshallShort(th);
+    ASSERT(0 <= attack_flavour_raw && attack_flavour_raw < NUM_ATTACK_FLAVOURS);
     ghost.att_flav = static_cast<attack_flavour>(unmarshallShort(th));
+
     ghost.resists          = unmarshallInt(th);
 #if TAG_MAJOR_VERSION == 34
     if (ghost.resists & MR_OLD_RES_ACID)

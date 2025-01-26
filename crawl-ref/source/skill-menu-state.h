@@ -2,7 +2,7 @@
 
 #include "tag-version.h"
 
-enum skill_menu_state
+enum skill_menu_state: int8_t
 {
     SKM_NONE,
     SKM_DO_FOCUS,

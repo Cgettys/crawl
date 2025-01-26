@@ -67,7 +67,8 @@ struct map_load_exception : public runtime_error
 
 // [dshaligram] Maps can be mirrored; for every orientation, there must be
 // a suitable mirror.
-enum map_section_type                  // see maps.cc and dungeon.cc {dlb}
+// TODO: 16 bits is way overkill, but that's how it's serialized
+enum map_section_type: int16_t        // see maps.cc and dungeon.cc {dlb}
 {
     MAP_NONE  = -1,
     MAP_NORTH = 1,                     //    1

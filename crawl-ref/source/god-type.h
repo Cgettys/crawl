@@ -1,7 +1,7 @@
 #pragma once
 
 #include "tag-version.h"
-
+// TODO: why does making this : uint8_t cause compile failures?
 enum god_type
 {
     GOD_NO_GOD = 0,

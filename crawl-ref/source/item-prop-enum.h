@@ -128,7 +128,7 @@ const int SP_FORBID_EGO   = -1;
 const int SP_FORBID_BRAND = -1;
 
 // Be sure to update _debug_acquirement_stats and _str_to_ego to match.
-enum brand_type // item_def.special
+enum brand_type: int8_t // item_def.special
 {
     SPWPN_FORBID_BRAND = -1,
     SPWPN_NORMAL,

@@ -2,7 +2,7 @@
 
 // removing from or reordering this enum will break the save browser, not
 // just save compat
-enum game_type
+enum game_type: uint8_t
 {
     GAME_TYPE_UNSPECIFIED,
     GAME_TYPE_NORMAL,

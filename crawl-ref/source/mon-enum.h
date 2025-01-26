@@ -14,7 +14,7 @@
 
 // TODO: Unify this and a player_equivalent (if applicable)
 // and move into attack.h
-enum attack_type
+enum attack_type: uint8_t
 {
     AT_NONE,
     AT_HIT,         // Including weapon attacks.
@@ -58,7 +58,7 @@ enum attack_type
 
 // When adding an attack flavour, give it a short description in
 // _describe_attack_flavour() in describe.cc.
-enum attack_flavour
+enum attack_flavour: uint8_t
 {
     AF_PLAIN,
     AF_ACID,
@@ -154,6 +154,7 @@ enum attack_flavour
     AF_ALEMBIC,
     AF_BOMBLET,
     AF_AIRSTRIKE,
+    NUM_ATTACK_FLAVOURS,
 };
 
 // Non-spell "summoning" types to give to monster::mark_summoned(), or

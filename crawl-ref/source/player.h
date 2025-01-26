@@ -92,7 +92,7 @@ int player_stealth();
 enum class mutation_activity_type; // in mutation.h
 
 /// used for you.train[] & for rendering skill tiles (tileidx_skill)
-enum training_status
+enum training_status: int8_t
 {
     TRAINING_DISABLED = 0,
     TRAINING_ENABLED,

@@ -1,7 +1,7 @@
 #pragma once
 
 // XP tracking state for the xp_by_level dump table.
-enum xp_tracking_type
+enum xp_tracking_type: uint8_t
 {
     XP_NON_VAULT,  // Monster was generated as level monster or spawn.
     XP_VAULT,      // Monster was placed by a vault.

@@ -3,7 +3,7 @@
 #include "tag-version.h"
 
 // NOTE: Changing this order will break saves! Appending does not.
-enum monster_type                      // env.mons[].type
+enum monster_type: uint16_t                      // env.mons[].type
 {
     MONS_PROGRAM_BUG,
         MONS_0 = MONS_PROGRAM_BUG,

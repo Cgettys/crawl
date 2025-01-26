@@ -2,7 +2,7 @@
 
 #include "tag-version.h"
 
-enum killer_type                       // monster_die(), thing_thrown
+enum killer_type: uint8_t              // monster_die(), thing_thrown
 {
     KILL_NONE,                         // no killer
     KILL_YOU,                          // you are the killer
@@ -30,4 +30,5 @@ enum killer_type                       // monster_die(), thing_thrown
                                        // the death of a tentacle segment kills
                                        // the rest of the tentacle. (Otherwise
                                        // identical to KILL_RESET)
+    NUM_KILL_CATEGORIES,
 };

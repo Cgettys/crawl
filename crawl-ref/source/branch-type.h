@@ -2,7 +2,7 @@
 
 #include "tag-version.h"
 
-enum branch_type                // you.where_are_you
+enum branch_type: uint8_t                // you.where_are_you
 {
     BRANCH_DUNGEON,
     BRANCH_TEMPLE,

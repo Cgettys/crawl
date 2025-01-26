@@ -28,7 +28,10 @@ struct item_def
         // These must all be the same size!
         short plus;                 ///< + to hit/dam (weapons)
         monster_type mon_type:16;   ///< corpse/chunk monster type
-        skill_type skill:16;        ///< the skill provided by a manual
+        union {
+            skill_type skill;        ///< the skill provided by a manual
+            uint8_t pad;
+        };
         short charges;              ///< # of charges held by a wand, etc
         short net_durability;       ///< damage dealt to a net
         short tithe_state;          ///< tithe state of a stack of gold

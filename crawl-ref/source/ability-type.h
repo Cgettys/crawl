@@ -2,7 +2,7 @@
 
 #include "tag-version.h"
 
-enum ability_type
+enum ability_type: int16_t
 {
     ABIL_NON_ABILITY = -1,
     // Innate abilities and (Demonspawn) mutations.

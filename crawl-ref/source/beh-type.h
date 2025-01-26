@@ -2,7 +2,7 @@
 
 #include "tag-version.h"
 
-enum beh_type
+enum beh_type: uint8_t
 {
     BEH_SLEEP,
     BEH_WANDER,

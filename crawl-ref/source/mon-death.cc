@@ -1318,6 +1318,8 @@ static string _killer_type_name(killer_type killer)
         return "slimified";
     case KILL_TENTACLE_CLEANUP:
         return "tentacle cleanup";
+    case NUM_KILL_CATEGORIES:
+        break;
     }
     die("invalid killer type");
 }

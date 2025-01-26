@@ -1,6 +1,6 @@
 #pragma once
 
-enum equipment_slot
+enum equipment_slot: int8_t
 {
 
     SLOT_UNUSED,

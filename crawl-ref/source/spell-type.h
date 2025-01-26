@@ -1,7 +1,7 @@
 #pragma once
 
 #include "tag-version.h"
-
+// TODO: why does tags.cc think spell_type's size is short rather than int?
 enum spell_type : int
 {
     SPELL_NO_SPELL,

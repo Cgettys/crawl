@@ -2,7 +2,7 @@
 
 #include "tag-version.h"
 
-enum mon_attitude_type
+enum mon_attitude_type: int8_t
 {
     ATT_HOSTILE,                       // 0, default in most cases
     ATT_NEUTRAL,                       // neutral

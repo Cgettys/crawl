@@ -1,6 +1,6 @@
 #pragma once
 
-enum game_chapter
+enum game_chapter: uint8_t
 {
 #if TAG_MAJOR_VERSION == 34
     CHAPTER_POCKET_ABYSS = 0, // an AK who hasn't yet entered the dungeon
