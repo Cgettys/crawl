@@ -3988,16 +3988,16 @@ static bool _monster_move(monster* mons, coord_def& delta)
         }
 
         if (mons->has_ench(ENCH_ROLLING))
-            place_cloud(CLOUD_DUST, mons->pos(), 2, mons);
+            place_cloud(cloud_type::DUST, mons->pos(), 2, mons);
 
         if (mons->type == MONS_BALL_LIGHTNING)
-            place_cloud(CLOUD_ELECTRICITY, mons->pos(), random_range(2, 3), mons);
+            place_cloud(cloud_type::ELECTRICITY, mons->pos(), random_range(2, 3), mons);
 
         if (mons->type == MONS_FOXFIRE)
-            check_place_cloud(CLOUD_FLAME, mons->pos(), 2, mons);
+            check_place_cloud(cloud_type::FLAME, mons->pos(), 2, mons);
 
         if (mons->type == MONS_CURSE_TOE)
-            place_cloud(CLOUD_MIASMA, mons->pos(), 2 + random2(3), mons);
+            place_cloud(cloud_type::MIASMA, mons->pos(), 2 + random2(3), mons);
     }
     else
     {
