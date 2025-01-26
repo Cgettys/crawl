@@ -51,9 +51,6 @@ struct packed_cell
     tileidx_t cloud;
     set<tileidx_t> icons;
 
-    bool operator ==(const packed_cell &other) const;
-    bool operator !=(const packed_cell &other) const { return !(*this == other); }
-
     packed_cell() : num_dngn_overlay(0), halo(HALO_NONE), quad_glow(false),
                     old_blood(false), is_highlighted_summoner(false),
                     is_bloody(false), is_silenced(false), is_sanctuary(false),

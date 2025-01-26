@@ -48,34 +48,6 @@ void packed_cell::clear()
     disjunct         = 0;
 }
 
-bool packed_cell::operator ==(const packed_cell &other) const
-{
-    if (fg != other.fg) return false;
-    if (bg != other.bg) return false;
-    if (cloud != other.cloud) return false;
-    if (map_knowledge != other.map_knowledge) return false;
-
-    if (is_bloody != other.is_bloody) return false;
-    if (is_silenced != other.is_silenced) return false;
-    if (halo != other.halo) return false;
-    if (is_sanctuary != other.is_sanctuary) return false;
-    if (is_blasphemy != other.is_blasphemy) return false;
-    if (is_liquefied != other.is_liquefied) return false;
-    if (mangrove_water != other.mangrove_water) return false;
-    if (awakened_forest != other.awakened_forest) return false;
-    if (orb_glow != other.orb_glow) return false;
-    if (blood_rotation != other.blood_rotation) return false;
-    if (old_blood != other.old_blood) return false;
-    if (travel_trail != other.travel_trail) return false;
-    if (quad_glow != other.quad_glow) return false;
-    if (disjunct != other.disjunct) return false;
-
-    if (num_dngn_overlay != other.num_dngn_overlay) return false;
-    for (int i = 0; i < num_dngn_overlay; ++i)
-        if (dngn_overlay[i] != other.dngn_overlay[i]) return false;
-    return true;
-}
-
 enum wave_type
 {
     WV_NONE = 0,
