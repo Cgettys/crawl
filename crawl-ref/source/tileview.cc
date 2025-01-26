@@ -979,7 +979,7 @@ static void _tile_place_invisible_monster(const coord_def &gc)
     // Shallow water has its own modified tile for disturbances
     // see tileidx_feature
     // That tile is hidden by clouds though
-    if (cell.feat() != DNGN_SHALLOW_WATER || cell.cloud() != CLOUD_NONE)
+    if (cell.feat() != DNGN_SHALLOW_WATER || cell.cloudinfo().defined())
     {
         if (you.see_cell(gc))
             tile_env.fg(ep) = TILE_UNSEEN_MONSTER;
@@ -1071,13 +1071,16 @@ void tile_reset_fg(const coord_def &gc)
 
 static void _tile_place_cloud(const coord_def &gc, const cloud_info &cl)
 {
+    // Note: coord of tileidx_cloud used for seeding variations
+    // So it shouldn't care about coordinate adjustments
+    const tileidx_t tile = tileidx_cloud(cl, gc);
     if (you.see_cell(gc))
     {
         const coord_def ep = grid2show(gc);
-        tile_env.cloud(ep) = tileidx_cloud(cl);
+        tile_env.cloud(ep) = tile;
     }
     else
-        tile_env.bk_cloud(gc) = tileidx_cloud(cl);
+        tile_env.bk_cloud(gc) = tile;
 }
 
 void tile_draw_map_cell(const coord_def& gc, bool foreground_only)
@@ -1110,8 +1113,9 @@ void tile_draw_map_cell(const coord_def& gc, bool foreground_only)
         tile_env.bk_fg(gc) = 0;
 
     // Always place clouds now they have their own layer
-    if (cell.cloud() != CLOUD_NONE)
-        _tile_place_cloud(gc, *cell.cloudinfo());
+    const cloud_info ci = cell.cloudinfo();
+    if (ci.defined())
+        _tile_place_cloud(gc, ci);
     else
         tile_env.bk_cloud(gc) = 0;
 }

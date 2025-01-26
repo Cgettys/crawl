@@ -152,7 +152,7 @@ static void _maybe_bloodify_square(const coord_def& where, int amount,
             && !cloud_at(where))
         {
             int dur = 2 + ignite_blood + random2(2 * ignite_blood);
-            place_cloud(CLOUD_FIRE, where, dur, &you, -1, -1,
+            place_cloud(cloud_type::FIRE, where, dur, &you, -1, -1,
                         false); // Don't give penance.
         }
     }

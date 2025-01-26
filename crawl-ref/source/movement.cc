@@ -262,7 +262,7 @@ bool apply_cloud_trail(const coord_def old_pos)
         {
             auto cloud = static_cast<cloud_type>(
                 you.props[XOM_CLOUD_TRAIL_TYPE_KEY].get_int());
-            ASSERT(cloud != CLOUD_NONE);
+            ASSERT(cloud != cloud_type::NONE);
             check_place_cloud(cloud, old_pos, random_range(3, 10), &you,
                               0, -1);
             return true;

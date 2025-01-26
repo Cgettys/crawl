@@ -553,17 +553,17 @@ move_again:
     if (!no_trail)
     {
         if (mon.type == MONS_ORB_OF_DESTRUCTION)
-            place_cloud(CLOUD_MAGIC_TRAIL, starting_pos, 2 + random2(3), &mon);
+            place_cloud(cloud_type::MAGIC_TRAIL, starting_pos, 2 + random2(3), &mon);
         else if (mon.type == MONS_GLOBE_OF_ANNIHILATION)
         {
             // Flavor trail based on the type of destruction involved
-            cloud_type ctype = CLOUD_FLAME; // Gehenna
+            cloud_type ctype = cloud_type::FLAME; // Gehenna
             if (mon.colour == LIGHTGREY)
-                ctype = CLOUD_DUST;         // Dis
+                ctype = cloud_type::DUST;         // Dis
             else if (mon.colour == LIGHTBLUE)
-                ctype = CLOUD_ELECTRICITY;  // Cocytus
+                ctype = cloud_type::ELECTRICITY;  // Cocytus
             else if (mon.colour == CYAN)
-                ctype = CLOUD_MIST;         // Tartarus
+                ctype = cloud_type::MIST;         // Tartarus
 
             place_cloud(ctype, starting_pos, 2 + random2(3), &mon);
         }

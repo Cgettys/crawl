@@ -48,7 +48,7 @@ bool player::blink_to(const coord_def& dest, bool quiet)
     move_player_to_grid(dest, false);
 
     if (!cell_is_solid(origin))
-        place_cloud(CLOUD_TLOC_ENERGY, origin, 1 + random2(3), this);
+        place_cloud(cloud_type::TLOC_ENERGY, origin, 1 + random2(3), this);
 
     return true;
 }
@@ -92,7 +92,7 @@ bool monster::blink_to(const coord_def& dest, bool quiet, bool jump)
     // Leave a cloud.
     if (!props.exists(FAKE_BLINK_KEY) && !cell_is_solid(oldplace))
     {
-        place_cloud(jump ? CLOUD_DUST : CLOUD_TLOC_ENERGY,
+        place_cloud(jump ? cloud_type::DUST : cloud_type::TLOC_ENERGY,
                     oldplace, 1 + random2(3), this);
     }
 
@@ -288,7 +288,7 @@ void monster_teleport(monster* mons, bool instan, bool silent, bool away_from_pl
     // XXX: If silent is true, this is not an actual teleport, but
     //      the game moving a monster out of the way.
     if (!silent && !cell_is_solid(oldplace))
-        place_cloud(CLOUD_TLOC_ENERGY, oldplace, 1 + random2(3), mons);
+        place_cloud(cloud_type::TLOC_ENERGY, oldplace, 1 + random2(3), mons);
 
     mons->check_redraw(oldplace);
     mons->apply_location_effects(oldplace);

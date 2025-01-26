@@ -2039,7 +2039,7 @@ static tileidx_t _tileidx_monster_no_props(const monster_info& mon)
         }
 
         case MONS_BUSH:
-            if (env.map_knowledge(mon.pos).cloud() == CLOUD_FIRE)
+            if (env.map_knowledge(mon.pos).cloudinfo().type == cloud_type::FIRE)
                 return TILEP_MONS_BURNING_BUSH;
             return base;
 
@@ -3414,7 +3414,8 @@ tileidx_t tileidx_known_base_item(tileidx_t label)
     return 0;
 }
 
-tileidx_t tileidx_cloud(const cloud_info &cl)
+// TODO: double check new pos
+tileidx_t tileidx_cloud(const cloud_info &cl, const coord_def& pos)
 {
     const cloud_type type  = cl.type;
     const int colour = cl.colour;
@@ -3438,7 +3439,7 @@ tileidx_t tileidx_cloud(const cloud_info &cl)
             case CTVARY_RANDOM:
                 ch = tile_info.base + hash_with_seed(
                         tile_main_count(tile_info.base),
-                        cl.pos.y * GXM + cl.pos.x, you.frame_no);
+                        pos.y * GXM + pos.x, you.frame_no);
                 break;
         }
 
@@ -3447,16 +3448,16 @@ tileidx_t tileidx_cloud(const cloud_info &cl)
 
         switch (type)
         {
-            case CLOUD_MUTAGENIC:
+            case cloud_type::MUTAGENIC:
                 ch = (dur == 0 ? TILE_CLOUD_MUTAGENIC_0 :
                       dur == 1 ? TILE_CLOUD_MUTAGENIC_1
                                : TILE_CLOUD_MUTAGENIC_2);
                 ch += ui_random(tile_main_count(ch));
                 break;
 
-            case CLOUD_VORTEX:
-                ch = get_vortex_phase(cl.pos) ? TILE_CLOUD_FREEZING_WINDS_0
-                                               : TILE_CLOUD_FREEZING_WINDS_1;
+            case cloud_type::VORTEX:
+                ch = get_vortex_phase(pos) ? TILE_CLOUD_FREEZING_WINDS_0
+                                           : TILE_CLOUD_FREEZING_WINDS_1;
                 break;
 
             default:

@@ -1396,18 +1396,18 @@ static void _cloud_card(int power)
 {
     const int power_level = _get_power_level(power);
     bool something_happened = false;
-    cloud_type cloudy = CLOUD_DEBUGGING;
+    cloud_type cloudy = cloud_type::DEBUGGING;
 
     switch (power_level)
     {
     case 0:
-        cloudy = CLOUD_MEPHITIC;
+        cloudy = cloud_type::MEPHITIC;
         break;
     case 1:
-        cloudy = CLOUD_MIASMA;
+        cloudy = cloud_type::MIASMA;
         break;
     default:
-        cloudy = CLOUD_PETRIFY;
+        cloudy = cloud_type::PETRIFY;
     }
 
     vector<coord_def> cloud_pos;

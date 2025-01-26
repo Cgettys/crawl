@@ -737,9 +737,9 @@ void qazlal_storm_clouds()
         cloud_type ctype;
         do
         {
-            ctype = random_choose(CLOUD_FIRE, CLOUD_COLD, CLOUD_STORM,
-                                  CLOUD_DUST);
-        } while (water && ctype == CLOUD_FIRE);
+            ctype = random_choose(cloud_type::FIRE, cloud_type::COLD,
+                                  cloud_type::STORM, cloud_type::DUST);
+        } while (water && ctype == cloud_type::FIRE);
 
         place_cloud(ctype, candidates[i], random_range(3, 5), &you);
         placed++;
@@ -1856,7 +1856,7 @@ void wu_jian_trigger_serpents_lash(bool wall_jump, const coord_def& old_pos)
     }
 
     if (!cell_is_solid(old_pos))
-        check_place_cloud(CLOUD_DUST, old_pos, 2 + random2(3) , &you, 1, -1);
+        check_place_cloud(cloud_type::DUST, old_pos, 2 + random2(3) , &you, 1, -1);
 }
 
 static void _wu_jian_increment_heavenly_storm()
@@ -1873,7 +1873,7 @@ void wu_jian_heaven_tick()
 {
     for (radius_iterator ai(you.pos(), 2, C_SQUARE, LOS_SOLID); ai; ++ai)
         if (!cell_is_solid(*ai))
-            place_cloud(CLOUD_GOLD_DUST, *ai, 5 + random2(5), &you);
+            place_cloud(cloud_type::GOLD_DUST, *ai, 5 + random2(5), &you);
 
     noisy(12, you.pos());
 }
@@ -2104,7 +2104,7 @@ void wu_jian_wall_jump_effects()
 {
     for (adjacent_iterator ai(you.pos(), true); ai; ++ai)
         if (!cell_is_solid(*ai))
-            check_place_cloud(CLOUD_DUST, *ai, 1 + random2(3) , &you, 0, -1);
+            check_place_cloud(cloud_type::DUST, *ai, 1 + random2(3) , &you, 0, -1);
 
     vector<monster*> targets = _wu_jian_wall_jump_monsters(you.pos());
     for (auto target : targets)

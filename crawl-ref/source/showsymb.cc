@@ -314,7 +314,7 @@ show_class get_cell_show_class(const map_cell& cell,
         return SH_MONSTER;
     }
 
-    if (cell.cloud() != CLOUD_NONE)
+    if (cell.cloudinfo().defined())
         return SH_CLOUD;
 
     const dungeon_feature_type feat = cell.feat();
@@ -370,7 +370,7 @@ static cglyph_t _get_cell_glyph_with_class(const map_cell& cell,
     show_type show;
 
     g.ch = 0;
-    const cloud_type cell_cloud = cell.cloud();
+    const cloud_info cell_cloud = cell.cloudinfo();
 
     switch (cls)
     {
@@ -378,8 +378,8 @@ static cglyph_t _get_cell_glyph_with_class(const map_cell& cell,
         ASSERT(cell.invisible_monster());
 
         show.cls = SH_INVIS_EXPOSED;
-        if (cell_cloud != CLOUD_NONE)
-            g.col = cell.cloud_colour();
+        if (cell_cloud.defined())
+            g.col = cell_cloud.colour;
         else
             g.col = ripple_table[cell.feat_colour() & 0xf];
         break;
@@ -475,18 +475,15 @@ static cglyph_t _get_cell_glyph_with_class(const map_cell& cell,
     }
 
     case SH_CLOUD:
-        ASSERT(cell_cloud);
+        ASSERT(cell_cloud.defined());
         show.cls = SH_CLOUD;
-        if (coloured)
-            g.col = cell.cloud_colour();
-        else
-            g.col = DARKGRAY;
+        g.col = coloured ? cell_cloud.colour : static_cast<colour_t>(DARKGRAY);
 
-        if (cloud_type_tile_info(cell.cloudinfo()->type).variation
+        if (cloud_type_tile_info(cell_cloud.type).variation
             == CTVARY_DUR)
         {
             // duration is already clamped to 0-3
-            int dur = cell.cloudinfo()->duration;
+            int dur = cell_cloud.duration;
             switch (dur)
             {
             case 0:

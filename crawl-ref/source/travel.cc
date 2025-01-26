@@ -209,13 +209,13 @@ static inline bool is_trap(const coord_def& c)
 
 static inline bool _is_safe_cloud(const coord_def& c)
 {
-    const cloud_type ctype = env.map_knowledge(c).cloud();
-    if (ctype == CLOUD_NONE)
+    const cloud_info cloud = env.map_knowledge(c).cloudinfo();
+    if (!cloud.defined())
         return true;
 
     // We can also safely run through smoke, or any of our own clouds if
     // following Qazlal.
-    return !is_damaging_cloud(ctype, true, YOU_KILL(env.map_knowledge(c).cloudinfo()->killer));
+    return !is_damaging_cloud(cloud.type, true, YOU_KILL(cloud.killer));
 }
 
 // Returns an estimate for the time needed to cross this feature.

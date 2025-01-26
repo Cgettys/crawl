@@ -3743,7 +3743,7 @@ void melee_attack::mons_apply_attack_flavour()
             mprf("%s vents fumes.", attacker->name(DESC_THE).c_str());
 
         int dur = random_range(3, 7);
-        place_cloud(CLOUD_POISON, defender->pos(), dur, attacker);
+        place_cloud(cloud_type::POISON, defender->pos(), dur, attacker);
 
         if (coinflip())
         {
@@ -3760,7 +3760,7 @@ void melee_attack::mons_apply_attack_flavour()
 
             const unsigned int num_clouds = random_range(3, 4);
             for (size_t i = 0; i < cloud_pos.size() && i < num_clouds; ++i)
-                place_cloud(CLOUD_POISON, cloud_pos[i], dur, attacker);
+                place_cloud(cloud_type::POISON, cloud_pos[i], dur, attacker);
         }
 
         // No brewing potions via punching plants.
@@ -4029,7 +4029,7 @@ void melee_attack::emit_foul_stench()
             && !cloud_at(mon->pos()))
         {
             mpr("You emit a cloud of foul miasma!");
-            place_cloud(CLOUD_MIASMA, mon->pos(), 5 + random2(6), &you);
+            place_cloud(cloud_type::MIASMA, mon->pos(), 5 + random2(6), &you);
         }
     }
 }

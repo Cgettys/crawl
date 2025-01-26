@@ -2722,7 +2722,7 @@ void beogh_end_blood_for_blood()
             && mi->get_ench(ENCH_SUMMON).degree == MON_SUMM_AID
             && mons_genus(mi->type) == MONS_ORC)
         {
-            place_cloud(CLOUD_TLOC_ENERGY, mi->pos(), 1 + random2(3), *mi);
+            place_cloud(cloud_type::TLOC_ENERGY, mi->pos(), 1 + random2(3), *mi);
             monster_die(**mi, KILL_RESET, -1, true);
         }
     }
@@ -4107,7 +4107,7 @@ spret qazlal_upheaval(coord_def target, bool quiet, bool fail, dist *player_targ
             case BEAM_AIR:
                 if (!cell_is_solid(pos) && !cloud_at(pos) && coinflip())
                 {
-                    place_cloud(CLOUD_STORM, pos,
+                    place_cloud(cloud_type::STORM, pos,
                                 random2(you.skill_rdiv(SK_INVOCATIONS, 1, 4)),
                                 &you);
                 }
@@ -4121,17 +4121,17 @@ spret qazlal_upheaval(coord_def target, bool quiet, bool fail, dist *player_targ
 }
 
 static const map<cloud_type, monster_type> elemental_clouds = {
-    { CLOUD_FIRE,           MONS_FIRE_ELEMENTAL },
-    { CLOUD_FOREST_FIRE,    MONS_FIRE_ELEMENTAL },
-    { CLOUD_COLD,           MONS_WATER_ELEMENTAL },
-    { CLOUD_RAIN,           MONS_WATER_ELEMENTAL },
-    { CLOUD_DUST,           MONS_EARTH_ELEMENTAL },
-    { CLOUD_PETRIFY,        MONS_EARTH_ELEMENTAL },
-    { CLOUD_BLACK_SMOKE,    MONS_AIR_ELEMENTAL },
-    { CLOUD_GREY_SMOKE,     MONS_AIR_ELEMENTAL },
-    { CLOUD_BLUE_SMOKE,     MONS_AIR_ELEMENTAL },
-    { CLOUD_PURPLE_SMOKE,   MONS_AIR_ELEMENTAL },
-    { CLOUD_STORM,          MONS_AIR_ELEMENTAL },
+    { cloud_type::FIRE,           MONS_FIRE_ELEMENTAL },
+    { cloud_type::FOREST_FIRE,    MONS_FIRE_ELEMENTAL },
+    { cloud_type::COLD,           MONS_WATER_ELEMENTAL },
+    { cloud_type::RAIN,           MONS_WATER_ELEMENTAL },
+    { cloud_type::DUST,           MONS_EARTH_ELEMENTAL },
+    { cloud_type::PETRIFY,        MONS_EARTH_ELEMENTAL },
+    { cloud_type::BLACK_SMOKE,    MONS_AIR_ELEMENTAL },
+    { cloud_type::GREY_SMOKE,     MONS_AIR_ELEMENTAL },
+    { cloud_type::BLUE_SMOKE,     MONS_AIR_ELEMENTAL },
+    { cloud_type::PURPLE_SMOKE,   MONS_AIR_ELEMENTAL },
+    { cloud_type::STORM,          MONS_AIR_ELEMENTAL },
 };
 
 vector<coord_def> find_elemental_targets()
@@ -6251,8 +6251,8 @@ spret hepliaklqana_transference(bool fail)
          victim->is_player() ? "" : "s",
          ancestor->name(DESC_YOUR).c_str());
 
-    check_place_cloud(CLOUD_MIST, target, random_range(10,20), ancestor);
-    check_place_cloud(CLOUD_MIST, destination, random_range(10,20), ancestor);
+    check_place_cloud(cloud_type::MIST, target, random_range(10,20), ancestor);
+    check_place_cloud(cloud_type::MIST, destination, random_range(10,20), ancestor);
 
     if (victim->is_monster())
         mons_relocated(victim->as_monster());
@@ -6578,7 +6578,7 @@ void wu_jian_heavenly_storm()
 
     for (radius_iterator ai(you.pos(), 2, C_SQUARE, LOS_SOLID); ai; ++ai)
         if (!cell_is_solid(*ai))
-            place_cloud(CLOUD_GOLD_DUST, *ai, 5 + random2(5), &you);
+            place_cloud(cloud_type::GOLD_DUST, *ai, 5 + random2(5), &you);
 
     you.set_duration(DUR_HEAVENLY_STORM, random_range(2, 3));
     you.props[WU_JIAN_HEAVENLY_STORM_KEY] = WU_JIAN_HEAVENLY_STORM_INITIAL;

@@ -167,7 +167,7 @@ void map_cell::set_detected_item()
 {
     clear_item();
     flags |= MAP_DETECTED_ITEM;
-    _item = new item_def();
+    _item = make_unique<item_def>();
     _item->base_type = OBJ_DETECTED;
     _item->rnd       = 1;
 }
@@ -246,7 +246,7 @@ map_feature get_cell_map_feature(const map_cell& cell)
     // first clouds...
     // XXX: should items have higher priority? (pro: easier to spot un-grabbed
     // items, con: harder to spot what's blocking auto-travel)
-    if (cell.cloud())
+    if (cell.cloudinfo().defined())
     {
         show_type show;
         show.cls = SH_CLOUD;
@@ -304,15 +304,15 @@ bool map_cell::update_cloud_state()
         return false; // we're already up-to-date
 
     // player non-opaque clouds vanish instantly out of los
-    if (_cloud && _cloud->killer == KILL_YOU_MISSILE
-        && !is_opaque_cloud(_cloud->type))
+    if (_cloud.defined() && _cloud.killer == KILL_YOU_MISSILE
+        && !is_opaque_cloud(_cloud.type))
     {
         clear_cloud();
         return true;
     }
 
     // still winds KOs all clouds, even those out of LOS
-    if (_cloud && env.level_state & LSTATE_STILL_WINDS)
+    if (_cloud.defined() && env.level_state & LSTATE_STILL_WINDS)
     {
         clear_cloud();
         return true;

@@ -162,7 +162,7 @@ static void _add_directional_overlays(const coord_def& gc, crawl_view_buffer& vb
 
 static bool _feat_has_ink(coord_def gc, crawl_view_buffer& vbuf)
 {
-    return vbuf(gc).tile.map_knowledge.cloud() == CLOUD_INK;
+    return vbuf(gc).tile.map_knowledge.cloudinfo().type == cloud_type::INK;
 }
 
 static void _pack_shoal_waves(const coord_def &gc, crawl_view_buffer& vbuf)

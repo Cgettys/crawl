@@ -812,7 +812,7 @@ void timeout_malign_gateways(int duration)
         {
             const int pow = 3 + random2(10);
             const int size = 2 + random2(5);
-            big_cloud(CLOUD_TLOC_ENERGY, 0, mmark->pos, pow, size);
+            big_cloud(cloud_type::TLOC_ENERGY, 0, mmark->pos, pow, size);
         }
         else
         {
@@ -1033,9 +1033,9 @@ static void apply_environment_effect(const coord_def &c)
     if (testbits(env.pgrid(c), FPROP_NO_CLOUD_GEN))
         return;
     if (grid == DNGN_LAVA)
-        check_place_cloud(CLOUD_BLACK_SMOKE, c, random_range(4, 8), 0);
+        check_place_cloud(cloud_type::BLACK_SMOKE, c, random_range(4, 8), 0);
     else if (one_chance_in(3) && grid == DNGN_SHALLOW_WATER)
-        check_place_cloud(CLOUD_MIST,        c, random_range(2, 5), 0);
+        check_place_cloud(cloud_type::MIST,        c, random_range(2, 5), 0);
 }
 
 static const int Base_Sfx_Chance = 5;

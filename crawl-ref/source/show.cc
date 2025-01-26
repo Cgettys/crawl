@@ -276,7 +276,7 @@ void update_item_at(const coord_def &gp, bool wizard)
     env.map_knowledge(gp).set_item(eitem, more_items);
 }
 
-static void _update_cloud(cloud_struct& cloud)
+static void _update_cloud(const cloud_struct& cloud)
 {
     const coord_def gp = cloud.pos;
 
@@ -286,8 +286,7 @@ static void _update_cloud(cloud_struct& cloud)
     else if (dur > 3)
         dur = 3;
 
-    cloud_info ci(cloud.type, get_cloud_colour(cloud), dur, 0, gp,
-                  cloud.killer);
+    const cloud_info ci(cloud.type, get_cloud_colour(cloud), dur, 0, cloud.killer);
     env.map_knowledge(gp).set_cloud(ci);
 }
 

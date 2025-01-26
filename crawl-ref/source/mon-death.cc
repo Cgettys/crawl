@@ -1236,19 +1236,19 @@ static void _monster_die_cloud(const monster& mons, bool real_death)
         switch (mons.type)
         {
             case MONS_SIMULACRUM:
-                place_cloud(CLOUD_COLD, mons.pos(), 2 + random2(4), &mons);
+                place_cloud(cloud_type::COLD, mons.pos(), 2 + random2(4), &mons);
                 return;
 
             case MONS_PILE_OF_DEBRIS:
-                place_cloud(CLOUD_DUST, mons.pos(), 2 + random2(4), &mons);
+                place_cloud(cloud_type::DUST, mons.pos(), 2 + random2(4), &mons);
                 return;
 
             case MONS_FIRE_VORTEX:
-                place_cloud(CLOUD_FIRE, mons.pos(), 2 + random2(4), &mons);
+                place_cloud(cloud_type::FIRE, mons.pos(), 2 + random2(4), &mons);
                 return;
 
             case MONS_BATTLESPHERE:
-                place_cloud(CLOUD_MAGIC_TRAIL, mons.pos(), 3 + random2(3), &mons);
+                place_cloud(cloud_type::MAGIC_TRAIL, mons.pos(), 3 + random2(3), &mons);
                 return;
 
             default:
@@ -1265,14 +1265,14 @@ static void _monster_die_cloud(const monster& mons, bool real_death)
     if (mons.type == MONS_LIVING_SPELL)
         return;
 
-    cloud_type cloud = CLOUD_NONE;
+    cloud_type cloud = cloud_type::NONE;
     string msg = summoned_poof_msg(mons);
     if (msg.find("smoke") != string::npos)
         cloud = random_smoke_type();
     else if (msg.find("chaos") != string::npos)
-        cloud = CLOUD_CHAOS;
+        cloud = cloud_type::CHAOS;
 
-    if (cloud != CLOUD_NONE)
+    if (cloud != cloud_type::NONE)
         place_cloud(cloud, mons.pos(), 1 + random2(3), &mons);
 }
 
@@ -2502,7 +2502,7 @@ item_def* monster_die(monster& mons, killer_type killer,
 
     if (mons.has_ench(ENCH_MAGNETISED))
     {
-        place_cloud(CLOUD_MAGNETISED_DUST, mons.pos(),
+        place_cloud(cloud_type::MAGNETISED_DUST, mons.pos(),
                         random_range(7, 11),
                         mons.get_ench(ENCH_MAGNETISED).agent());
     }

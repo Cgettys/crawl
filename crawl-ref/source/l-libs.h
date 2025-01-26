@@ -82,6 +82,6 @@ int dgn_map_add_transform(lua_State *ls,
                           string (map_lines::*add)(const string &s));
 
 struct monster_info;
-void lua_push_moninf(lua_State *ls, monster_info *mi);
+void lua_push_moninf(lua_State *ls, const monster_info *mi);
 
 int lua_push_shop_items_at(lua_State *ls, const coord_def &s);

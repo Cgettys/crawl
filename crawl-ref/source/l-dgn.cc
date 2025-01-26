@@ -1186,7 +1186,7 @@ static int dgn_apply_area_cloud(lua_State *ls)
         return 0;
     }
 
-    if (ctype == CLOUD_NONE)
+    if (ctype == cloud_type::NONE)
     {
         string error = "Invalid cloud type '";
         error += luaL_checkstring(ls, 7);
@@ -1256,7 +1256,7 @@ static int dgn_place_cloud(lua_State *ls)
         return 0;
     }
 
-    if (ctype == CLOUD_NONE)
+    if (ctype == cloud_type::NONE)
     {
         string error = "Invalid cloud type '";
         error += luaL_checkstring(ls, 3);

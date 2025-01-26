@@ -1196,13 +1196,13 @@ static cloud_type _cloud_from_feat(const dungeon_feature_type &ft)
         case DNGN_OPEN_DOOR:
         case DNGN_BROKEN_DOOR:
         case DNGN_METAL_WALL:
-            return CLOUD_GREY_SMOKE;
+            return cloud_type::GREY_SMOKE;
         case DNGN_CRYSTAL_WALL:
         case DNGN_ROCK_WALL:
         case DNGN_SLIMY_WALL:
         case DNGN_STONE_WALL:
         case DNGN_PERMAROCK_WALL:
-            return random_choose(CLOUD_BLUE_SMOKE, CLOUD_PURPLE_SMOKE);
+            return random_choose(cloud_type::BLUE_SMOKE, cloud_type::PURPLE_SMOKE);
         case DNGN_CLEAR_ROCK_WALL:
         case DNGN_CLEAR_STONE_WALL:
         case DNGN_CLEAR_PERMAROCK_WALL:
@@ -1210,20 +1210,20 @@ static cloud_type _cloud_from_feat(const dungeon_feature_type &ft)
         case DNGN_CLOSED_CLEAR_DOOR:
         case DNGN_OPEN_CLEAR_DOOR:
         case DNGN_BROKEN_CLEAR_DOOR:
-            return CLOUD_MIST;
+            return cloud_type::MIST;
         case DNGN_ORCISH_IDOL:
         case DNGN_METAL_STATUE:
         case DNGN_GRANITE_STATUE:
         case DNGN_LAVA:
-            return CLOUD_BLACK_SMOKE;
+            return cloud_type::BLACK_SMOKE;
         case DNGN_DEEP_WATER:
         case DNGN_SHALLOW_WATER:
         case DNGN_FOUNTAIN_BLUE:
-            return one_chance_in(5) ? CLOUD_RAIN : CLOUD_BLUE_SMOKE;
+            return one_chance_in(5) ? cloud_type::RAIN : cloud_type::BLUE_SMOKE;
         case DNGN_FOUNTAIN_SPARKLING:
-            return CLOUD_RAIN;
+            return cloud_type::RAIN;
         default:
-            return CLOUD_NONE;
+            return cloud_type::NONE;
     }
 }
 
@@ -1303,7 +1303,7 @@ static void _update_abyss_terrain(const coord_def &p,
             cloud_type cloud = _cloud_from_feat(currfeat);
             int cloud_life = _in_wastes(abyssal_state.major_coord) ? 5 : 2;
             cloud_life += random2(2); // force a sequence point, just in case
-            if (cloud != CLOUD_NONE)
+            if (cloud != cloud_type::NONE)
                 check_place_cloud(_cloud_from_feat(currfeat), rp, cloud_life, 0, 3);
         }
         else if (feat_is_solid(feat))
@@ -2372,7 +2372,7 @@ void abyss_maybe_spawn_xp_exit()
     _cleanup_temp_terrain_at(you.pos());
     destroy_wall(you.pos()); // fires listeners etc even if it wasn't a wall
     env.grid(you.pos()) = stairs ? DNGN_ABYSSAL_STAIR : DNGN_EXIT_ABYSS;
-    big_cloud(CLOUD_TLOC_ENERGY, &you, you.pos(), 3 + random2(3), 3, 3);
+    big_cloud(cloud_type::TLOC_ENERGY, &you, you.pos(), 3 + random2(3), 3, 3);
     redraw_screen(); // before the force-more
     update_screen();
     mprf(MSGCH_BANISHMENT,

@@ -436,9 +436,10 @@ static vector<string> _get_cloud_keys()
 {
     vector<string> names;
 
-    for (int i = CLOUD_NONE + 1; i < NUM_CLOUD_TYPES; i++)
+    for (cloud_type cloud = cloud_type::NONE + 1;
+         cloud < cloud_type::NUM_CLOUD_TYPES;
+         cloud = cloud + 1)
     {
-        const cloud_type cloud = static_cast<cloud_type>(i);
         if (!cloud_is_removed(cloud))
             names.push_back(cloud_type_name(cloud) + " cloud");
     }
@@ -798,7 +799,7 @@ static MenuEntry* _cloud_menu_gen(char letter, const string &str, string &key)
 
     const string cloud_name = lowercase_string(str);
     const cloud_type cloud = cloud_name_to_type(cloud_name);
-    ASSERT(cloud != NUM_CLOUD_TYPES);
+    ASSERT(cloud != cloud_type::NUM_CLOUD_TYPES);
 
     cloud_struct fake_cloud;
     fake_cloud.type = cloud;
@@ -808,7 +809,7 @@ static MenuEntry* _cloud_menu_gen(char letter, const string &str, string &key)
     cloud_info fake_cloud_info;
     fake_cloud_info.type = cloud;
     fake_cloud_info.colour = me->colour;
-    const tileidx_t idx = tileidx_cloud(fake_cloud_info);
+    const tileidx_t idx = tileidx_cloud(fake_cloud_info, {0, 0});
     me->add_tile(tile_def(idx));
 
     return me;
@@ -1139,11 +1140,11 @@ static int _describe_cloud(const string &key, const string &suffix,
 {
     const string cloud_name = key.substr(0, key.size() - suffix.size());
     const cloud_type cloud = cloud_name_to_type(cloud_name);
-    ASSERT(cloud != NUM_CLOUD_TYPES);
+    ASSERT(cloud != cloud_type::NUM_CLOUD_TYPES);
 #ifdef USE_TILE
     cloud_info fake_cloud_info;
     fake_cloud_info.type = cloud;
-    const tileidx_t idx = tileidx_cloud(fake_cloud_info);
+    const tileidx_t idx = tileidx_cloud(fake_cloud_info, {0, 0});
     tile_def tile = tile_def(idx);
     return _describe_key(key, suffix, footer, extra_cloud_info(cloud), &tile);
 #else

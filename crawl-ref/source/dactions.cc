@@ -234,7 +234,7 @@ void apply_daction_to_mons(monster* mon, daction_type act, bool local,
             simple_monster_message(*mon, " departs this earthly plane.");
             if (!in_transit)
             {
-                check_place_cloud(CLOUD_BLACK_SMOKE, mon->pos(),
+                check_place_cloud(cloud_type::BLACK_SMOKE, mon->pos(),
                                                 random_range(3, 5), nullptr);
             }
             // The monster disappears.

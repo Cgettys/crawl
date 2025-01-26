@@ -56,15 +56,15 @@
 #include "view.h"
 
 static const unordered_map<enchant_type, cloud_type, std::hash<int>> _cloud_ring_ench_to_cloud = {
-    { ENCH_RING_OF_THUNDER,     CLOUD_STORM },
-    { ENCH_RING_OF_FLAMES,      CLOUD_FIRE },
-    { ENCH_RING_OF_CHAOS,       CLOUD_CHAOS },
-    { ENCH_RING_OF_MUTATION,    CLOUD_MUTAGENIC },
-    { ENCH_RING_OF_FOG,         CLOUD_GREY_SMOKE },
-    { ENCH_RING_OF_ICE,         CLOUD_COLD },
-    { ENCH_RING_OF_MISERY,      CLOUD_MISERY },
-    { ENCH_RING_OF_ACID,        CLOUD_ACID },
-    { ENCH_RING_OF_MIASMA,      CLOUD_MIASMA },
+    { ENCH_RING_OF_THUNDER,     cloud_type::STORM },
+    { ENCH_RING_OF_FLAMES,      cloud_type::FIRE },
+    { ENCH_RING_OF_CHAOS,       cloud_type::CHAOS },
+    { ENCH_RING_OF_MUTATION,    cloud_type::MUTAGENIC },
+    { ENCH_RING_OF_FOG,         cloud_type::GREY_SMOKE },
+    { ENCH_RING_OF_ICE,         cloud_type::COLD },
+    { ENCH_RING_OF_MISERY,      cloud_type::MISERY },
+    { ENCH_RING_OF_ACID,        cloud_type::ACID },
+    { ENCH_RING_OF_MIASMA,      cloud_type::MIASMA },
 };
 
 static bool _has_other_cloud_ring(monster* mons, enchant_type ench)

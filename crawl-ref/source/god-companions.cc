@@ -662,7 +662,7 @@ void win_apostle_challenge(monster& apostle)
     {
         if (mi->is_band_follower_of(apostle))
         {
-            place_cloud(CLOUD_TLOC_ENERGY, mi->pos(), 1 + random2(3), *mi);
+            place_cloud(cloud_type::TLOC_ENERGY, mi->pos(), 1 + random2(3), *mi);
             simple_monster_message(**mi, " is recalled by Beogh.");
             monster_die(**mi, KILL_RESET, -1, true);
         }
@@ -675,7 +675,7 @@ void end_beogh_recruit_window()
     if (apostle && !mons_is_god_gift(*apostle))
     {
         simple_monster_message(*apostle, " is recalled by the power of Beogh.");
-        place_cloud(CLOUD_TLOC_ENERGY, apostle->pos(), 1 + random2(3), apostle);
+        place_cloud(cloud_type::TLOC_ENERGY, apostle->pos(), 1 + random2(3), apostle);
         monster_die(*apostle, KILL_RESET, -1, true);
     }
 }
@@ -809,7 +809,7 @@ void beogh_dismiss_apostle(int slot)
             if (you.can_see(*real))
             {
                 mons_speaks_msg(real, getSpeakString("orc_apostle_dismissed"), MSGCH_TALK);
-                place_cloud(CLOUD_TLOC_ENERGY, real->pos(), 1 + random2(3), real);
+                place_cloud(cloud_type::TLOC_ENERGY, real->pos(), 1 + random2(3), real);
             }
             remove_companion(real);
             monster_die(*real, KILL_RESET, -1, true);

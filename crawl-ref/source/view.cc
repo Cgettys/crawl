@@ -1076,7 +1076,7 @@ static update_flags player_view_update_at(const coord_def &gc)
 
             // Steam clouds are less dangerous than the other ones,
             // so don't exclude the neighbour cells.
-            if (cl.type == CLOUD_STEAM && size == 1)
+            if (cl.type == cloud_type::STEAM && size == 1)
                 size = 0;
 
             bool was_exclusion = is_exclude_root(gc);

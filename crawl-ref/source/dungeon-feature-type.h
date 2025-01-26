@@ -11,7 +11,7 @@
 // * edit mapdef.cc and add a symbol to _glyph_to_feat() for the feature,
 //      if you want vault maps to be able to use it directly . If you do, also
 //      update docs/develop/levels/syntax.txt with the new symbol.
-enum dungeon_feature_type
+enum dungeon_feature_type: uint8_t
 {
     DNGN_UNSEEN = 0,                   // must be zero
     DNGN_CLOSED_DOOR,

@@ -864,20 +864,21 @@ static spret _tremorstone()
 
 static const vector<random_pick_entry<cloud_type>> condenser_clouds =
 {
-  { 0,   50, 200, FALL, CLOUD_MEPHITIC },
-  { 0,  100, 125, PEAK, CLOUD_FIRE },
-  { 0,  100, 125, PEAK, CLOUD_COLD },
-  { 0,  100, 125, PEAK, CLOUD_POISON },
-  { 0,  110, 50, RISE, CLOUD_MISERY },
-  { 0,  110, 50, RISE, CLOUD_STORM },
-  { 0,  110, 50, RISE, CLOUD_ACID },
+  { 0,   50, 200, FALL, cloud_type::MEPHITIC },
+  { 0,  100, 125, PEAK, cloud_type::FIRE },
+  { 0,  100, 125, PEAK, cloud_type::COLD },
+  { 0,  100, 125, PEAK, cloud_type::POISON },
+  { 0,  110, 50, RISE, cloud_type::MISERY },
+  { 0,  110, 50, RISE, cloud_type::STORM },
+  { 0,  110, 50, RISE, cloud_type::ACID },
 };
 
 static spret _condenser()
 {
     const int pow = 15 + you.skill(SK_EVOCATIONS, 7) / 2;
 
-    random_picker<cloud_type, NUM_CLOUD_TYPES> cloud_picker;
+    random_picker<cloud_type, static_cast<size_t>(cloud_type::NUM_CLOUD_TYPES)>
+        cloud_picker;
 
     set<coord_def> target_cells;
     bool see_targets = false;
@@ -924,11 +925,12 @@ static spret _condenser()
 
     for (auto p : target_list)
     {
-        cloud_type cloud = cloud_picker.pick(condenser_clouds, pow, CLOUD_NONE);
+        cloud_type cloud = cloud_picker.pick(condenser_clouds, pow,
+                                             cloud_type::NONE);
 
         // Reroll misery clouds until we get something our god is okay with
-        while (is_good_god(you.religion) && cloud == CLOUD_MISERY)
-            cloud = cloud_picker.pick(condenser_clouds, pow, CLOUD_NONE);
+        while (is_good_god(you.religion) && cloud == cloud_type::MISERY)
+            cloud = cloud_picker.pick(condenser_clouds, pow, cloud_type::NONE);
 
         // Get at least one cloud, even at 0 power.
         if (did_something && !x_chance_in_y(50 + pow, 160))

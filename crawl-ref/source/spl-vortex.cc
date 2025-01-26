@@ -399,10 +399,10 @@ void polar_vortex_damage(actor *caster, int dur)
             if (cell_is_solid(*dam_i))
                 continue;
 
-            if ((!cloud_at(*dam_i) || cloud_at(*dam_i)->type == CLOUD_VORTEX)
+            if ((!cloud_at(*dam_i) || cloud_at(*dam_i)->type == cloud_type::VORTEX)
                 && x_chance_in_y(rpow, 20))
             {
-                place_cloud(CLOUD_VORTEX, *dam_i, 2 + random2(2), caster);
+                place_cloud(cloud_type::VORTEX, *dam_i, 2 + random2(2), caster);
             }
             clouds.push_back(*dam_i);
             swap_clouds(clouds[random2(clouds.size())], *dam_i);

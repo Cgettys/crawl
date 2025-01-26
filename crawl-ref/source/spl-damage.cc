@@ -1921,7 +1921,7 @@ spret cast_scorch(const actor& agent, int pow, bool fail)
     // XXX: interact with clouds of cold?
     // XXX: dedup with beam::affect_place_clouds()?
     if (feat_is_water(env.grid(p)) && !cloud_at(p))
-        place_cloud(CLOUD_STEAM, p, 2 + random2(5), &agent, 11);
+        place_cloud(cloud_type::STEAM, p, 2 + random2(5), &agent, 11);
 
     if (!targ->alive())
     {
@@ -2095,7 +2095,7 @@ static int _ignite_tracer_cloud_value(coord_def where, actor *agent)
     actor* act = actor_at(where);
     if (act)
     {
-        const int dam = actor_cloud_immune(*act, CLOUD_FIRE)
+        const int dam = actor_cloud_immune(*act, cloud_type::FIRE)
                         ? 0
                         : resist_adjust_damage(act, BEAM_FIRE, 40);
 
@@ -2140,7 +2140,7 @@ static int _ignite_poison_bog(coord_def where, int pow, actor *agent)
     if (!one_chance_in(4))
         return false;
 
-    place_cloud(CLOUD_FIRE, where, 2 + random2(1 + div_rand_round(pow, 30)), agent);
+    place_cloud(cloud_type::FIRE, where, 2 + random2(1 + div_rand_round(pow, 30)), agent);
 
     return true;
 }
@@ -2167,7 +2167,7 @@ static int _ignite_poison_clouds(coord_def where, int pow, actor *agent)
     if (!cloud)
         return false;
 
-    if (cloud->type != CLOUD_MEPHITIC && cloud->type != CLOUD_POISON)
+    if (cloud->type != cloud_type::MEPHITIC && cloud->type != cloud_type::POISON)
         return false;
 
     if (tracer)
@@ -2177,7 +2177,7 @@ static int _ignite_poison_clouds(coord_def where, int pow, actor *agent)
         return agent && agent->is_player() ? sgn(value) : value;
     }
 
-    cloud->type = CLOUD_FIRE;
+    cloud->type = cloud_type::FIRE;
     cloud->decay = 30 + random2(20 + pow); // from 3-5 turns to 3-15 turns
     cloud->whose = agent->kill_alignment();
     cloud->killer = agent->is_player() ? KILL_YOU_MISSILE : KILL_MON_MISSILE;
@@ -2354,8 +2354,8 @@ static bool maybe_abort_ignite()
     // XXX XXX XXX major code duplication (ChrisOelmueller)
     if (const cloud_struct* cloud = cloud_at(you.pos()))
     {
-        if ((cloud->type == CLOUD_MEPHITIC || cloud->type == CLOUD_POISON)
-            && !actor_cloud_immune(you, CLOUD_FIRE))
+        if ((cloud->type == cloud_type::MEPHITIC || cloud->type == cloud_type::POISON)
+            && !actor_cloud_immune(you, cloud_type::FIRE))
         {
             prompt += "in a cloud of ";
             prompt += cloud->cloud_name(true);
@@ -4045,7 +4045,7 @@ spret cast_glaciate(actor *caster, int pow, coord_def aim, bool fail)
                 beam.source.y -= sgn(beam.source.y - hitfunc.origin.y);
                 beam.fire();
             }
-            place_cloud(CLOUD_COLD, entry.first,
+            place_cloud(cloud_type::COLD, entry.first,
                         (18 + random2avg(45,2)) / eff_range, caster);
         }
     }
@@ -4649,7 +4649,8 @@ static void _discharge_maxwells_coupling()
     else
     {
         simple_monster_message(*mon, " vaporises in an electric haze!");
-        big_cloud(CLOUD_ELECTRICITY, &you, pos, random_range(4, 8), random_range(8, 12));
+        big_cloud(cloud_type::ELECTRICITY, &you, pos, random_range(4, 8),
+            random_range(8, 12));
     }
 
     item_def* corpse = monster_die(*mon, KILL_YOU,
@@ -4801,7 +4802,7 @@ vector<coord_def> get_magnavolt_targets()
                 targets.push_back(mon->pos());
         }
 
-        if (cloud_type_at(*ri) == CLOUD_MAGNETISED_DUST)
+        if (cloud_type_at(*ri) == cloud_type::MAGNETISED_DUST)
             targets.push_back(*ri);
     }
 

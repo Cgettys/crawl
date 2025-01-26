@@ -35,12 +35,12 @@ spret cast_putrefaction(monster* target, int pow, bool fail)
     fail_check();
 
     // Place one miasma cloud immediately beneath the target.
-    place_cloud(CLOUD_MIASMA, target->pos(), random_range(5, 9), &you);
+    place_cloud(cloud_type::MIASMA, target->pos(), random_range(5, 9), &you);
 
     // Then start a spread of fiant miasma that will become proper miasma a
     // turn later.
     map_cloud_spreader_marker *marker =
-    new map_cloud_spreader_marker(target->pos(), CLOUD_FAINT_MIASMA, 7,
+    new map_cloud_spreader_marker(target->pos(), cloud_type::FAINT_MIASMA, 7,
                                         random_range(18, 28), 5, 2, &you);
 
     // Start the cloud at radius 1, regardless of the speed of the killing blow
@@ -70,7 +70,7 @@ spret kindle_blastmotes(int pow, bool fail)
     you.props[BLASTMOTE_POWER_KEY] = pow;
     // Longish duration to support setting up silly traps.
     you.props[BLASTMOTE_IMMUNE_KEY] = true;
-    place_cloud(CLOUD_BLASTMOTES, you.pos(), random_range(20, 30), &you);
+    place_cloud(cloud_type::BLASTMOTES, you.pos(), random_range(20, 30), &you);
     mpr("A cloud of volatile blastmotes flares up around you! Run!");
 
     return spret::success;
@@ -104,12 +104,12 @@ cloud_type spell_to_cloud(spell_type spell)
 {
     static map<spell_type, cloud_type> cloud_map =
     {
-        { SPELL_POISONOUS_CLOUD, CLOUD_POISON },
-        { SPELL_FREEZING_CLOUD, CLOUD_COLD },
-        { SPELL_HOLY_BREATH, CLOUD_HOLY },
+        { SPELL_POISONOUS_CLOUD, cloud_type::POISON },
+        { SPELL_FREEZING_CLOUD, cloud_type::COLD },
+        { SPELL_HOLY_BREATH, cloud_type::HOLY },
     };
 
-    return lookup(cloud_map, spell, CLOUD_NONE);
+    return lookup(cloud_map, spell, cloud_type::NONE);
 }
 
 spret cast_big_c(int pow, spell_type spl, const actor *caster, bolt &beam,
@@ -155,7 +155,7 @@ spret cast_big_c(int pow, spell_type spl, const actor *caster, bolt &beam,
             break;
     }
 
-    if (cty == CLOUD_NONE)
+    if (cty == cloud_type::NONE)
     {
         mpr("That kind of cloud doesn't exist!");
         return spret::abort;
@@ -243,7 +243,7 @@ void holy_flames(monster* caster, actor* defender)
             continue;
         }
 
-        place_cloud(CLOUD_HOLY, *ai, dur, caster);
+        place_cloud(cloud_type::HOLY, *ai, dur, caster);
 
         cloud_count++;
     }
@@ -266,7 +266,7 @@ spret scroll_of_poison(bool scroll_unknown)
     {
         if (cell_is_solid(*ri))
             continue;
-        if (cloud_type_at(*ri) != CLOUD_NONE)
+        if (cloud_type_at(*ri) != cloud_type::NONE)
             continue;
         const actor* act = actor_at(*ri);
         if (act != nullptr)
@@ -275,7 +275,7 @@ spret scroll_of_poison(bool scroll_unknown)
             continue;
         }
 
-        place_cloud(CLOUD_POISON, *ri, 10 + random2(11), &you);
+        place_cloud(cloud_type::POISON, *ri, 10 + random2(11), &you);
         ++created;
     }
 

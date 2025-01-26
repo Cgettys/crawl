@@ -2685,10 +2685,11 @@ void terse_describe_square(const coord_def &c, bool in_range)
 // Get description of the "top" thing in a square; for mouseover text.
 void get_square_desc(const coord_def &c, describe_info &inf)
 {
-    const dungeon_feature_type feat = env.map_knowledge(c).feat();
-    const cloud_type cloud = env.map_knowledge(c).cloud();
+    const map_cell& cell = env.map_knowledge(c);
+    const dungeon_feature_type feat = cell.feat();
+    const cloud_info ci = cell.cloudinfo();
 
-    if (const monster_info *mi = env.map_knowledge(c).monsterinfo())
+    if (const monster_info *mi = cell.monsterinfo())
     {
         // First priority: monsters.
         string desc = uppercase_first(get_monster_equipment_desc(*mi))
@@ -2706,7 +2707,7 @@ void get_square_desc(const coord_def &c, describe_info &inf)
         bool temp = false;
         get_monster_db_desc(*mi, inf, temp);
     }
-    else if (const item_def *obj = env.map_knowledge(c).item())
+    else if (const item_def *obj = cell.item())
     {
         // Second priority: objects.
         get_item_desc(*obj, inf);
@@ -2718,7 +2719,7 @@ void get_square_desc(const coord_def &c, describe_info &inf)
         get_feature_desc(c, inf);
     }
     else // Fourth priority: clouds.
-        inf.body << get_cloud_desc(cloud);
+        inf.body << get_cloud_desc(ci.type);
 }
 #endif
 
@@ -2735,8 +2736,9 @@ bool full_describe_square(const coord_def &c, bool cleanup)
     int quantity = 0;
     bool action_taken = false;
 
-    const monster_info *mi = env.map_knowledge(c).monsterinfo();
-    const dungeon_feature_type feat = env.map_knowledge(c).feat();
+    const map_cell& cell = env.map_knowledge(c);
+    const monster_info *mi = cell.monsterinfo();
+    const dungeon_feature_type feat = cell.feat();
 
     // warning: we use pointers to the elements of this vector past here for
     // the stash list case
@@ -2746,7 +2748,7 @@ bool full_describe_square(const coord_def &c, bool cleanup)
     // actions can work.
     if (you.on_current_level && c == you.pos())
         list_items = item_list_on_square(you.visible_igrd(c));
-    else if (env.map_knowledge(c).item())
+    else if (cell.item())
     {
         // otherwise, use stash info. These are item copies, not the real
         // things.

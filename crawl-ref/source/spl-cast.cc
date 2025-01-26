@@ -3050,7 +3050,7 @@ string spell_damage_string(spell_type spell, bool evoked, int pow, bool terse)
         case SPELL_MAXWELLS_COUPLING:
             return Options.char_set == CSET_ASCII ? "death" : "\u221e"; //"∞"
         case SPELL_FREEZING_CLOUD:
-            return desc_cloud_damage(CLOUD_COLD, false);
+            return desc_cloud_damage(cloud_type::COLD, false);
         case SPELL_DISCHARGE:
         {
             const int max = discharge_max_damage(pow);

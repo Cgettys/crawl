@@ -2,7 +2,7 @@
 
 #include "tag-version.h"
 
-enum trap_type
+enum trap_type: uint8_t
 {
 #if TAG_MAJOR_VERSION == 34
     TRAP_HARLEQUIN,
