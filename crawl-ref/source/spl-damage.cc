@@ -2355,7 +2355,7 @@ static bool maybe_abort_ignite()
     if (const cloud_struct* cloud = cloud_at(you.pos()))
     {
         if ((cloud->type == cloud_type::MEPHITIC || cloud->type == cloud_type::POISON)
-            && !actor_cloud_immune(you, CLOUD_FIRE))
+            && !actor_cloud_immune(you, cloud_type::FIRE))
         {
             prompt += "in a cloud of ";
             prompt += cloud->cloud_name(true);
@@ -4045,7 +4045,7 @@ spret cast_glaciate(actor *caster, int pow, coord_def aim, bool fail)
                 beam.source.y -= sgn(beam.source.y - hitfunc.origin.y);
                 beam.fire();
             }
-            place_cloud(CLOUD_COLD, entry.first,
+            place_cloud(cloud_type::COLD, entry.first,
                         (18 + random2avg(45,2)) / eff_range, caster);
         }
     }
@@ -4649,7 +4649,8 @@ static void _discharge_maxwells_coupling()
     else
     {
         simple_monster_message(*mon, " vaporises in an electric haze!");
-        big_cloud(CLOUD_ELECTRICITY, &you, pos, random_range(4, 8), random_range(8, 12));
+        big_cloud(cloud_type::ELECTRICITY, &you, pos, random_range(4, 8),
+            random_range(8, 12));
     }
 
     item_def* corpse = monster_die(*mon, KILL_YOU,
@@ -4801,7 +4802,7 @@ vector<coord_def> get_magnavolt_targets()
                 targets.push_back(mon->pos());
         }
 
-        if (cloud_type_at(*ri) == CLOUD_MAGNETISED_DUST)
+        if (cloud_type_at(*ri) == cloud_type::MAGNETISED_DUST)
             targets.push_back(*ri);
     }
 

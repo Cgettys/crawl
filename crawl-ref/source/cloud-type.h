@@ -54,3 +54,7 @@ enum struct cloud_type: uint8_t
     RANDOM,
     DEBUGGING,
 };
+
+inline cloud_type operator+(cloud_type lhs, int rhs) {
+    return static_cast<cloud_type>(static_cast<int>(lhs) + rhs);
+};

@@ -1559,7 +1559,7 @@ cloud_type cloud_name_to_type(const string &name)
         return cloud_type::DEBUGGING;
 
     // TODO: really should be a map??
-    for (auto i = cloud_type::NONE; i < cloud_type::RANDOM; i = static_cast<cloud_type>(static_cast<int>(i) + 1))
+    for (cloud_type i = cloud_type::NONE; i < cloud_type::RANDOM; i = i + 1)
         if (cloud_type_name(i) == lower_name)
             return i;
 

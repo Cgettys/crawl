@@ -315,8 +315,7 @@ LUAFN(view_get_map)
         if (ci.defined())
         {
             LUA_PUSHSTRING("cloud", cloud_type_name(ci.type).c_str());
-            auto killer = cellkiller;
-            if (is_damaging_cloud(ci.type, true, YOU_KILL(killer)))
+            if (is_damaging_cloud(ci.type, true, YOU_KILL(ci.killer)))
                 unsafe = true;
         }
         if (!unsafe && cell.trap() != TRAP_UNASSIGNED)

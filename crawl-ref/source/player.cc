@@ -584,7 +584,7 @@ void moveto_location_effects(dungeon_feature_type old_feat,
     if (old_pos != you.pos())
     {
         cloud_struct* cloud = cloud_at(you.pos());
-        if (cloud && cloud->type == CLOUD_BLASTMOTES)
+        if (cloud && cloud->type == cloud_type::BLASTMOTES)
             explode_blastmotes_at(you.pos()); // schedules a fineff
 
         // Traps go off.

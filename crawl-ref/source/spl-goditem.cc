@@ -1402,7 +1402,7 @@ void dreamshard_shatter()
     if (!(env.level_state & LSTATE_STILL_WINDS))
     {
         dreams.push_back("clouds");
-        big_cloud(CLOUD_FLUFFY, &you, you.pos(), 50, 8 + random2(8));
+        big_cloud(cloud_type::FLUFFY, &you, you.pos(), 50, 8 + random2(8));
     }
 
     mpr_comma_separated_list("You dream of ", dreams);

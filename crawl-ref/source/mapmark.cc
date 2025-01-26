@@ -881,7 +881,7 @@ map_cloud_spreader_marker::map_cloud_spreader_marker(const coord_def &p,
 void map_cloud_spreader_marker::write(writer &out) const
 {
     map_marker::write(out);
-    marshallByte(out, ctype);
+    marshallByte(out, static_cast<int8_t>(ctype));
     marshallShort(out, speed);
     marshallShort(out, duration);
     marshallByte(out, max_rad);

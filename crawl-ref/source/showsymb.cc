@@ -479,11 +479,11 @@ static cglyph_t _get_cell_glyph_with_class(const map_cell& cell,
         show.cls = SH_CLOUD;
         g.col = coloured ? cell_cloud.colour : DARKGRAY;
 
-        if (cloud_type_tile_info(cell.cloudinfo()->type).variation
+        if (cloud_type_tile_info(cell_cloud.type).variation
             == CTVARY_DUR)
         {
             // duration is already clamped to 0-3
-            int dur = cell.cloudinfo()->duration;
+            int dur = cell_cloud.duration;
             switch (dur)
             {
             case 0:
