@@ -53,16 +53,16 @@ class writer
 {
 public:
     writer(const string &filename, FILE* output, bool ignore_errors = false)
-        : _filename(filename), _file(output), _chunk(0),
-          _ignore_errors(ignore_errors), _pbuf(0), failed(false)
+        : _filename(filename), _file(output), _chunk(nullptr),
+          _ignore_errors(ignore_errors), _pbuf(nullptr), failed(false)
     {
         ASSERT(output);
     }
     writer(vector<unsigned char>* poutput)
-        : _filename(), _file(0), _chunk(0), _ignore_errors(false),
+        : _filename(), _file(nullptr), _chunk(nullptr), _ignore_errors(false),
           _pbuf(poutput), failed(false) { ASSERT(poutput); }
     writer(package *save, const string &chunkname)
-        : _filename(), _file(0), _chunk(0), _ignore_errors(false),
+        : _filename(), _file(nullptr), _chunk(nullptr), _ignore_errors(false),
           failed(false)
     {
         ASSERT(save);
@@ -115,11 +115,11 @@ class reader
 public:
     reader(const string &filename, int minorVersion = TAG_MINOR_INVALID);
     reader(FILE* input, int minorVersion = TAG_MINOR_INVALID)
-        : _file(input), _chunk(0), opened_file(false), _pbuf(0),
+        : _file(input), _chunk(nullptr), opened_file(false), _pbuf(nullptr),
           _read_offset(0), _minorVersion(minorVersion), _safe_read(false) {}
     reader(const vector<unsigned char>& input,
            int minorVersion = TAG_MINOR_INVALID)
-        : _file(0), _chunk(0), opened_file(false), _pbuf(&input),
+        : _file(nullptr), _chunk(nullptr), opened_file(false), _pbuf(&input),
           _read_offset(0), _minorVersion(minorVersion), _safe_read(false) {}
     reader(package *save, const string &chunkname,
            int minorVersion = TAG_MINOR_INVALID);
@@ -170,14 +170,14 @@ uint64_t unmarshallUnsigned(reader& th);
 template<typename T>
 static inline void unmarshallUnsigned(reader& th, T& v)
 {
-    v = (T)unmarshallUnsigned(th);
+    v = static_cast<T>(unmarshallUnsigned(th));
 }
 
 int64_t unmarshallSigned(reader& th);
 template<typename T>
 static inline void unmarshallSigned(reader& th, T& v)
 {
-    v = (T)unmarshallSigned(th);
+    v = static_cast<T>(unmarshallSigned(th));
 }
 
 void marshallMapCell (writer &, const map_cell &);
