@@ -3349,12 +3349,13 @@ static vector<extra_feature_desc> _get_feature_extra_descs(const coord_def &pos)
             });
         }
     }
-    if (const auto cloud = env.map_knowledge(pos).cloudinfo())
+    const cloud_info cloud = env.map_knowledge(pos).cloudinfo();
+    if (cloud.defined())
     {
         ret.push_back({
-            "A cloud of " + cloud_type_name(cloud->type) + ".",
-            get_cloud_desc(cloud->type, false),
-            tile_def(tileidx_cloud(*cloud)),
+            "A cloud of " + cloud_type_name(cloud.type) + ".",
+            get_cloud_desc(cloud.type, false),
+            tile_def(tileidx_cloud(cloud)),
         });
     }
     return ret;

@@ -6401,7 +6401,7 @@ static void _mons_upheaval(monster& mons, actor& /*foe*/, bool randomize)
                 break;
             case BEAM_AIR:
                 if (!cell_is_solid(pos) && !cloud_at(pos) && coinflip())
-                    place_cloud(CLOUD_STORM, pos, random2(7), &mons);
+                    place_cloud(cloud_type::STORM, pos, random2(7), &mons);
                 break;
             default:
                 break;
@@ -7050,7 +7050,7 @@ void mons_cast(monster* mons, bolt pbolt, spell_type spell_cast,
         if (!feat_is_water(env.grid(mons->pos())))
             return;
 
-        big_cloud(CLOUD_INK, mons, mons->pos(), 30, 30);
+        big_cloud(cloud_type::INK, mons, mons->pos(), 30, 30);
 
         simple_monster_message(*
             mons,
