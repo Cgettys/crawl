@@ -8,8 +8,8 @@
 struct cloud_struct
 {
     coord_def     pos;
-    cloud_type    type;
     int           decay;
+    cloud_type    type;
     uint8_t       spread_rate;
     kill_category whose;
     killer_type   killer;
@@ -17,9 +17,9 @@ struct cloud_struct
     int           excl_rad;
 
     cloud_struct() : pos(), type(CLOUD_NONE), decay(0), spread_rate(0),
-                     whose(KC_OTHER), killer(KILL_NONE), excl_rad(-1)
-    {
+                     whose(KC_OTHER), killer(KILL_NONE), source(0), excl_rad(-1) {
     }
+
     cloud_struct(coord_def p, cloud_type c, int d, int spread, kill_category kc,
                  killer_type kt, mid_t src, int excl);
 
