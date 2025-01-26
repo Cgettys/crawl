@@ -5220,7 +5220,7 @@ static void _tag_construct_level(writer &th)
     for (const auto& entry : env.cloud)
     {
         const cloud_struct& cloud = entry.second;
-        marshallByte(th, cloud.type);
+        marshallByte(th, static_cast<int8_t>(cloud.type));
         ASSERT(cloud.type != cloud_type::NONE);
         ASSERT_IN_BOUNDS(cloud.pos);
         marshallByte(th, cloud.pos.x);
@@ -6027,12 +6027,12 @@ void marshallMapCell(writer &th, const map_cell &cell)
 
     if (flags & MAP_SERIALIZE_CLOUD)
     {
-        const cloud_info* ci = cell.cloudinfo();
-        marshallUnsigned(th, ci->type);
-        marshallUnsigned(th, ci->colour);
-        marshallUnsigned(th, ci->duration);
-        marshallShort(th, ci->tile);
-        marshallUByte(th, ci->killer);
+        const cloud_info ci = cell.cloudinfo();
+        marshallUnsigned(th, static_cast<uint64_t>(ci.type));
+        marshallUnsigned(th, ci.colour);
+        marshallUnsigned(th, ci.duration);
+        marshallShort(th, ci.tile);
+        marshallUByte(th, ci.killer);
     }
 
     if (flags & MAP_SERIALIZE_ITEM)
@@ -6078,7 +6078,7 @@ void unmarshallMapCell(reader &th, map_cell& cell)
 
     if (feat_is_trap(feature))
     {
-        trap = (trap_type)unmarshallByte(th);
+        trap = static_cast<trap_type>(unmarshallByte(th));
 #if TAG_MAJOR_VERSION == 34
         if (th.getMinorVersion() == TAG_MINOR_0_11 && trap >= TRAP_TELEPORT)
             trap = (trap_type)(trap - 1);
@@ -6096,7 +6096,7 @@ void unmarshallMapCell(reader &th, map_cell& cell)
     if (flags & MAP_SERIALIZE_CLOUD)
     {
         cloud_info ci;
-        ci.type = (cloud_type)unmarshallUnsigned(th);
+        ci.type = static_cast<cloud_type>(unmarshallUnsigned(th));
         unmarshallUnsigned(th, ci.colour);
         unmarshallUnsigned(th, ci.duration);
         ci.tile = unmarshallShort(th);
@@ -6767,15 +6767,14 @@ static void _tag_read_level(reader &th)
             if (env.grid[i][j] == DNGN_TRANSPORTER)
                 transporters.push_back(coord_def(i, j));
 #endif
-            unmarshallMapCell(th, env.map_knowledge[i][j]);
+            map_cell& cell = env.map_knowledge[i][j];
+            unmarshallMapCell(th, cell);
             // Fixup positions
-            if (env.map_knowledge[i][j].monsterinfo())
-                env.map_knowledge[i][j].monsterinfo()->pos = coord_def(i, j);
-            if (env.map_knowledge[i][j].cloudinfo())
-                env.map_knowledge[i][j].cloudinfo()->pos = coord_def(i, j);
+            if (cell.monsterinfo())
+                cell.monsterinfo()->pos = coord_def(i, j);
 
-            env.map_knowledge[i][j].flags &= ~MAP_VISIBLE_FLAG;
-            if (env.map_knowledge[i][j].seen())
+            cell.flags &= ~MAP_VISIBLE_FLAG;
+            if (cell.seen())
                 env.map_seen.set(i, j);
             env.pgrid[i][j].flags = unmarshallInt(th);
 
@@ -6809,14 +6808,13 @@ static void _tag_read_level(reader &th)
     cloud_struct cloud;
     for (int i = 0; i < num_clouds; i++)
     {
-        // TODO: should this be UByte?
         cloud.type  = static_cast<cloud_type>(unmarshallByte(th));
 #if TAG_MAJOR_VERSION == 34
         // old system marshalled empty clouds this way
-        if (cloud.type == CLOUD_NONE)
+        if (cloud.type == cloud_type::NONE)
             continue;
 #else
-        ASSERT(cloud.type != CLOUD_NONE);
+        ASSERT(cloud.type != cloud_type::NONE);
 #endif
         cloud.pos.x = unmarshallByte(th);
         cloud.pos.y = unmarshallByte(th);
