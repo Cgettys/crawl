@@ -311,11 +311,12 @@ LUAFN(view_get_map)
         else if (cell.invisible_monster())
             LUA_PUSHBOOL("invisible_monster", true);
         bool unsafe = false;
-        if (cell.cloud() != CLOUD_NONE)
+        const cloud_info& cloud = cell.cloudinfo();
+        if (cloud.defined())
         {
-            LUA_PUSHSTRING("cloud", cloud_type_name(cell.cloud()).c_str());
+            LUA_PUSHSTRING("cloud", cloud_type_name(cloud.type).c_str());
             auto killer = cell.cloudinfo()->killer;
-            if (is_damaging_cloud(cell.cloud(), true, YOU_KILL(killer)))
+            if (is_damaging_cloud(cloud.type, true, YOU_KILL(killer)))
                 unsafe = true;
         }
         if (!unsafe && cell.trap() != TRAP_UNASSIGNED)

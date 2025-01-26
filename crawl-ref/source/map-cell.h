@@ -243,11 +243,6 @@ struct map_cell
         return _cloud.type;
     }
 
-    colour_t cloud_colour() const
-    {
-            return _cloud.colour;
-    }
-
     cloud_info* cloudinfo()
     {
         if (_cloud.type != CLOUD_NONE) {

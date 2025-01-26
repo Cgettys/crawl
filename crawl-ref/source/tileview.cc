@@ -979,7 +979,7 @@ static void _tile_place_invisible_monster(const coord_def &gc)
     // Shallow water has its own modified tile for disturbances
     // see tileidx_feature
     // That tile is hidden by clouds though
-    if (cell.feat() != DNGN_SHALLOW_WATER || cell.cloud() != CLOUD_NONE)
+    if (cell.feat() != DNGN_SHALLOW_WATER || cell.cloudinfo().defined())
     {
         if (you.see_cell(gc))
             tile_env.fg(ep) = TILE_UNSEEN_MONSTER;
