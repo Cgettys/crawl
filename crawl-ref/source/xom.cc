@@ -1551,7 +1551,7 @@ static void _xom_lights_up_webs(int /*sever*/)
             if (cloud_at(pos))
                 delete_cloud(pos);
 
-            check_place_cloud(CLOUD_FIRE, pos, blaze_time, nullptr, 0);
+            check_place_cloud(cloud_type::FIRE, pos, blaze_time, nullptr, 0);
 
             webs_count++;
             env.map_knowledge(pos).set_feature(DNGN_FLOOR);
@@ -3785,28 +3785,30 @@ static void _xom_cloud_trail(int /*sever*/)
 {
     you.duration[DUR_CLOUD_TRAIL] = random_range(600, 1200);
     // 80% chance of a useful trail
-    cloud_type ctype = random_choose_weighted(20, CLOUD_CHAOS,
-                                              9,  CLOUD_MAGIC_TRAIL,
-                                              5,  CLOUD_MIASMA,
-                                              5,  CLOUD_PETRIFY,
-                                              5,  CLOUD_MUTAGENIC,
-                                              4,  CLOUD_MISERY,
-                                              1,  CLOUD_SALT,
-                                              1,  CLOUD_BLASTMOTES);
+    cloud_type ctype = random_choose_weighted(20, cloud_type::CHAOS,
+                                              9,  cloud_type::MAGIC_TRAIL,
+                                              5,  cloud_type::MIASMA,
+                                              5,  cloud_type::PETRIFY,
+                                              5,  cloud_type::MUTAGENIC,
+                                              4,  cloud_type::MISERY,
+                                              1,  cloud_type::SALT,
+                                              1,  cloud_type::BLASTMOTES);
 
     bool suppressed = false;
-    if (you_worship(GOD_ZIN) && (ctype == CLOUD_CHAOS || ctype == CLOUD_MUTAGENIC))
+    if (you_worship(GOD_ZIN) && (ctype == cloud_type::CHAOS || ctype == cloud_type::MUTAGENIC))
         suppressed = true;
-    else if (is_good_god(you.religion) && (ctype == CLOUD_MIASMA || ctype == CLOUD_MISERY))
+    else if (is_good_god(you.religion) && (ctype == cloud_type::MIASMA || ctype == cloud_type::MISERY))
         suppressed = true;
 
     if (suppressed)
-        ctype = CLOUD_SALT;
+        ctype = cloud_type::SALT;
 
-    you.props[XOM_CLOUD_TRAIL_TYPE_KEY] = ctype;
+    you.props[XOM_CLOUD_TRAIL_TYPE_KEY] = static_cast<uint8_t>(ctype);
 
     // Need to explicitly set as non-zero. Use a clean half of the power cap.
-    if (you.props[XOM_CLOUD_TRAIL_TYPE_KEY].get_int() == CLOUD_BLASTMOTES)
+    // TODO: add a get method that is templatized and use std::underlying_type?
+    if (static_cast<cloud_type>(you.props[XOM_CLOUD_TRAIL_TYPE_KEY].get_byte())
+        == cloud_type::BLASTMOTES)
         you.props[BLASTMOTE_POWER_KEY] = 25;
 
     take_note(Note(NOTE_XOM_EFFECT, you.piety, -1, "cloud trail"), true);
@@ -5416,7 +5418,7 @@ static void _xom_chaos_cloud(int /*sever*/)
 {
     const int lifetime = 3 + random2(12) * 3;
     const int spread_rate = random_range(5,15);
-    check_place_cloud(CLOUD_CHAOS, you.pos(), lifetime,
+    check_place_cloud(cloud_type::CHAOS, you.pos(), lifetime,
                       nullptr, spread_rate);
     take_note(Note(NOTE_XOM_EFFECT, you.piety, -1, "chaos cloud"),
               true);

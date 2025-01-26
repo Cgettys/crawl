@@ -1071,13 +1071,16 @@ void tile_reset_fg(const coord_def &gc)
 
 static void _tile_place_cloud(const coord_def &gc, const cloud_info &cl)
 {
+    // Note: coord of tileidx_cloud used for seeding variations
+    // So it shouldn't care about coordinate adjustments
+    const tileidx_t tile = tileidx_cloud(cl, gc);
     if (you.see_cell(gc))
     {
         const coord_def ep = grid2show(gc);
-        tile_env.cloud(ep) = tileidx_cloud(cl);
+        tile_env.cloud(ep) = tile;
     }
     else
-        tile_env.bk_cloud(gc) = tileidx_cloud(cl);
+        tile_env.bk_cloud(gc) = tile;
 }
 
 void tile_draw_map_cell(const coord_def& gc, bool foreground_only)
@@ -1111,7 +1114,7 @@ void tile_draw_map_cell(const coord_def& gc, bool foreground_only)
 
     // Always place clouds now they have their own layer
     const cloud_info ci = cell.cloudinfo();
-    if (ci.defined)
+    if (ci.defined())
         _tile_place_cloud(gc, ci);
     else
         tile_env.bk_cloud(gc) = 0;

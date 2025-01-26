@@ -809,7 +809,7 @@ static MenuEntry* _cloud_menu_gen(char letter, const string &str, string &key)
     cloud_info fake_cloud_info;
     fake_cloud_info.type = cloud;
     fake_cloud_info.colour = me->colour;
-    const tileidx_t idx = tileidx_cloud(fake_cloud_info);
+    const tileidx_t idx = tileidx_cloud(fake_cloud_info, {0, 0});
     me->add_tile(tile_def(idx));
 
     return me;
@@ -1144,7 +1144,7 @@ static int _describe_cloud(const string &key, const string &suffix,
 #ifdef USE_TILE
     cloud_info fake_cloud_info;
     fake_cloud_info.type = cloud;
-    const tileidx_t idx = tileidx_cloud(fake_cloud_info);
+    const tileidx_t idx = tileidx_cloud(fake_cloud_info, {0, 0});
     tile_def tile = tile_def(idx);
     return _describe_key(key, suffix, footer, extra_cloud_info(cloud), &tile);
 #else

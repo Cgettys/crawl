@@ -47,7 +47,7 @@ tileidx_t tileidx_item(const item_def &item);
 tileidx_t tileidx_item_throw(const item_def &item, int dx, int dy);
 tileidx_t tileidx_known_base_item(tileidx_t label);
 
-tileidx_t tileidx_cloud(const cloud_info &cl);
+tileidx_t tileidx_cloud(const cloud_info &cl, const coord_def& pos);
 tileidx_t tileidx_bolt(const bolt &bolt);
 tileidx_t vary_bolt_tile(tileidx_t tile, const coord_def& origin,
                          const coord_def& target, const coord_def& pos);

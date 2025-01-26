@@ -440,7 +440,7 @@ static void _rune_effect(dungeon_feature_type ftype)
         // included in default force_more_message
 
         mprf("You insert the %s rune into the lock.", rune_type_name(runes[1]));
-        big_cloud(CLOUD_BLUE_SMOKE, &you, you.pos(), 20, 7 + random2(7));
+        big_cloud(cloud_type::BLUE_SMOKE, &you, you.pos(), 20, 7 + random2(7));
         viewwindow();
         update_screen();
         mpr("Heavy smoke blows from the lock!");
