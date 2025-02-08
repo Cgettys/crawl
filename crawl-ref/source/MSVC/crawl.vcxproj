@@ -66,16 +66,18 @@
   <PropertyGroup Condition="'$(Platform)'=='Release Tiles' Or '$(Platform)'=='Release Console'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
+  <ItemDefinitionGroup>
+      <PreBuildEvent>
+        <Message>Generating build-specific headers...</Message>
+        <Command>set PATH=c:\cygwin\bin%3bc:\msysgit\mingw\bin%3bc:\msysgit\bin%3bc:\mingw\bin%3b%25PATH%25
+  cd $(SolutionDir)\..\
+  perl.exe "util/gen_ver.pl" build.h "" "nul"
+  perl.exe "util/gen-cflg.pl" compflag.h "&lt;UNKNOWN&gt;" "&lt;UNKNOWN&gt;" "$(PreferredToolArchitecture)-Windows-msvc$(VCToolsVersion)" $(ProcessorArchitecture)-$(SDKIdentifier)-msvc$(VCToolsVersion)"
+  python.exe "util/configure-msvc.py" "$(VCInstallDir)Tools\MSVC\$(VCToolsVersion)\bin\Host$(PreferredToolArchitecture)\$(PlatformTargetAsMSBuildArchitecture)\cl.exe" "$(VC_IncludePath);$(WindowsSDK_IncludePath)"
+  python.exe util/gen-all.py</Command>
+      </PreBuildEvent>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Tiles|Win32'">
-    <PreBuildEvent>
-      <Message>Generating build-specific headers...</Message>
-      <Command>set PATH=c:\cygwin\bin%3bc:\msysgit\mingw\bin%3bc:\msysgit\bin%3bc:\mingw\bin%3b%25PATH%25
-cd $(SolutionDir)\..\
-perl.exe "util/gen_ver.pl" build.h "" "nul"
-perl.exe "util/gen-cflg.pl" compflag.h "&lt;UNKNOWN&gt;" "&lt;UNKNOWN&gt;" "$(PreferredToolArchitecture)-Windows-msvc$(VCToolsVersion)" $(ProcessorArchitecture)-$(SDKIdentifier)-msvc$(VCToolsVersion)"
-python.exe "util/configure-msvc.py" "$(VCInstallDir)Tools\MSVC\$(VCToolsVersion)\bin\Host$(PreferredToolArchitecture)\$(PlatformTargetAsMSBuildArchitecture)\cl.exe" "$(VC_IncludePath);$(WindowsSDK_IncludePath)"
-python.exe util/gen-all.py</Command>
-    </PreBuildEvent>
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>./include;.;..;../contrib/lua/src;../contrib/sqlite;../contrib/pcre;../rltiles;../contrib/sdl2/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -100,15 +102,6 @@ python.exe util/gen-all.py</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Console|Win32'">
-    <PreBuildEvent>
-      <Message>Generating build-specific headers...</Message>
-      <Command>set PATH=c:\cygwin\bin%3bc:\msysgit\mingw\bin%3bc:\msysgit\bin%3bc:\mingw\bin%3b%25PATH%25
-cd $(SolutionDir)\..\
-perl.exe "util/gen_ver.pl" build.h "" "nul"
-perl.exe "util/gen-cflg.pl" compflag.h "&lt;UNKNOWN&gt;" "&lt;UNKNOWN&gt;" "$(PreferredToolArchitecture)-Windows-msvc$(VCToolsVersion)" $(ProcessorArchitecture)-$(SDKIdentifier)-msvc$(VCToolsVersion)"
-python.exe "util/configure-msvc.py" "$(VCInstallDir)Tools\MSVC\$(VCToolsVersion)\bin\Host$(PreferredToolArchitecture)\$(PlatformTargetAsMSBuildArchitecture)\cl.exe" "$(VC_IncludePath);$(WindowsSDK_IncludePath)"
-python.exe util/gen-all.py</Command>
-    </PreBuildEvent>
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>./include;.;..;../contrib/lua/src;../contrib/sqlite;../contrib/pcre;../rltiles;../contrib/sdl2/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -133,15 +126,6 @@ python.exe util/gen-all.py</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Tiles|x64'">
-    <PreBuildEvent>
-      <Message>Generating build-specific headers...</Message>
-      <Command>set PATH=c:\cygwin\bin%3bc:\msysgit\mingw\bin%3bc:\msysgit\bin%3bc:\mingw\bin%3b%25PATH%25
-cd $(SolutionDir)\..\
-perl.exe "util/gen_ver.pl" build.h "" "nul"
-perl.exe "util/gen-cflg.pl" compflag.h "&lt;UNKNOWN&gt;" "&lt;UNKNOWN&gt;" "$(PreferredToolArchitecture)-Windows-msvc$(VCToolsVersion)" $(ProcessorArchitecture)-$(SDKIdentifier)-msvc$(VCToolsVersion)"
-python.exe "util/configure-msvc.py" "$(VCInstallDir)Tools\MSVC\$(VCToolsVersion)\bin\Host$(PreferredToolArchitecture)\$(PlatformTargetAsMSBuildArchitecture)\cl.exe" "$(VC_IncludePath);$(WindowsSDK_IncludePath)"
-python.exe util/gen-all.py</Command>
-    </PreBuildEvent>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
@@ -168,15 +152,6 @@ python.exe util/gen-all.py</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Console|x64'">
-    <PreBuildEvent>
-      <Message>Generating build-specific headers...</Message>
-      <Command>set PATH=c:\cygwin\bin%3bc:\msysgit\mingw\bin%3bc:\msysgit\bin%3bc:\mingw\bin%3b%25PATH%25
-cd $(SolutionDir)\..\
-perl.exe "util/gen_ver.pl" build.h "" "nul"
-perl.exe "util/gen-cflg.pl" compflag.h "&lt;UNKNOWN&gt;" "&lt;UNKNOWN&gt;" "$(PreferredToolArchitecture)-Windows-msvc$(VCToolsVersion)" $(ProcessorArchitecture)-$(SDKIdentifier)-msvc$(VCToolsVersion)"
-python.exe "util/configure-msvc.py" "$(VCInstallDir)Tools\MSVC\$(VCToolsVersion)\bin\Host$(PreferredToolArchitecture)\$(PlatformTargetAsMSBuildArchitecture)\cl.exe" "$(VC_IncludePath);$(WindowsSDK_IncludePath)"
-python.exe util/gen-all.py</Command>
-    </PreBuildEvent>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
@@ -203,15 +178,6 @@ python.exe util/gen-all.py</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Tiles|Win32'">
-    <PreBuildEvent>
-      <Message>Generating build-specific headers...</Message>
-      <Command>set PATH=c:\cygwin\bin%3bc:\msysgit\mingw\bin%3bc:\msysgit\bin%3bc:\mingw\bin%3b%25PATH%25
-cd $(SolutionDir)\..\
-perl.exe "util/gen_ver.pl" build.h "" "nul"
-perl.exe "util/gen-cflg.pl" compflag.h "&lt;UNKNOWN&gt;" "&lt;UNKNOWN&gt;" "$(PreferredToolArchitecture)-Windows-msvc$(VCToolsVersion)" $(ProcessorArchitecture)-$(SDKIdentifier)-msvc$(VCToolsVersion)"
-python.exe "util/configure-msvc.py" "$(VCInstallDir)Tools\MSVC\$(VCToolsVersion)\bin\Host$(PreferredToolArchitecture)\$(PlatformTargetAsMSBuildArchitecture)\cl.exe" "$(VC_IncludePath);$(WindowsSDK_IncludePath)"
-python.exe util/gen-all.py</Command>
-    </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>./include;../sdl2;.;..;../contrib/lua/src;../contrib/sqlite;../contrib/pcre;../rltiles;../contrib/sdl2/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_USE_MATH_DEFINES;_ALLOW_KEYWORD_MACROS;WIZARD;USE_TILE;USE_TILE_LOCAL;PROPORTIONAL_FONT="..\\..\\contrib\\fonts\\DejaVuSans.ttf";MONOSPACED_FONT="..\\..\\contrib\\fonts\\DejaVuSansMono.ttf";USE_FT;FT_FREETYPE_H="freetype.h";USE_GL;USE_SDL;CLUA_BINDINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -236,15 +202,6 @@ python.exe util/gen-all.py</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Console|Win32'">
-    <PreBuildEvent>
-      <Message>Generating build-specific headers...</Message>
-      <Command>set PATH=c:\cygwin\bin%3bc:\msysgit\mingw\bin%3bc:\msysgit\bin%3bc:\mingw\bin%3b%25PATH%25
-cd $(SolutionDir)\..\
-perl.exe "util/gen_ver.pl" build.h "" "nul"
-perl.exe "util/gen-cflg.pl" compflag.h "&lt;UNKNOWN&gt;" "&lt;UNKNOWN&gt;" "$(PreferredToolArchitecture)-Windows-msvc$(VCToolsVersion)" $(ProcessorArchitecture)-$(SDKIdentifier)-msvc$(VCToolsVersion)"
-python.exe "util/configure-msvc.py" "$(VCInstallDir)Tools\MSVC\$(VCToolsVersion)\bin\Host$(PreferredToolArchitecture)\$(PlatformTargetAsMSBuildArchitecture)\cl.exe" "$(VC_IncludePath);$(WindowsSDK_IncludePath)"
-python.exe util/gen-all.py</Command>
-    </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>./include;../sdl2;.;..;../contrib/lua/src;../contrib/sqlite;../contrib/pcre;../rltiles;../contrib/sdl2/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_USE_MATH_DEFINES;_ALLOW_KEYWORD_MACROS;WIZARD;PROPORTIONAL_FONT="..\\..\\contrib\\fonts\\DejaVuSans.ttf";MONOSPACED_FONT="..\\..\\contrib\\fonts\\DejaVuSansMono.ttf";FT_FREETYPE_H="freetype.h";USE_GL;CLUA_BINDINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -269,15 +226,6 @@ python.exe util/gen-all.py</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Tiles|x64'">
-    <PreBuildEvent>
-      <Message>Generating build-specific headers...</Message>
-      <Command>set PATH=c:\cygwin\bin%3bc:\msysgit\mingw\bin%3bc:\msysgit\bin%3bc:\mingw\bin%3b%25PATH%25
-cd $(SolutionDir)\..\
-perl.exe "util/gen_ver.pl" build.h "" "nul"
-perl.exe "util/gen-cflg.pl" compflag.h "&lt;UNKNOWN&gt;" "&lt;UNKNOWN&gt;" "$(PreferredToolArchitecture)-Windows-msvc$(VCToolsVersion)" $(ProcessorArchitecture)-$(SDKIdentifier)-msvc$(VCToolsVersion)"
-python.exe "util/configure-msvc.py" "$(VCInstallDir)Tools\MSVC\$(VCToolsVersion)\bin\Host$(PreferredToolArchitecture)\$(PlatformTargetAsMSBuildArchitecture)\cl.exe" "$(VC_IncludePath);$(WindowsSDK_IncludePath)"
-python.exe util/gen-all.py</Command>
-    </PreBuildEvent>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
@@ -304,15 +252,6 @@ python.exe util/gen-all.py</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Console|x64'">
-    <PreBuildEvent>
-      <Message>Generating build-specific headers...</Message>
-      <Command>set PATH=c:\cygwin\bin%3bc:\msysgit\mingw\bin%3bc:\msysgit\bin%3bc:\mingw\bin%3b%25PATH%25
-cd $(SolutionDir)\..\
-perl.exe "util/gen_ver.pl" build.h "" "nul"
-perl.exe "util/gen-cflg.pl" compflag.h "&lt;UNKNOWN&gt;" "&lt;UNKNOWN&gt;" "$(PreferredToolArchitecture)-Windows-msvc$(VCToolsVersion)" $(ProcessorArchitecture)-$(SDKIdentifier)-msvc$(VCToolsVersion)"
-python.exe "util/configure-msvc.py" "$(VCInstallDir)Tools\MSVC\$(VCToolsVersion)\bin\Host$(PreferredToolArchitecture)\$(PlatformTargetAsMSBuildArchitecture)\cl.exe" "$(VC_IncludePath);$(WindowsSDK_IncludePath)"
-python.exe util/gen-all.py</Command>
-    </PreBuildEvent>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
