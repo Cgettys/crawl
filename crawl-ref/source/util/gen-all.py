@@ -26,11 +26,11 @@ def needs_running(generated_files, input_files):
 
 def run_if_needed(generated_files, input_files, command):
     needs_to_run = needs_running(generated_files, input_files)
-    if(not needs_to_run):
+    if not needs_to_run:
         return
 
     result = subprocess.call(command)
-    if(result != 0):
+    if result != 0:
         sys.exit(result)
 
 def copy_if_needed(source, destination):
@@ -99,6 +99,12 @@ def gen_all(perl):
     command = [perl, input_files[0]]
     run_if_needed(generated_files, input_files, command)
 
+    generated_files = ['mon-data.h']
+    input_files = (['util/mon-gen.py'] + glob.glob('dat/mons/*.yaml') +
+                   glob.glob('util/mon-gen/*.txt'))
+    command = [python, input_files[0], 'dat/mons/', 'util/mon-gen/'] + generated_files
+    run_if_needed(generated_files, input_files, command)
+
     generated_files = ['mon-mst.h']
     input_files = ['util/gen-mst.pl', 'mon-spell.h', 'mon-data.h']
     command = [perl, input_files[0]]
@@ -117,12 +123,6 @@ def gen_all(perl):
     generated_files = ['mi-enum.h']
     input_files = ['util/gen-mi-enum', 'mon-info.h']
     command = [perl, input_files[0]]
-    run_if_needed(generated_files, input_files, command)
-
-    generated_files = ['mon-data.h']
-    input_files = (['util/mon-gen.py'] + glob.glob('dat/mons/*.yaml') +
-        glob.glob('util/mon-gen/*.txt'))
-    command = [python, input_files[0], 'dat/mons/', 'util/mon-gen/'] + generated_files
     run_if_needed(generated_files, input_files, command)
 
     build_rtiles()
@@ -184,7 +184,7 @@ def main():
     try:
         gen_all(perl);
     except FileNotFoundError as e:
-        print('Error: missing file2 "', e.filename, '"', sep='', file=sys.stderr)
+        print('Error: missing file "', e.filename, '"', sep='', file=sys.stderr)
         sys.exit(1)
     except OSError as e:
         print('Error: ', e.strerror, sep='', file=sys.stderr)
