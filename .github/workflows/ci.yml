@@ -499,11 +499,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyyaml
         working-directory: crawl-ref/source
-      # Msbuild is already installed, but maybe not on path?
+      # Msbuild is already installed:
       # https://github.com/actions/runner-images/blob/13666fe26513ca5e0e21f412b5d4c7fa0e8eb5a9/images/windows/Windows2025-Readme.md?plain=1#L254
-      # TODO: check if this is even necessary?
-#      - name: Add msbuild to PATH
-#        uses: microsoft/setup-msbuild@v2
+      # But isn't in the path, so fix that:
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
 
       # Step 5/6 from INSTALL.md's Visual Studio Section
       # See https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-command-line-reference?view=vs-2022
