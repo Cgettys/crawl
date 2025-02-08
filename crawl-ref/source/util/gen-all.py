@@ -184,7 +184,7 @@ def main():
     try:
         gen_all(perl);
     except FileNotFoundError as e:
-        print('Error: missing file "', e.filename, '"', sep='', file=sys.stderr)
+        print('Error: missing file2 "', e.filename, '"', sep='', file=sys.stderr)
         sys.exit(1)
     except OSError as e:
         print('Error: ', e.strerror, sep='', file=sys.stderr)
