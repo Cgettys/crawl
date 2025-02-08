@@ -42,6 +42,8 @@ using namespace std;
 #if defined(__GNUC__)
 # define PURE __attribute__ ((pure))
 # define IMMUTABLE __attribute__ ((const))
+#elif defined(_MSC_VER)
+// Do nothing
 #else
 # define PURE
 # define IMMUTABLE
