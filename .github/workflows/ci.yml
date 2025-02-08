@@ -525,7 +525,7 @@ jobs:
       # See https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-command-line-reference?view=vs-2022
       - name: Build
         run: |
-          msbuild /property:Configuration="${{ matrix.build_type }}" /p:Platform=${{ matrix.build_arch }} crawl-ref.sln
+          msbuild /maxCpuCount /property:Configuration="${{ matrix.build_type }}" /p:Platform=${{ matrix.build_arch }} crawl-ref.sln
         working-directory: crawl-ref/source/MSVC
       # TODO: Consider uploading artifacts
       # TODO: Header tests? unit tests?
