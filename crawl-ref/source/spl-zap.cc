@@ -227,11 +227,9 @@ spell_type zap_to_spell(zap_type zap)
 
 int spell_zap_power(spell_type spell, int pow)
 {
-    switch (spell)
-    {
-    default:
-        return pow;
-    }
+    // TODO: remove this entirely?
+    UNUSED(spell);
+    return pow;
 }
 
 int spell_zap_power_cap(spell_type spell)
