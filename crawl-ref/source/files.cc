@@ -779,6 +779,7 @@ static vector<player_save_info> _find_saved_characters()
             }
             catch (ext_fail_exception &E)
             {
+                UNUSED(E);
                 dprf("%s: %s", filename.c_str(), E.what());
             }
             catch (game_ended_condition &E) // another process is using the save
@@ -2892,6 +2893,7 @@ save_version read_ghost_header(reader &inf)
     }
     catch (short_read_exception &E)
     {
+        UNUSED(E);
         mprf(MSGCH_ERROR,
              "Ghost file \"%s\" seems to be invalid (short read); deleting it.",
              inf.filename().c_str());
@@ -2934,6 +2936,7 @@ vector<ghost_demon> load_bones_file(string ghost_filename, bool backup)
     }
     catch (short_read_exception &short_read)
     {
+        UNUSED(short_read);
         string error = "Broken bones file: " + ghost_filename;
         throw corrupted_save(error, version);
     }
@@ -3577,6 +3580,7 @@ static player_save_info _read_character_info(package *save)
     }
     catch (short_read_exception &E)
     {
+        UNUSED(E);
         fail("Save file `%s` corrupted (short read)", save->get_filename().c_str());
     };
 }
@@ -3653,6 +3657,7 @@ static bool _restore_tagged_chunk(package *save, const string &name,
     }
     catch (short_read_exception &E)
     {
+        UNUSED(E);
         fail("truncated save chunk (%s)", name.c_str());
     };
 
