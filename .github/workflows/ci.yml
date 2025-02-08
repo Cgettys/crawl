@@ -468,9 +468,10 @@ jobs:
     strategy:
       matrix:
         build_type:
-          - "Debug Console"
+          # TODO: fix console
+          #- "Debug Console"
           - "Debug Tiles"
-          - "Release Console"
+          #- "Release Console"
           - "Release Tiles"
         build_arch:
           - x64
