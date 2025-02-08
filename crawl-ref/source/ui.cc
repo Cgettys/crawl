@@ -2520,6 +2520,7 @@ void UIRoot::layout()
         }
         catch (const RestartAllocation &ex)
         {
+            UNUSED(ex);
         }
 
 #ifdef USE_TILE_LOCAL
