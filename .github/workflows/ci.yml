@@ -468,9 +468,9 @@ jobs:
       matrix:
         build_type:
           # TODO: fix console
-          #- "Debug Console"
+          - "Debug Console"
           - "Debug Tiles"
-          #- "Release Console"
+          - "Release Console"
           - "Release Tiles"
         build_arch:
           - x64
