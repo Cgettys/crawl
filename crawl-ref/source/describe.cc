@@ -4049,6 +4049,7 @@ static level_id _item_level_id(const item_def &item)
     }
     catch (const bad_level_id &err)
     {
+        UNUSED(err);
         // die?
     }
     return loc;

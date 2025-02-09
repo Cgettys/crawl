@@ -125,6 +125,7 @@ package::package(const char* file, bool writeable, bool empty)
         }
         catch (exception &e)
         {
+            UNUSED(e);
             close(fd);
             throw;
         }

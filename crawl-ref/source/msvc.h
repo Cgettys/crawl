@@ -14,6 +14,9 @@
 
 #include <io.h>
 #include <math.h>
+// for va_copy
+#include <stdio.h>
+#include <stdarg.h>
 
 #define fileno _fileno
 #define snprintf _snprintf
@@ -25,11 +28,6 @@
 #define putenv _putenv
 #define strtoll _strtoi64
 
-// No va_copy in MSVC
-#if !defined(va_copy)
-#define va_copy(dst, src) \
-   ((void) memcpy(&(dst), &(src), sizeof(va_list)))
-#endif
 // These are not defined in MSVC version of stat.h
 #define        S_IWUSR        S_IWRITE
 #define        S_IRUSR        S_IREAD
