@@ -57,7 +57,7 @@ enum monster_list_colour_type
     NUM_MLC
 };
 
-enum class autopickup_state
+enum class autopickup_state: int8_t
 {
     // Off due to e.g. invisible monsters
     OFF_TEMP = -1,
