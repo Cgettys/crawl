@@ -427,11 +427,11 @@ const vector<GameOption*> game_options::build_options_list()
 #endif // else case of defined(DGAMELAUNCH)
 
         new BoolGameOption(SIMPLE_NAME(autopickup_starting_ammo), true),
-        new MultipleChoiceGameOption<int>(
+        new MultipleChoiceGameOption<autopickup_state>(
             autopickup_on, {"default_autopickup"},
-            1,
-            {{"true", 1}, // XX this would be better as an enum
-             {"false", 0}}, true),
+            ,
+            {{"true", autopickup_state::ON},
+             {"false", autopickup_state::OFF}}, true),
         new StringGameOption(SIMPLE_NAME(game_seed), "", false,
             [this]() {
                 // special handling because of the large type.

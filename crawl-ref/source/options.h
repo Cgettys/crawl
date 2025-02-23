@@ -57,6 +57,16 @@ enum monster_list_colour_type
     NUM_MLC
 };
 
+enum class autopickup_state
+{
+    // Off due to e.g. invisible monsters
+    OFF_TEMP = -1,
+    // Disabled by player
+    OFF = 0,
+    // Enabled
+    ON = 1,
+};
+
 struct message_filter
 {
     int             channel;        // Use -1 to match any channel.
@@ -495,7 +505,7 @@ public:
     // Whether exclusions and exclusion radius are visible in the viewport.
     bool        always_show_exclusions;
 
-    int         autopickup_on; // can be -1, 0, or 1. XX refactor as enum
+    autopickup_state autopickup_on;
     bool        autopickup_starting_ammo;
     bool        default_manual_training;
     bool        default_show_all_skills;

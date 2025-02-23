@@ -1219,9 +1219,9 @@ void autotoggle_autopickup(bool off)
 {
     if (off)
     {
-        if (Options.autopickup_on > 0)
+        if (Options.autopickup_on == autopickup_state::ON)
         {
-            Options.autopickup_on = -1;
+            Options.autopickup_on = autopickup_state::OFF_TEMP;
             mprf(MSGCH_WARN,
                  "Deactivating autopickup; reactivate with <w>%s</w>.",
                  command_to_string(CMD_TOGGLE_AUTOPICKUP).c_str());
@@ -1232,9 +1232,10 @@ void autotoggle_autopickup(bool off)
             Hints.hints_seen_invisible = you.num_turns;
         }
     }
-    else if (Options.autopickup_on < 0) // was turned off automatically
+    else if (Options.autopickup_on == autopickup_state::OFF_TEMP)
     {
-        Options.autopickup_on = 1;
+        // was turned off automatically
+        Options.autopickup_on = autopickup_state::ON;
         mprf(MSGCH_WARN, "Reactivating autopickup.");
     }
 }
