@@ -429,7 +429,7 @@ const vector<GameOption*> game_options::build_options_list()
         new BoolGameOption(SIMPLE_NAME(autopickup_starting_ammo), true),
         new MultipleChoiceGameOption<autopickup_state>(
             autopickup_on, {"default_autopickup"},
-            ,
+            autopickup_state::ON,
             {{"true", autopickup_state::ON},
              {"false", autopickup_state::OFF}}, true),
         new StringGameOption(SIMPLE_NAME(game_seed), "", false,
