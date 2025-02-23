@@ -1,8 +1,8 @@
 #pragma once
 
-enum skill_focus_mode
+enum class skill_focus_mode: uint8_t
 {
-    SKM_FOCUS_OFF,
-    SKM_FOCUS_ON,
-    SKM_FOCUS_TOGGLE,
+    OFF,
+    ON,
+    TOGGLE,
 };

@@ -80,7 +80,7 @@ int SkillRegion::handle_mouse(wm_mouse_event &event)
         else
         {
             tiles.set_need_redraw();
-            if (Options.skill_focus == SKM_FOCUS_OFF)
+            if (Options.skill_focus == skill_focus_mode::OFF)
                 set_training_status(skill, (training_status)!you.train[skill]);
             else
             {
