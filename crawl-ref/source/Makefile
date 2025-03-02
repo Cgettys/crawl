@@ -219,6 +219,8 @@ ifdef EMSCRIPTEN
 	# No console support
 	TILES=y
 	NO_PKGCONFIG=Y
+	# https://emscripten.org/docs/porting/multimedia_and_graphics/OpenGL-support.html
+	GLES=y
 endif
 
 ifdef CROSSHOST
