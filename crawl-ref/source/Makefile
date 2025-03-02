@@ -1898,11 +1898,11 @@ ifdef ANDROID
 	grep tile_info rltiles/*.cc| head
 else
 # ensure we don't use contrib libpng when cross-compiling - it won't work.
-ifdef CROSSHOST
-	+$(MAKE) -C $(RLTILES) all ARCH=$(ARCH) TILES=$(TILES)$(WEBTILES)
-else
-	+$(MAKE) -C $(RLTILES) all ARCH=$(ARCH) NO_PKGCONFIG=$(NO_PKGCONFIG) TILES=$(TILES)$(WEBTILES)
-endif
+#ifdef CROSSHOST
+#	+$(MAKE) -C $(RLTILES) all ARCH=$(ARCH) TILES=$(TILES)$(WEBTILES)
+#else
+#	+$(MAKE) -C $(RLTILES) all ARCH=$(ARCH) NO_PKGCONFIG=$(NO_PKGCONFIG) TILES=$(TILES)$(WEBTILES)
+#endif
 endif
 
 $(TILEDEFSRCS) $(TILEDEFHDRS) $(ORIGTILEFILES): build-rltiles
