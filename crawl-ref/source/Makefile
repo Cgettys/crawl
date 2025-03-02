@@ -189,6 +189,12 @@ ifneq (, $(shell which python3 2>&1))
 	PYTHON = python3
 endif
 
+ifdef EMSCRIPTEN
+	# https://emscripten.org/docs/compiling/Building-Projects.html#troubleshooting
+	AR = emar
+	RANLIB = emranlib
+endif
+
 export AR
 export RANLIB
 export RM
@@ -219,8 +225,6 @@ ifdef EMSCRIPTEN
 	# No console support
 	TILES=y
 	NO_PKGCONFIG=Y
-	# https://emscripten.org/docs/compiling/Building-Projects.html#troubleshooting
-	AR = emar
 	# https://emscripten.org/docs/porting/multimedia_and_graphics/OpenGL-support.html
 	#GLES=y
 endif
@@ -1926,6 +1930,7 @@ ifdef ANDROID
 	grep tile_info rltiles/*.cc| head
 else
 # ensure we don't use contrib libpng when cross-compiling - it won't work.
+# TODO make this work in emscripten
 #ifdef CROSSHOST
 #	+$(MAKE) -C $(RLTILES) all ARCH=$(ARCH) TILES=$(TILES)$(WEBTILES)
 #else
