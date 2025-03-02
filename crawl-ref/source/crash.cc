@@ -32,7 +32,8 @@
     defined(TARGET_OS_NETBSD) || \
     defined(TARGET_OS_OPENBSD) || \
     defined(TARGET_COMPILER_CYGWIN) || \
-    defined(__ANDROID__)
+    defined(__ANDROID__) || \
+    defined(EMSCRIPTEN)
         #undef BACKTRACE_SUPPORTED
 #endif
 #endif
