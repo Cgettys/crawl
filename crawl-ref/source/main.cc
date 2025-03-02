@@ -340,10 +340,6 @@ int main(int argc, char *argv[])
 #endif
 
     _launch_game_loop();
-    if (crawl_state.last_game_exit.message.size())
-        end(0, false, "%s\n", crawl_state.last_game_exit.message.c_str());
-    else
-        end(0);
 
     return 0;
 }
@@ -381,19 +377,28 @@ static void _reset_game()
 #endif
 }
 
-static void _launch_game_loop()
+static bool game_has_ended = false;
+static bool first_start = true;
+static void _game_loop()
 {
-    bool game_ended = false;
-    do
+    bool should_continue = crawl_should_restart(crawl_state.last_game_exit.exit_reason)
+             && game_has_ended
+             && !crawl_state.seen_hups;
+    if (first_start) {
+        should_continue = true;
+        first_start = false;
+    }
+
+    if (should_continue)
     {
         try
         {
-            game_ended = false;
+            game_has_ended = false;
             _launch_game();
         }
         catch (const game_ended_condition &ge)
         {
-            game_ended = true;
+            game_has_ended = true;
             crawl_state.last_game_exit = ge;
             _reset_game();
 
@@ -410,11 +415,21 @@ static void _launch_game_loop()
         {
             end(1, false, "Error: truncation inside the save file.\n");
         }
-    } while (crawl_should_restart(crawl_state.last_game_exit.exit_reason)
-             && game_ended
-             && !crawl_state.seen_hups);
+    }
+    else if (crawl_state.last_game_exit.message.size())
+        end(0, false, "%s\n", crawl_state.last_game_exit.message.c_str());
+    else
+        end(0);
 }
 
+static void _launch_game_loop() {
+    // See https://wiki.libsdl.org/SDL2/README/emscripten#porting-your-app-to-emscripten
+#ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop(_game_loop, 0, 1);
+#else
+    while (1) { _game_loop(); }
+#endif
+}
 NORETURN static void _launch_game()
 {
     const bool game_start = startup_step();
