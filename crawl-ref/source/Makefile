@@ -1267,9 +1267,9 @@ endif
 
 ifdef EMSCRIPTEN
 #TODO: do we want pthread or not?
-CFOTHERS += --use-port=sdl2 --use-port=sdl2_image:formats=png -pthread
-# Client side arrays?
-LDFLAGS += -sFULL_ES2 -sLEGACY_GL_EMULATION
+CFOTHERS += --use-port=sdl2 --use-port=sdl2_image:formats=png -sUSE_PTHREADS
+# Client side arrays? -sFULL_ES2
+LDFLAGS += -sLEGACY_GL_EMULATION
 endif
 
 LIBS += $(CONTRIB_LIBS) $(EXTRA_LIBS)
