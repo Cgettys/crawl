@@ -1273,8 +1273,11 @@ endif
 
 ifdef EMSCRIPTEN
 #TODO: do we want pthread or not?
+# May need to build sdl form source if so:
+# https://wiki.libsdl.org/SDL2/README/emscripten
+#  -sUSE_PTHREADS=1 -pthread  -sSHARED_MEMORY
 # See also https://github.com/emscripten-core/emscripten/pull/22683
-CFOTHERS +=  -sUSE_PTHREADS=1 -pthread --use-port=sdl2 --use-port=sdl2_image:formats=png -sSHARED_MEMORY
+CFOTHERS += --use-port=sdl2 --use-port=sdl2_image:formats=png
 # Client side arrays? -sFULL_ES2
 LDFLAGS += -sLEGACY_GL_EMULATION
 endif
