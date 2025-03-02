@@ -209,7 +209,8 @@ uname_M := $(shell sh -c 'uname -m 2>/dev/null || echo not')
 HOST := $(shell sh -c 'cc -dumpmachine || echo unknown')
 ARCH := $(HOST)
 # WIP - hack off rltiles
-#emmake make -j15 GCC=emcc GXX=em++ WASM=y EXTERNAL_FLAGS="--use-port=sdl2 --use-port=sdl2_image:formats=png"
+#emmake make -j15 GCC=emcc GXX=em++ WASM=y EXTERNAL_FLAGS="--use-port=sdl2 --use-port=sdl2_image:formats=png -pthread"
+#TODO: do we want pthread??
 ifdef WASM
 	BUILD_LUA = yes
 	BUILD_SQLITE = yes

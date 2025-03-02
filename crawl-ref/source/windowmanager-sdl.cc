@@ -6,6 +6,10 @@
 #include "windowmanager-sdl.h"
 
 #include "sound.h"      // Needs to be here because WINMM_PLAY_SOUNDS is used below
+// See https://wiki.libsdl.org/SDL2/README/emscripten
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
 #ifdef __ANDROID__
 # include <SDL.h>
