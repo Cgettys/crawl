@@ -220,7 +220,7 @@ ifdef EMSCRIPTEN
 	TILES=y
 	NO_PKGCONFIG=Y
 	# https://emscripten.org/docs/porting/multimedia_and_graphics/OpenGL-support.html
-	GLES=y
+	#GLES=y
 endif
 
 ifdef CROSSHOST
@@ -1268,6 +1268,8 @@ endif
 ifdef EMSCRIPTEN
 #TODO: do we want pthread or not?
 CFOTHERS += --use-port=sdl2 --use-port=sdl2_image:formats=png -pthread
+# Client side arrays?
+LDFLAGS += -sFULL_ES2 -sLEGACY_GL_EMULATION
 endif
 
 LIBS += $(CONTRIB_LIBS) $(EXTRA_LIBS)
