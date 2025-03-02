@@ -219,6 +219,8 @@ ifdef EMSCRIPTEN
 	# No console support
 	TILES=y
 	NO_PKGCONFIG=Y
+	# https://emscripten.org/docs/compiling/Building-Projects.html#troubleshooting
+	AR = emar
 	# https://emscripten.org/docs/porting/multimedia_and_graphics/OpenGL-support.html
 	#GLES=y
 endif
@@ -1268,7 +1270,7 @@ endif
 ifdef EMSCRIPTEN
 #TODO: do we want pthread or not?
 # See also https://github.com/emscripten-core/emscripten/pull/22683
-CFOTHERS += --use-port=sdl2 --use-port=sdl2_image:formats=png  -sUSE_PTHREADS=1 -pthread -sSHARED_MEMORY
+CFOTHERS +=  -sUSE_PTHREADS=1 -pthread --use-port=sdl2 --use-port=sdl2_image:formats=png -sSHARED_MEMORY
 # Client side arrays? -sFULL_ES2
 LDFLAGS += -sLEGACY_GL_EMULATION
 endif
