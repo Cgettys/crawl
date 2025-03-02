@@ -209,7 +209,17 @@ uname_M := $(shell sh -c 'uname -m 2>/dev/null || echo not')
 HOST := $(shell sh -c 'cc -dumpmachine || echo unknown')
 ARCH := $(HOST)
 # WIP - hack off rltiles
-  #emmake make -j15 GCC=emcc GXX=em++ BUILD_ZLIB=YesPlease BUILD_LUA=YesPlease BUILD_SQLITE=YesPlease TILES=y NO_PKGCONFIG=Y EXTERNAL_FLAGS="--use-port=sdl2 --use-port=sdl2_image:formats=png"
+#emmake make -j15 GCC=emcc GXX=em++ WASM=y EXTERNAL_FLAGS="--use-port=sdl2 --use-port=sdl2_image:formats=png"
+ifdef WASM
+	BUILD_LUA = yes
+	BUILD_SQLITE = yes
+	BUILD_ZLIB = YesPlease
+	BUILD_FREETYPE = YesPlease
+	# No console support
+	TILES=y
+	NO_PKGCONFIG=Y
+endif
+
 ifdef CROSSHOST
 	# XX is there a way of integrating this with mac cross-compiling?
 	ARCH := $(CROSSHOST)
