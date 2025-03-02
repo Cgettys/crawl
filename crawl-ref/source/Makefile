@@ -826,11 +826,6 @@ ifndef NO_LUA_BINDINGS
 CFOTHERS_L += -DCLUA_BINDINGS
 endif
 
-ifdef EMSCRIPTEN
-#TODO: do we want pthread or not?
-CFOTHERS_L += --use-port=sdl2 --use-port=sdl2_image:formats=png -pthread
-endif
-
 ifdef USE_DGAMELAUNCH
 SRC_BRANCH    := $(shell git rev-parse --abbrev-ref HEAD || echo release)
 ifneq ($(SRC_BRANCH),$(filter master release stone_soup-%, $(SRC_BRANCH)))
@@ -1268,6 +1263,10 @@ ifdef EMSCRIPTEN
 LIBS += -lSDL2
 endif
 
+ifdef EMSCRIPTEN
+#TODO: do we want pthread or not?
+CFOTHERS += --use-port=sdl2 --use-port=sdl2_image:formats=png -pthread
+endif
 
 LIBS += $(CONTRIB_LIBS) $(EXTRA_LIBS)
 
