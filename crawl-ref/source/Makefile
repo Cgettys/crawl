@@ -209,9 +209,9 @@ uname_M := $(shell sh -c 'uname -m 2>/dev/null || echo not')
 HOST := $(shell sh -c 'cc -dumpmachine || echo unknown')
 ARCH := $(HOST)
 # WIP - hack off rltiles
-#emmake make -j15 GCC=emcc GXX=em++ WASM=y EXTERNAL_FLAGS="--use-port=sdl2 --use-port=sdl2_image:formats=png -pthread"
+#emmake make -j15 GCC=emcc GXX=em++ EMSCRIPTEN=y
 #TODO: do we want pthread??
-ifdef WASM
+ifdef EMSCRIPTEN
 	BUILD_LUA = yes
 	BUILD_SQLITE = yes
 	BUILD_ZLIB = YesPlease
@@ -826,6 +826,11 @@ ifndef NO_LUA_BINDINGS
 CFOTHERS_L += -DCLUA_BINDINGS
 endif
 
+ifdef EMSCRIPTEN
+#TODO: do we want pthread or not?
+CFOTHERS_L += --use-port=sdl2 --use-port=sdl2_image:formats=png -pthread
+endif
+
 ifdef USE_DGAMELAUNCH
 SRC_BRANCH    := $(shell git rev-parse --abbrev-ref HEAD || echo release)
 ifneq ($(SRC_BRANCH),$(filter master release stone_soup-%, $(SRC_BRANCH)))
@@ -1258,6 +1263,11 @@ ifdef APPLE_PLATFORM
 # caused by environment variables.
 INCLUDES_L += -isystem /usr/local/include
 endif
+
+ifdef EMSCRIPTEN
+LIBS += -lSDL2
+endif
+
 
 LIBS += $(CONTRIB_LIBS) $(EXTRA_LIBS)
 
