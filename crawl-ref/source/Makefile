@@ -1267,7 +1267,8 @@ endif
 
 ifdef EMSCRIPTEN
 #TODO: do we want pthread or not?
-CFOTHERS += --use-port=sdl2 --use-port=sdl2_image:formats=png -sUSE_PTHREADS
+# See also https://github.com/emscripten-core/emscripten/pull/22683
+CFOTHERS += --use-port=sdl2 --use-port=sdl2_image:formats=png  -sUSE_PTHREADS=1 -pthread -sSHARED_MEMORY
 # Client side arrays? -sFULL_ES2
 LDFLAGS += -sLEGACY_GL_EMULATION
 endif
