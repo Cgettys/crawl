@@ -345,6 +345,10 @@ class CrawlWebSocket(tornado.websocket.WebSocketHandler):
             "admin_pw_reset": self.admin_pw_reset,
             "admin_pw_reset_clear": self.admin_pw_reset_clear
             }
+    def get_compression_options(self) -> Optional[Dict[str, Any]]:
+        return {
+            'compression_level': 1
+        }
 
     @admin_required
     def admin_announce(self, text):
@@ -396,27 +400,12 @@ class CrawlWebSocket(tornado.websocket.WebSocketHandler):
     def __eq__(self, other):
         return self.id == other.id
 
-    def allow_draft76(self):
-        return True
-
-    def select_subprotocol(self, subprotocols):
-        if "no-compression" in subprotocols:
-            self.deflate = False
-            self.subprotocol = "no-compression"
-            return "no-compression"
-        return None
-
     def open(self):
-        compression = "on"
-        if isinstance(self.ws_connection, getattr(tornado.websocket, "WebSocketProtocol76", ())):
-            # Old Websocket versions don't support binary messages
-            self.deflate = False
-            compression = "off, old websockets"
-        elif self.subprotocol == "no-compression":
+        compression = "unknown"
+        if self.subprotocol == "no-compression":
             compression = "off, client request"
         if hasattr(self, "get_extensions"):
             if any(s.endswith("deflate-frame") for s in self.get_extensions()):
-                self.deflate = False
                 compression = "deflate-frame extension"
 
         self.logger.info("Socket opened from ip %s (fd%s, compression: %s).",
@@ -1354,26 +1343,6 @@ class CrawlWebSocket(tornado.websocket.WebSocketHandler):
                                     exc_info=True)
             self.failed_on_messages += 1
 
-    def _encode_for_send(self, msg, deflate):
-        try:
-            binmsg = utf8(msg)
-            if deflate:
-                # Compress like in deflate-frame extension:
-                # Apply deflate, flush, then remove the 00 00 FF FF
-                # at the end
-                # note: a compressed stream is stateful, you can't use this
-                # compressobj for other sockets
-                compressed = self._compressobj.compress(binmsg)
-                compressed += self._compressobj.flush(zlib.Z_SYNC_FLUSH)
-                compressed = compressed[:-4]
-                return MessageBundle(binmsg, compressed)
-            else:
-                return MessageBundle(binmsg, None)
-        except:
-            # might happen with weird utf-8 stuff...can this be handled more
-            # precisely?
-            self.logger.warning("Exception trying to encode message.", exc_info = True)
-            return MessageBundle(None, None)
 
 
     # send a single message batch, encoding and compressing it if necessary
@@ -1381,19 +1350,15 @@ class CrawlWebSocket(tornado.websocket.WebSocketHandler):
         if self.client_closed or not msg:
             return False
 
-        bundle = self._encode_for_send(msg, self.deflate)
-        if not bundle:
+        binmsg = utf8(msg)
+        if not binmsg:
             self.failed_messages += 1
             return False
 
         try:
-            self.total_message_bytes += len(bundle.binmsg)
-            if self.deflate:
-                self.compressed_bytes_sent += len(bundle.compressed)
-                f = self.write_message(bundle.compressed, binary=True)
-            else:
-                self.uncompressed_bytes_sent += len(bundle.binmsg)
-                f = self.write_message(bundle.binmsg)
+            self.total_message_bytes += len(binmsg)
+            self.uncompressed_bytes_sent += len(binmsg)
+            f = self.write_message(binmsg)
 
             import traceback
             cur_stack = traceback.format_stack()
